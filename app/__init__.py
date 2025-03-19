@@ -25,3 +25,6 @@ def create_app():
     app.register_blueprint(main)
 
     return app
+
+from app.models import User, Recipe  # Import models at the bottom to avoid circular imports
+

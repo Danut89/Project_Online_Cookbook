@@ -1,9 +1,12 @@
+# Database models for the Online Cookbook app
+
+
 from app import db, login_manager
 from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash, check_password_hash
 from datetime import datetime
 
-# Flask-Login user loader function
+# Flask-Login user loader
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -17,11 +20,9 @@ class User(db.Model, UserMixin):
     recipes = db.relationship('Recipe', backref='author', lazy=True)
 
     def set_password(self, password):
-        """Hashes and sets the user's password."""
         self.password_hash = generate_password_hash(password).decode('utf-8')
 
     def check_password(self, password):
-        """Checks if the provided password matches the hashed password."""
         return check_password_hash(self.password_hash, password)
 
 # Recipe Model
