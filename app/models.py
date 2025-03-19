@@ -6,10 +6,7 @@ from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash, check_password_hash
 from datetime import datetime
 
-# Flask-Login user loader
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+
 
 # User Model
 class User(db.Model, UserMixin):

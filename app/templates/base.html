@@ -1,0 +1,19 @@
+<!-- app/templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Online Cookbook{% endblock %}</title>
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('main.home') }}">Home</a>
+        <a href="{{ url_for('auth.login') }}">Login</a>
+        <a href="{{ url_for('auth.register') }}">Register</a>
+    </nav>
+    <div>
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
