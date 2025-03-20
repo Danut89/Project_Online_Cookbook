@@ -65,6 +65,18 @@ def edit_recipe(recipe_id):
 
     return render_template('edit_recipe.html', form=form, recipe=recipe)
 
+@main.route('/recipe/<int:recipe_id>/delete', methods=['POST'])
+@login_required
+def delete_recipe(recipe_id):
+    recipe = Recipe.query.get_or_404(recipe_id)
 
+    # Ensure only the owner can delete
+    if recipe.user_id != current_user.id:
+        flash("You don't have permission to delete this recipe.", "danger")
+        return redirect(url_for('main.home'))
+
+    db.session.delete(recipe)
+    db.session.commit()
+    flash('Recipe deleted successfully!', 'success')
 
 

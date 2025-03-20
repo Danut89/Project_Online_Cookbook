@@ -20,6 +20,10 @@
             
             {% if current_user.id == recipe.user_id %}
                 <a href="{{ url_for('main.edit_recipe', recipe_id=recipe.id) }}" class="btn btn-warning mt-3">Edit Recipe</a>
+                
+                <form method="POST" action="{{ url_for('main.delete_recipe', recipe_id=recipe.id) }}" onsubmit="return confirm('Are you sure you want to delete this recipe?');">
+                    <button type="submit" class="btn btn-danger mt-2">Delete Recipe</button>
+                </form>
             {% endif %}
         </div>
     </div>
@@ -27,5 +31,6 @@
     <br>
     <a href="{{ url_for('main.home') }}" class="btn btn-secondary">Back to Home</a>
 {% endblock %}
+
 
 
