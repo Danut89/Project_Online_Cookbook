@@ -1,42 +1,47 @@
 {% extends "base.html" %}
 {% block content %}
     <h2>Add a New Recipe</h2>
-    <form method="POST" action="{{ url_for('main.add_recipe') }}">
-        {{ form.hidden_tag() }}  <!-- CSRF Protection -->
+    <form method="POST" action="{{ url_for('main.add_recipe') }}" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}  <!-- ✅ CSRF Protection -->
         
         <p>
             <label for="{{ form.title.id }}">{{ form.title.label }}</label>
-            {{ form.title() }}
+            {{ form.title(class="form-control") }}
         </p>
         
         <p>
             <label for="{{ form.description.id }}">{{ form.description.label }}</label>
-            {{ form.description() }}
+            {{ form.description(class="form-control") }}
         </p>
 
         <p>
             <label for="{{ form.ingredients.id }}">{{ form.ingredients.label }}</label>
-            {{ form.ingredients() }}
+            {{ form.ingredients(class="form-control") }}
         </p>
 
         <p>
             <label for="{{ form.steps.id }}">{{ form.steps.label }}</label>
-            {{ form.steps() }}
+            {{ form.steps(class="form-control") }}
         </p>
 
         <p>
             <label for="{{ form.cuisine.id }}">{{ form.cuisine.label }}</label>
-            {{ form.cuisine() }}
+            {{ form.cuisine(class="form-control") }}
         </p>
 
         <p>
             <label for="{{ form.prep_time.id }}">{{ form.prep_time.label }}</label>
-            {{ form.prep_time() }}
+            {{ form.prep_time(class="form-control") }}
         </p>
 
         <p>
             <label for="{{ form.difficulty.id }}">{{ form.difficulty.label }}</label>
-            {{ form.difficulty() }}
+            {{ form.difficulty(class="form-select") }}
+        </p>
+
+        <p>
+            <label for="{{ form.image.id }}">{{ form.image.label }}</label>
+            {{ form.image(class="form-control") }}  <!-- ✅ Added Image Upload Field -->
         </p>
 
         <p>{{ form.submit(class="btn btn-success") }}</p>
@@ -44,4 +49,3 @@
 
     <p><a href="{{ url_for('main.home') }}" class="btn btn-secondary">Back to Home</a></p>
 {% endblock %}
-

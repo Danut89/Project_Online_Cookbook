@@ -1,3 +1,4 @@
+from flask_wtf.file import FileAllowed, FileField
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, IntegerField, SelectField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, NumberRange, ValidationError
@@ -38,6 +39,8 @@ class RecipeForm(FlaskForm):
     cuisine = StringField('Cuisine', validators=[DataRequired(), Length(max=100)])
     prep_time = IntegerField('Prep Time (minutes)', validators=[DataRequired(), NumberRange(min=1)])
     difficulty = SelectField('Difficulty', choices=[('Easy', 'Easy'), ('Medium', 'Medium'), ('Hard', 'Hard')], validators=[DataRequired()])
+    image = FileField('Recipe Image', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'gif'])])
     submit = SubmitField('Add Recipe')
+
 
 

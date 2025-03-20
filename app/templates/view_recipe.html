@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
     {% if recipe.image_url %}
-        <img src="{{ recipe.image_url }}" class="img-fluid mb-3" alt="Recipe Image">
+        <img src="{{ recipe.image_url }}" class="img-fluid mb-3" alt="Recipe Image" style="max-height: 300px; object-fit: cover;">
+    {% else %}
+        <img src="{{ url_for('static', filename='uploads/default_recipe.jpg') }}" class="img-fluid mb-3" alt="Default Recipe Image" style="max-height: 300px; object-fit: cover;">
     {% endif %}
 
     <div class="card">
@@ -31,6 +33,3 @@
     <br>
     <a href="{{ url_for('main.home') }}" class="btn btn-secondary">Back to Home</a>
 {% endblock %}
-
-
-
