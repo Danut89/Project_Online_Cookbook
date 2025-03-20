@@ -1,6 +1,24 @@
-{% extends 'base.html' %}
-
+{% extends "base.html" %}
 {% block content %}
-    <h2>Welcome to the Online Cookbook!</h2>
-    <p>Discover and share delicious recipes with the world.</p>
+    <h2>All Recipes</h2>
+    
+    {% if recipes %}
+        <div class="row">
+            {% for recipe in recipes %}
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ recipe.title }}</h5>
+                            <p class="card-text"><strong>By:</strong> {{ recipe.author.username }}</p>
+                            <p class="card-text">{{ recipe.description[:100] }}...</p>
+                            <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}" class="btn btn-primary">View Recipe</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No recipes available. <a href="{{ url_for('main.add_recipe') }}">Add one here</a>!</p>
+    {% endif %}
 {% endblock %}
+

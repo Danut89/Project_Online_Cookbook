@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Add a New Recipe</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>{{ form.title.label }} {{ form.title() }}</p>
+        <p>{{ form.description.label }} {{ form.description() }}</p>
+        <p>{{ form.ingredients.label }} {{ form.ingredients() }}</p>
+        <p>{{ form.steps.label }} {{ form.steps() }}</p>
+        <p>{{ form.cuisine.label }} {{ form.cuisine() }}</p>
+        <p>{{ form.prep_time.label }} {{ form.prep_time() }}</p>
+        <p>{{ form.difficulty.label }} {{ form.difficulty() }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    <p><a href="{{ url_for('main.home') }}">Back to Home</a></p>
+{% endblock %}
