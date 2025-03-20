@@ -36,6 +36,8 @@ def login():
             return redirect(url_for('main.home'))
         else:
             flash('Invalid email or password.', 'danger')
+            return redirect(url_for('auth.login'))  # Reload login page
+
 
     return render_template('login.html', form=form)
 

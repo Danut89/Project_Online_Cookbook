@@ -12,7 +12,6 @@ def home():
     recipes = Recipe.query.all()  # Fetch all recipes from the database
     return render_template('home.html', recipes=recipes)
 
-
 @main.route('/add_recipe', methods=['GET', 'POST'])
 @login_required
 def add_recipe():
@@ -34,4 +33,10 @@ def add_recipe():
         return redirect(url_for('main.home'))  # Redirect to homepage after submission
 
     return render_template('add_recipe.html', form=form)
+
+@main.route('/recipe/<int:recipe_id>')
+def view_recipe(recipe_id):
+    recipe = Recipe.query.get_or_404(recipe_id)  # Get recipe or return 404
+    return render_template('view_recipe.html', recipe=recipe)
+
 
