@@ -7,9 +7,12 @@
             {% for recipe in recipes %}
                 <div class="col-md-4">
                     <div class="card mb-3">
+                        {% if recipe.image_url %}
+                            <img src="{{ recipe.image_url }}" class="card-img-top" alt="Recipe Image">
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ recipe.title }}</h5>
-                            <p class="card-text"><strong>By:</strong> {{ recipe.author.username }}</p>
+                            <p class="card-text"><strong>By:</strong> {{ recipe.user.username }}</p>  <!-- ✅ FIXED -->
                             <p class="card-text">{{ recipe.description[:100] }}...</p>
                             <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}" class="btn btn-primary">View Recipe</a>
                         </div>
@@ -21,5 +24,6 @@
         <p>No recipes available. <a href="{{ url_for('main.add_recipe') }}">Add one here</a>!</p>
     {% endif %}
 {% endblock %}
+
 
 

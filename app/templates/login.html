@@ -2,12 +2,23 @@
 {% extends "base.html" %}
 {% block content %}
     <h2>Login</h2>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <p>{{ form.email.label }} {{ form.email() }}</p>
-        <p>{{ form.password.label }} {{ form.password() }}</p>
-        <p>{{ form.submit() }}</p>
+    <form method="POST" action="{{ url_for('auth.login') }}">
+        {{ form.hidden_tag() }}  <!-- CSRF Protection -->
+        
+        <p>
+            <label for="{{ form.email.id }}">{{ form.email.label }}</label>
+            {{ form.email(class="form-control") }}
+        </p>
+        
+        <p>
+            <label for="{{ form.password.id }}">{{ form.password.label }}</label>
+            {{ form.password(class="form-control") }}
+        </p>
+
+        <p>{{ form.submit(class="btn btn-primary") }}</p>
     </form>
+    
     <p>Don't have an account? <a href="{{ url_for('auth.register') }}">Register</a></p>
 {% endblock %}
+
 

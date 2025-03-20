@@ -11,6 +11,12 @@ class RegistrationForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
 
+    def validate_username(self, username):
+        """Check if username already exists in database."""
+        user = User.query.filter_by(username=username.data).first()
+        if user:
+            raise ValidationError('That username is already taken. Please choose a different one.')
+
     def validate_email(self, email):
         """Check if email already exists in database."""
         user = User.query.filter_by(email=email.data).first()
@@ -33,4 +39,5 @@ class RecipeForm(FlaskForm):
     prep_time = IntegerField('Prep Time (minutes)', validators=[DataRequired(), NumberRange(min=1)])
     difficulty = SelectField('Difficulty', choices=[('Easy', 'Easy'), ('Medium', 'Medium'), ('Hard', 'Hard')], validators=[DataRequired()])
     submit = SubmitField('Add Recipe')
+
 

@@ -1,19 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>{{ recipe.title }}</h2>
-    <p><strong>By:</strong> {{ recipe.user.username }}</p>  
-    <p><strong>Description:</strong> {{ recipe.description }}</p>
-    <p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
-    <p><strong>Steps:</strong> {{ recipe.steps }}</p>
-    <p><strong>Cuisine:</strong> {{ recipe.cuisine }}</p>
-    <p><strong>Prep Time:</strong> {{ recipe.prep_time }} minutes</p>
-    <p><strong>Difficulty:</strong> {{ recipe.difficulty }}</p>
-
-    {% if current_user.id == recipe.user_id %}
-        <a href="{{ url_for('main.edit_recipe', recipe_id=recipe.id) }}" class="btn btn-warning">Edit Recipe</a>
+    {% if recipe.image_url %}
+        <img src="{{ recipe.image_url }}" class="img-fluid mb-3" alt="Recipe Image">
     {% endif %}
 
-    <br><br>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">{{ recipe.title }}</h2>
+            <p class="text-muted"><strong>By:</strong> {{ recipe.user.username }}</p>
+            <hr>
+            <p><strong>Description:</strong> {{ recipe.description }}</p>
+            <p><strong>Ingredients:</strong></p>
+            <pre class="bg-light p-2">{{ recipe.ingredients }}</pre>
+            <p><strong>Steps:</strong></p>
+            <pre class="bg-light p-2">{{ recipe.steps }}</pre>
+            <p><strong>Cuisine:</strong> {{ recipe.cuisine }}</p>
+            <p><strong>Prep Time:</strong> {{ recipe.prep_time }} minutes</p>
+            <p><strong>Difficulty:</strong> <span class="badge bg-primary">{{ recipe.difficulty }}</span></p>
+            
+            {% if current_user.id == recipe.user_id %}
+                <a href="{{ url_for('main.edit_recipe', recipe_id=recipe.id) }}" class="btn btn-warning mt-3">Edit Recipe</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <br>
     <a href="{{ url_for('main.home') }}" class="btn btn-secondary">Back to Home</a>
 {% endblock %}
+
 

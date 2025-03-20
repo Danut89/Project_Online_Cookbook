@@ -2,14 +2,33 @@
 {% extends "base.html" %}
 {% block content %}
     <h2>Register</h2>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <p>{{ form.username.label }} {{ form.username() }}</p>
-        <p>{{ form.email.label }} {{ form.email() }}</p>
-        <p>{{ form.password.label }} {{ form.password() }}</p>
-        <p>{{ form.confirm_password.label }} {{ form.confirm_password() }}</p>
-        <p>{{ form.submit() }}</p>
+    <form method="POST" action="{{ url_for('auth.register') }}">
+        {{ form.hidden_tag() }}  <!-- CSRF Protection -->
+
+        <p>
+            <label for="{{ form.username.id }}">{{ form.username.label }}</label>
+            {{ form.username(class="form-control") }}
+        </p>
+
+        <p>
+            <label for="{{ form.email.id }}">{{ form.email.label }}</label>
+            {{ form.email(class="form-control") }}
+        </p>
+
+        <p>
+            <label for="{{ form.password.id }}">{{ form.password.label }}</label>
+            {{ form.password(class="form-control") }}
+        </p>
+
+        <p>
+            <label for="{{ form.confirm_password.id }}">{{ form.confirm_password.label }}</label>
+            {{ form.confirm_password(class="form-control") }}
+        </p>
+
+        <p>{{ form.submit(class="btn btn-primary") }}</p>
     </form>
+
     <p>Already have an account? <a href="{{ url_for('auth.login') }}">Log in</a></p>
 {% endblock %}
+
 

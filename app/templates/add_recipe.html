@@ -1,16 +1,47 @@
 {% extends "base.html" %}
 {% block content %}
     <h2>Add a New Recipe</h2>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <p>{{ form.title.label }} {{ form.title() }}</p>
-        <p>{{ form.description.label }} {{ form.description() }}</p>
-        <p>{{ form.ingredients.label }} {{ form.ingredients() }}</p>
-        <p>{{ form.steps.label }} {{ form.steps() }}</p>
-        <p>{{ form.cuisine.label }} {{ form.cuisine() }}</p>
-        <p>{{ form.prep_time.label }} {{ form.prep_time() }}</p>
-        <p>{{ form.difficulty.label }} {{ form.difficulty() }}</p>
-        <p>{{ form.submit() }}</p>
+    <form method="POST" action="{{ url_for('main.add_recipe') }}">
+        {{ form.hidden_tag() }}  <!-- CSRF Protection -->
+        
+        <p>
+            <label for="{{ form.title.id }}">{{ form.title.label }}</label>
+            {{ form.title() }}
+        </p>
+        
+        <p>
+            <label for="{{ form.description.id }}">{{ form.description.label }}</label>
+            {{ form.description() }}
+        </p>
+
+        <p>
+            <label for="{{ form.ingredients.id }}">{{ form.ingredients.label }}</label>
+            {{ form.ingredients() }}
+        </p>
+
+        <p>
+            <label for="{{ form.steps.id }}">{{ form.steps.label }}</label>
+            {{ form.steps() }}
+        </p>
+
+        <p>
+            <label for="{{ form.cuisine.id }}">{{ form.cuisine.label }}</label>
+            {{ form.cuisine() }}
+        </p>
+
+        <p>
+            <label for="{{ form.prep_time.id }}">{{ form.prep_time.label }}</label>
+            {{ form.prep_time() }}
+        </p>
+
+        <p>
+            <label for="{{ form.difficulty.id }}">{{ form.difficulty.label }}</label>
+            {{ form.difficulty() }}
+        </p>
+
+        <p>{{ form.submit(class="btn btn-success") }}</p>
     </form>
-    <p><a href="{{ url_for('main.home') }}">Back to Home</a></p>
+
+    <p><a href="{{ url_for('main.home') }}" class="btn btn-secondary">Back to Home</a></p>
 {% endblock %}
+

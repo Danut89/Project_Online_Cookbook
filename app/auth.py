@@ -30,14 +30,13 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and user.check_password(form.password.data):
+        if user and user.check_password(form.password.data):  # ✅ Ensure this method exists in User model
             login_user(user)
             flash('Login successful!', 'success')
             return redirect(url_for('main.home'))
         else:
             flash('Invalid email or password.', 'danger')
             return redirect(url_for('auth.login'))  # Reload login page
-
 
     return render_template('login.html', form=form)
 
@@ -47,6 +46,7 @@ def logout():
     logout_user()
     flash('You have been logged out.', 'info')
     return redirect(url_for('auth.login'))
+
 
 
 

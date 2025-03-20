@@ -21,6 +21,14 @@ def create_app():
     migrate.init_app(app, db)
     login_manager.init_app(app)
 
+    # Import models BEFORE using them
+    from app.models import User  # ✅ FIX: Moved import up
+
+    # Define Flask-Login user loader function
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
+
     # Import and register blueprints AFTER app is created
     from app.routes import main
     from app.auth import auth
@@ -28,14 +36,4 @@ def create_app():
     app.register_blueprint(main)
     app.register_blueprint(auth, url_prefix='/auth')
 
-    # Import User model AFTER initializing Flask and extensions
-    from app.models import User  
-
-    # Define Flask-Login user loader function
-    @login_manager.user_loader
-    def load_user(user_id):
-        return User.query.get(int(user_id))
-
     return app
-
-

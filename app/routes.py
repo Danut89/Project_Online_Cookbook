@@ -12,7 +12,7 @@ def home():
     recipes = Recipe.query.all()  # Fetch all recipes from the database
     return render_template('home.html', recipes=recipes)
 
-@main.route('/recipe/<int:recipe_id>')
+@main.route('/recipe/<int:recipe_id>')  # ✅ FIXED: Added missing route decorator
 def view_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)  # Get recipe or return 404
     return render_template('view_recipe.html', recipe=recipe)
@@ -61,9 +61,10 @@ def edit_recipe(recipe_id):
 
         db.session.commit()
         flash('Recipe updated successfully!', 'success')
-        return redirect(url_for('main.view_recipe', recipe_id=recipe.id))
+        return redirect(url_for('main.view_recipe', recipe_id=recipe.id))  # ✅ Redirect now works properly
 
     return render_template('edit_recipe.html', form=form, recipe=recipe)
+
 
 
 

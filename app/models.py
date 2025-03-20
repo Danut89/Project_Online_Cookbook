@@ -1,12 +1,8 @@
 # Database models for the Online Cookbook app
-
-
 from app import db, login_manager
 from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash, check_password_hash
 from datetime import datetime
-
-
 
 # User Model
 class User(db.Model, UserMixin):
@@ -14,7 +10,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
-    recipes = db.relationship('Recipe', backref='author', lazy=True)
+    recipes = db.relationship('Recipe', backref='user', lazy=True)  # ✅ FIXED
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password).decode('utf-8')
@@ -35,4 +31,10 @@ class Recipe(db.Model):
     image_url = db.Column(db.String(255), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # Links to User
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # ✅ Correct Foreign Key
+
+# ✅ FIX: Add user loader function for Flask-Login
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
