@@ -2,7 +2,7 @@
 {% block content %}
     <h2>Edit Recipe: {{ recipe.title }}</h2>
     
-    <form method="POST" action="{{ url_for('main.edit_recipe', recipe_id=recipe.id) }}">
+    <form method="POST" action="{{ url_for('main.edit_recipe', recipe_id=recipe.id) }}" enctype="multipart/form-data">
         {{ form.hidden_tag() }}  <!-- ✅ CSRF Protection -->
 
         <p>
@@ -38,6 +38,11 @@
         <p>
             <label for="{{ form.difficulty.id }}">{{ form.difficulty.label }}</label>
             {{ form.difficulty(class="form-control") }}
+        </p>
+
+        <p>
+            <label for="{{ form.image.id }}">{{ form.image.label }}</label>
+            {{ form.image(class="form-control-file") }}
         </p>
 
         <p>{{ form.submit(class="btn btn-success") }}</p>

@@ -21,11 +21,11 @@ class User(db.Model, UserMixin):
 # Recipe Model
 class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255), nullable=False)
+    title = db.Column(db.String(255), nullable=False, index=True)  # ✅ Added index
     description = db.Column(db.Text, nullable=False)
     ingredients = db.Column(db.Text, nullable=False)
     steps = db.Column(db.Text, nullable=False)
-    cuisine = db.Column(db.String(100), nullable=False)
+    cuisine = db.Column(db.String(100), nullable=False, index=True)  # ✅ Added index
     prep_time = db.Column(db.Integer, nullable=False)
     difficulty = db.Column(db.String(20), nullable=False, default="Easy")
     image_url = db.Column(db.String(255), nullable=True)

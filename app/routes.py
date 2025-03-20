@@ -1,3 +1,6 @@
+import os
+from flask import current_app
+from werkzeug.utils import secure_filename
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app import db
@@ -22,6 +25,14 @@ def view_recipe(recipe_id):
 def add_recipe():
     form = RecipeForm()
     if form.validate_on_submit():
+        image_filename = None
+        if form.image.data:
+            image_file = form.image.data
+            image_filename = secure_filename(image_file.filename)
+            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image_filename)
+            os.makedirs(os.path.dirname(image_path), exist_ok=True)  # Ensure the folder exists
+            image_file.save(image_path)  # Save the image
+
         recipe = Recipe(
             title=form.title.data,
             description=form.description.data,
@@ -30,13 +41,13 @@ def add_recipe():
             cuisine=form.cuisine.data,
             prep_time=form.prep_time.data,
             difficulty=form.difficulty.data,
-            user_id=current_user.id  # Link recipe to logged-in user
+            image_url=f"/static/uploads/{image_filename}" if image_filename else None,
+            user_id=current_user.id  
         )
         db.session.add(recipe)
         db.session.commit()
         flash('Recipe added successfully!', 'success')
-        return redirect(url_for('main.home'))  # Redirect to homepage after submission
-
+        return redirect(url_for('main.home'))  
     return render_template('add_recipe.html', form=form)
 
 @main.route('/recipe/<int:recipe_id>/edit', methods=['GET', 'POST'])
@@ -58,6 +69,15 @@ def edit_recipe(recipe_id):
         recipe.cuisine = form.cuisine.data
         recipe.prep_time = form.prep_time.data
         recipe.difficulty = form.difficulty.data
+
+        # Handle image upload
+        if form.image.data:
+            image_file = form.image.data
+            image_filename = secure_filename(image_file.filename)
+            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image_filename)
+            os.makedirs(os.path.dirname(image_path), exist_ok=True)  # Ensure the folder exists
+            image_file.save(image_path)  # Save the image
+            recipe.image_url = f"/static/uploads/{image_filename}"  # Update the image URL
 
         db.session.commit()
         flash('Recipe updated successfully!', 'success')
