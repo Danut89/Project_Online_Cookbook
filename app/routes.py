@@ -79,4 +79,6 @@ def delete_recipe(recipe_id):
     db.session.commit()
     flash('Recipe deleted successfully!', 'success')
 
+    return redirect(url_for('main.home'))  # ✅ FIXED: Added return statement
+
 
