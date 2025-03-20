@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>{{ recipe.title }}</h2>
+    <p><strong>By:</strong> {{ recipe.user.username }}</p>  
+    <p><strong>Description:</strong> {{ recipe.description }}</p>
+    <p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
+    <p><strong>Steps:</strong> {{ recipe.steps }}</p>
+    <p><strong>Cuisine:</strong> {{ recipe.cuisine }}</p>
+    <p><strong>Prep Time:</strong> {{ recipe.prep_time }} minutes</p>
+    <p><strong>Difficulty:</strong> {{ recipe.difficulty }}</p>
+
+    {% if current_user.id == recipe.user_id %}
+        <a href="{{ url_for('main.edit_recipe', recipe_id=recipe.id) }}" class="btn btn-warning">Edit Recipe</a>
+    {% endif %}
+
+    <br><br>
+    <a href="{{ url_for('main.home') }}" class="btn btn-secondary">Back to Home</a>
+{% endblock %}
+
