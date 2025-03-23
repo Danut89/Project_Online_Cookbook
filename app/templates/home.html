@@ -1,47 +1,63 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>All Recipes</h2>
-    <!-- ✅ Search Form -->
-        <form method="GET" action="{{ url_for('main.home') }}" class="mb-4">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search recipes by title, cuisine, or difficulty" value="{{ request.args.get('q', '') }}">
-                <button type="submit" class="btn btn-primary">Search</button>
-            </div>
-        </form>
-    {% if recipes %}
-        <div class="row">
-            {% for recipe in recipes %}
-                <div class="col-md-4">
-                    <div class="card mb-3">
-                        {% if recipe.image_url %}
-                            <img src="{{ recipe.image_url }}" class="card-img-top" alt="Recipe Image" style="max-height: 200px; object-fit: cover;">
-                        {% else %}
-                            <img src="{{ url_for('static', filename='uploads/default_recipe.jpg') }}" class="card-img-top" alt="Default Image" style="max-height: 200px; object-fit: cover;">
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{ recipe.title }}</h5>
-                            <p class="card-text"><strong>By:</strong> {{ recipe.user.username }}</p>  
-                            <p class="card-text">{{ recipe.description[:100] }}...</p>
-                            <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}" class="btn btn-primary">View Recipe</a>
-                        </div>
+<h2>All Recipes</h2>
+
+<!-- 🔍 Filter & Search Form -->
+<form method="GET" action="{{ url_for('main.home') }}" class="row g-3 mb-4">
+
+    <div class="col-md-4">
+        <input type="text" name="q" class="form-control" placeholder="Search by keyword"
+               value="{{ request.args.get('q', '') }}">
+    </div>
+
+    <div class="col-md-3">
+        <select name="difficulty" class="form-select">
+            <option value="">All Difficulties</option>
+            <option value="Easy" {% if request.args.get('difficulty') == 'Easy' %}selected{% endif %}>Easy</option>
+            <option value="Medium" {% if request.args.get('difficulty') == 'Medium' %}selected{% endif %}>Medium</option>
+            <option value="Hard" {% if request.args.get('difficulty') == 'Hard' %}selected{% endif %}>Hard</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <input type="text" name="cuisine" class="form-control" placeholder="Filter by cuisine"
+               value="{{ request.args.get('cuisine', '') }}">
+    </div>
+
+    <div class="col-md-2 d-grid">
+        <button type="submit" class="btn btn-primary">Apply Filters</button>
+    </div>
+</form>
+
+<!-- 🧹 Clear Filters Button -->
+{% if request.args %}
+    <a href="{{ url_for('main.home') }}" class="btn btn-outline-secondary mb-4">Clear Filters</a>
+{% endif %}
+
+<!-- 🧾 Recipes List -->
+{% if recipes %}
+    <div class="row">
+        {% for recipe in recipes %}
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    {% if recipe.image_url %}
+                        <img src="{{ recipe.image_url }}" class="card-img-top" alt="Recipe Image"
+                             style="max-height: 200px; object-fit: cover;">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='uploads/default_recipe.jpg') }}" class="card-img-top"
+                             alt="Default Image" style="max-height: 200px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe.title }}</h5>
+                        <p class="card-text"><strong>By:</strong> {{ recipe.user.username }}</p>
+                        <p class="card-text">{{ recipe.description[:100] }}...</p>
+                        <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}" class="btn btn-primary">View Recipe</a>
                     </div>
                 </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <p>No recipes available. <a href="{{ url_for('main.add_recipe') }}">Add one here</a>!</p>
-    {% endif %}
-    <!-- ✅ Pagination -->
-{% if recipes.has_prev %}
-<a href="{{ url_for('main.home', page=recipes.prev_num, q=request.args.get('q')) }}" class="btn btn-outline-secondary">Previous</a>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No recipes found. <a href="{{ url_for('main.add_recipe') }}">Add one here</a>!</p>
 {% endif %}
-
-{% if recipes.has_next %}
-<a href="{{ url_for('main.home', page=recipes.next_num, q=request.args.get('q')) }}" class="btn btn-outline-secondary">Next</a>
-{% endif %}
-
 {% endblock %}
-
-
-
-
