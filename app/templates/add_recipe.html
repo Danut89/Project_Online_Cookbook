@@ -3,7 +3,7 @@
 <div class="container">
     <h2 class="mb-4">Add a New Recipe</h2>
 
-    <form method="POST" action="{{ url_for('main.add_recipe') }}" enctype="multipart/form-data" class="row g-3">
+    <form method="POST" action="{{ url_for('main.add_recipe', next=next_url) }}" enctype="multipart/form-data" class="row g-3">
         {{ form.hidden_tag() }}
 
         <!-- Title -->
@@ -67,11 +67,12 @@
             </div>
         </div>
 
-        <!-- Submit Button -->
+        <!-- Submit & Cancel -->
         <div class="col-12">
             {{ form.submit(class="btn btn-success") }}
-            <a href="{{ url_for('main.home') }}" class="btn btn-secondary ms-2">Back to Home</a>
+            <a href="{{ next_url or url_for('main.home') }}" class="btn btn-outline-secondary ms-2">Cancel</a>
         </div>
     </form>
 </div>
 {% endblock %}
+

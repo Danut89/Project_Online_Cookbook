@@ -1,54 +1,55 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container">
+<div class="container py-4">
 
-    <h2 class="mb-4">👤 My Profile</h2>
+    <h2 class="mb-4 fw-bold text-center">👤 My Profile</h2>
 
     <!-- 🧾 My Recipes -->
-    <div class="card mb-5">
-        <div class="card-header bg-light">
-            <h4 class="mb-0">📜 My Recipes</h4>
+    <div class="card mb-5 shadow-sm border-0 rounded-4">
+        <div class="card-header bg-light rounded-top-4">
+            <h4 class="mb-0 fw-semibold">📜 My Recipes</h4>
         </div>
         <div class="card-body">
             {% if my_recipes %}
                 <ul class="list-group list-group-flush">
                     {% for recipe in my_recipes %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}" class="fw-bold">
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                            <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}" class="fw-bold text-decoration-none text-dark">
                                 {{ recipe.title }}
                             </a>
-                            <span class="badge bg-secondary">{{ recipe.difficulty }}</span>
+                            <span class="badge rounded-pill bg-secondary px-3 py-2">{{ recipe.difficulty }}</span>
                         </li>
                     {% endfor %}
                 </ul>
             {% else %}
-                <p class="text-muted">You haven't added any recipes yet.</p>
+                <p class="text-muted fst-italic">You haven't added any recipes yet.</p>
             {% endif %}
         </div>
     </div>
 
     <!-- ❤️ Liked Recipes -->
-    <div class="card">
-        <div class="card-header bg-light">
-            <h4 class="mb-0">❤️ Favorite Recipes</h4>
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-header bg-light rounded-top-4">
+            <h4 class="mb-0 fw-semibold">❤️ Favorite Recipes</h4>
         </div>
         <div class="card-body">
             {% if liked_recipes %}
                 <ul class="list-group list-group-flush">
                     {% for recipe in liked_recipes %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}" class="fw-bold">
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                            <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}" class="fw-bold text-decoration-none text-dark">
                                 {{ recipe.title }}
                             </a>
-                            <span class="badge bg-primary">{{ recipe.difficulty }}</span>
+                            <span class="badge rounded-pill bg-primary px-3 py-2">{{ recipe.difficulty }}</span>
                         </li>
                     {% endfor %}
                 </ul>
             {% else %}
-                <p class="text-muted">You haven't liked any recipes yet.</p>
+                <p class="text-muted fst-italic">You haven't liked any recipes yet.</p>
             {% endif %}
         </div>
     </div>
 
 </div>
 {% endblock %}
+

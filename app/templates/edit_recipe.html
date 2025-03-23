@@ -2,7 +2,7 @@
 {% block content %}
 <h2>Edit Recipe</h2>
 
-<form method="POST" action="{{ url_for('main.edit_recipe', recipe_id=recipe.id) }}" enctype="multipart/form-data">
+<form method="POST" action="{{ url_for('main.edit_recipe', recipe_id=recipe.id, next=next_url) }}" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
 
     <div class="mb-3">
@@ -56,9 +56,11 @@
         {{ form.image(class="form-control") }}
     </div>
 
-    <div class="mb-3">
+    <div class="d-flex justify-content-start gap-3">
         {{ form.submit(class="btn btn-success") }}
-        <a href="{{ url_for('main.home') }}" class="btn btn-secondary ms-2">Cancel</a>
+        <a href="{{ next_url or url_for('main.view_recipe', recipe_id=recipe.id) }}" class="btn btn-outline-secondary">Cancel</a>
     </div>
 </form>
+
 {% endblock %}
+

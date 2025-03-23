@@ -84,6 +84,8 @@ def view_recipe(recipe_id):
 @login_required
 def add_recipe():
     form = RecipeForm()
+    next_url = request.args.get('next') or url_for('main.home')  # Get 'next' or fallback to home
+
     if form.validate_on_submit():
         image_url = save_uploaded_image(form.image.data)
 
@@ -99,16 +101,15 @@ def add_recipe():
             user_id=current_user.id
         )
 
-        # ✅ Add selected categories
         selected_categories = Category.query.filter(Category.id.in_(form.categories.data)).all()
         recipe.categories.extend(selected_categories)
 
         db.session.add(recipe)
         db.session.commit()
         flash('Recipe added successfully!', 'success')
-        return redirect(url_for('main.home'))
+        return redirect(next_url)  # Redirect to 'next_url'
 
-    return render_template('add_recipe.html', form=form)
+    return render_template('add_recipe.html', form=form, next_url=next_url)
 
 
 @main.route('/recipe/<int:recipe_id>/edit', methods=['GET', 'POST'])
@@ -119,6 +120,33 @@ def edit_recipe(recipe_id):
     if recipe.user_id != current_user.id:
         flash("You don't have permission to edit this recipe.", "danger")
         return redirect(url_for('main.home'))
+
+    form = RecipeForm(obj=recipe)
+    next_url = request.args.get('next') or url_for('main.view_recipe', recipe_id=recipe.id)
+
+    if request.method == 'GET':
+        form.categories.data = [c.id for c in recipe.categories]
+
+    if form.validate_on_submit():
+        recipe.title = form.title.data
+        recipe.description = form.description.data
+        recipe.ingredients = form.ingredients.data
+        recipe.steps = form.steps.data
+        recipe.cuisine = form.cuisine.data
+        recipe.prep_time = form.prep_time.data
+        recipe.difficulty = form.difficulty.data
+        recipe.categories = Category.query.filter(Category.id.in_(form.categories.data)).all()
+
+        if form.image.data:
+            recipe.image_url = save_uploaded_image(form.image.data)
+
+        db.session.commit()
+        flash('Recipe updated successfully!', 'success')
+        return redirect(next_url)
+
+    return render_template('edit_recipe.html', form=form, recipe=recipe, next_url=next_url)
+
+
 
     form = RecipeForm(obj=recipe)
 
