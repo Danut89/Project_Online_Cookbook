@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>Edit Recipe: {{ recipe.title }}</h2>
-    
+    <h2>Edit Recipe</h2>
     <form method="POST" action="{{ url_for('main.edit_recipe', recipe_id=recipe.id) }}" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}  <!-- ✅ CSRF Protection -->
+        {{ form.hidden_tag() }}
 
         <p>
             <label for="{{ form.title.id }}">{{ form.title.label }}</label>
@@ -37,18 +36,27 @@
 
         <p>
             <label for="{{ form.difficulty.id }}">{{ form.difficulty.label }}</label>
-            {{ form.difficulty(class="form-control") }}
+            {{ form.difficulty(class="form-select") }}
         </p>
+
+        <!-- ✅ Categories Section -->
+        <div class="mb-3">
+            <label class="form-label"><strong>{{ form.categories.label }}</strong></label><br>
+            {% for subfield in form.categories %}
+                <div class="form-check form-check-inline">
+                    {{ subfield(class="form-check-input") }}
+                    {{ subfield.label(class="form-check-label") }}
+                </div>
+            {% endfor %}
+        </div>
 
         <p>
             <label for="{{ form.image.id }}">{{ form.image.label }}</label>
-            {{ form.image(class="form-control-file") }}
+            {{ form.image(class="form-control") }}
         </p>
 
         <p>{{ form.submit(class="btn btn-success") }}</p>
     </form>
 
-    <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}" class="btn btn-secondary">Cancel</a>
+    <p><a href="{{ url_for('main.home') }}" class="btn btn-secondary">Back to Home</a></p>
 {% endblock %}
-
-

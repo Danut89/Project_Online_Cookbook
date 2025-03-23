@@ -19,10 +19,18 @@
             <p><strong>Cuisine:</strong> {{ recipe.cuisine }}</p>
             <p><strong>Prep Time:</strong> {{ recipe.prep_time }} minutes</p>
             <p><strong>Difficulty:</strong> <span class="badge bg-primary">{{ recipe.difficulty }}</span></p>
-            
+
+            {% if recipe.categories %}
+                <p><strong>Categories:</strong>
+                    {% for cat in recipe.categories %}
+                        <span class="badge bg-info text-dark">{{ cat.name }}</span>
+                    {% endfor %}
+                </p>
+            {% endif %}
+
             {% if current_user.id == recipe.user_id %}
                 <a href="{{ url_for('main.edit_recipe', recipe_id=recipe.id) }}" class="btn btn-warning mt-3">Edit Recipe</a>
-                
+
                 <form method="POST" action="{{ url_for('main.delete_recipe', recipe_id=recipe.id) }}" onsubmit="return confirm('Are you sure you want to delete this recipe?');">
                     <button type="submit" class="btn btn-danger mt-2">Delete Recipe</button>
                 </form>

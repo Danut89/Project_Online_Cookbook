@@ -51,6 +51,16 @@
                         <h5 class="card-title">{{ recipe.title }}</h5>
                         <p class="card-text"><strong>By:</strong> {{ recipe.user.username }}</p>
                         <p class="card-text">{{ recipe.description[:100] }}...</p>
+
+                        <!-- ✅ Categories -->
+                        {% if recipe.categories %}
+                            <p>
+                                {% for cat in recipe.categories %}
+                                    <span class="badge bg-secondary">{{ cat.name }}</span>
+                                {% endfor %}
+                            </p>
+                        {% endif %}
+
                         <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}" class="btn btn-primary">View Recipe</a>
                     </div>
                 </div>

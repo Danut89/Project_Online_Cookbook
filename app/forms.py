@@ -1,8 +1,15 @@
+from wtforms import SelectMultipleField
+from wtforms.widgets import ListWidget, CheckboxInput
 from flask_wtf.file import FileAllowed, FileField
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, IntegerField, SelectField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, NumberRange, ValidationError
-from app.models import User
+from app.models import User, Category
+
+# Custom widget for checkboxes
+class MultiCheckboxField(SelectMultipleField):
+    widget = ListWidget(prefix_label=False)
+    option_widget = CheckboxInput()
 
 # User Registration Form
 class RegistrationForm(FlaskForm):
@@ -40,7 +47,12 @@ class RecipeForm(FlaskForm):
     prep_time = IntegerField('Prep Time (minutes)', validators=[DataRequired(), NumberRange(min=1)])
     difficulty = SelectField('Difficulty', choices=[('Easy', 'Easy'), ('Medium', 'Medium'), ('Hard', 'Hard')], validators=[DataRequired()])
     image = FileField('Recipe Image', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'gif'])])
+    categories = MultiCheckboxField('Categories', coerce=int)
     submit = SubmitField('Add Recipe')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.categories.choices = [(cat.id, cat.name) for cat in Category.query.order_by(Category.name).all()]
 
 
 

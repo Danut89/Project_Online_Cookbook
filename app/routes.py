@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 from sqlalchemy import or_
 
 from app import db
-from app.models import Recipe, User
+from app.models import Recipe, User, Category  # ✅ Added Category import
 from app.forms import RecipeForm
 from app.utils import save_uploaded_image  # ✅ Image utility
 
@@ -67,12 +67,18 @@ def add_recipe():
             image_url=image_url,
             user_id=current_user.id
         )
+
+        # ✅ Add selected categories
+        selected_categories = Category.query.filter(Category.id.in_(form.categories.data)).all()
+        recipe.categories.extend(selected_categories)
+
         db.session.add(recipe)
         db.session.commit()
         flash('Recipe added successfully!', 'success')
         return redirect(url_for('main.home'))
 
     return render_template('add_recipe.html', form=form)
+
 
 @main.route('/recipe/<int:recipe_id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -84,6 +90,11 @@ def edit_recipe(recipe_id):
         return redirect(url_for('main.home'))
 
     form = RecipeForm(obj=recipe)
+
+    # ✅ Pre-fill selected categories
+    if request.method == 'GET':
+        form.categories.data = [c.id for c in recipe.categories]
+
     if form.validate_on_submit():
         recipe.title = form.title.data
         recipe.description = form.description.data
@@ -92,6 +103,9 @@ def edit_recipe(recipe_id):
         recipe.cuisine = form.cuisine.data
         recipe.prep_time = form.prep_time.data
         recipe.difficulty = form.difficulty.data
+
+        # ✅ Replace categories
+        recipe.categories = Category.query.filter(Category.id.in_(form.categories.data)).all()
 
         if form.image.data:
             recipe.image_url = save_uploaded_image(form.image.data)

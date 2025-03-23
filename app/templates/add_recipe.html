@@ -2,13 +2,13 @@
 {% block content %}
     <h2>Add a New Recipe</h2>
     <form method="POST" action="{{ url_for('main.add_recipe') }}" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}  <!-- ✅ CSRF Protection -->
-        
+        {{ form.hidden_tag() }}
+
         <p>
             <label for="{{ form.title.id }}">{{ form.title.label }}</label>
             {{ form.title(class="form-control") }}
         </p>
-        
+
         <p>
             <label for="{{ form.description.id }}">{{ form.description.label }}</label>
             {{ form.description(class="form-control") }}
@@ -39,9 +39,20 @@
             {{ form.difficulty(class="form-select") }}
         </p>
 
+        <!-- ✅ Categories Section -->
+        <div class="mb-3">
+            <label class="form-label"><strong>{{ form.categories.label }}</strong></label><br>
+            {% for subfield in form.categories %}
+                <div class="form-check form-check-inline">
+                    {{ subfield(class="form-check-input") }}
+                    {{ subfield.label(class="form-check-label") }}
+                </div>
+            {% endfor %}
+        </div>
+
         <p>
             <label for="{{ form.image.id }}">{{ form.image.label }}</label>
-            {{ form.image(class="form-control") }}  <!-- ✅ Added Image Upload Field -->
+            {{ form.image(class="form-control") }}
         </p>
 
         <p>{{ form.submit(class="btn btn-success") }}</p>
@@ -49,3 +60,4 @@
 
     <p><a href="{{ url_for('main.home') }}" class="btn btn-secondary">Back to Home</a></p>
 {% endblock %}
+
