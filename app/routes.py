@@ -192,3 +192,17 @@ def profile():
     liked_recipes = Recipe.query.filter(Recipe.id.in_(liked_recipe_ids)).all()
 
     return render_template('profile.html', my_recipes=my_recipes, liked_recipes=liked_recipes)
+
+@main.route('/comment/<int:comment_id>/delete', methods=['POST'])
+@login_required
+def delete_comment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+
+    if comment.user_id != current_user.id:
+        flash("You are not authorized to delete this comment.", "danger")
+        return redirect(url_for('main.view_recipe', recipe_id=comment.recipe_id))
+
+    db.session.delete(comment)
+    db.session.commit()
+    flash("Comment deleted.", "info")
+    return redirect(url_for('main.view_recipe', recipe_id=comment.recipe_id))
