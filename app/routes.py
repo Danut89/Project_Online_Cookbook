@@ -5,9 +5,12 @@ from werkzeug.utils import secure_filename
 from sqlalchemy import or_
 
 from app import db
-from app.models import Recipe, User, Category  # ✅ Added Category import
+from app.models import Recipe, User, Category  
 from app.forms import RecipeForm
-from app.utils import save_uploaded_image  # ✅ Image utility
+from app.utils import save_uploaded_image  
+from app.models import Recipe, User, Category, Comment 
+from app.forms import RecipeForm, CommentForm  
+
 
 # Define the blueprint
 main = Blueprint('main', __name__)
@@ -44,15 +47,37 @@ def home():
 
     return render_template('home.html', recipes=recipes)
 
-@main.route('/recipe/<int:recipe_id>')
+@main.route('/recipe/<int:recipe_id>', methods=['GET', 'POST'])
 def view_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
 
+    # Check if the user has liked this recipe
     is_liked = False
     if current_user.is_authenticated:
         is_liked = recipe.is_liked_by(current_user)
 
-    return render_template('view_recipe.html', recipe=recipe, is_liked=is_liked)
+    #  Handle comments
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(
+            content=form.content.data,
+            user_id=current_user.id,
+            recipe_id=recipe.id
+        )
+        db.session.add(comment)
+        db.session.commit()
+        flash("Comment posted successfully!", "success")
+        return redirect(url_for('main.view_recipe', recipe_id=recipe.id))
+
+    comments = Comment.query.filter_by(recipe_id=recipe.id).order_by(Comment.created_at.desc()).all()
+
+    return render_template(
+        'view_recipe.html',
+        recipe=recipe,
+        is_liked=is_liked,
+        form=form,
+        comments=comments
+    )
 
 
 @main.route('/add_recipe', methods=['GET', 'POST'])

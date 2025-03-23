@@ -61,8 +61,19 @@ class Like(db.Model):
     recipe = db.relationship('Recipe', backref='likes', lazy=True)
 
 
-# ✅ FIX: Add user loader function for Flask-Login
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Relationships
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
+
+    user = db.relationship('User', backref='comments', lazy=True)
+    recipe = db.relationship('Recipe', backref='comments', lazy=True)
 
