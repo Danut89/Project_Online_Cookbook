@@ -1,62 +1,64 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>Edit Recipe</h2>
-    <form method="POST" action="{{ url_for('main.edit_recipe', recipe_id=recipe.id) }}" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
+<h2>Edit Recipe</h2>
 
-        <p>
-            <label for="{{ form.title.id }}">{{ form.title.label }}</label>
-            {{ form.title(class="form-control") }}
-        </p>
+<form method="POST" action="{{ url_for('main.edit_recipe', recipe_id=recipe.id) }}" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
 
-        <p>
-            <label for="{{ form.description.id }}">{{ form.description.label }}</label>
-            {{ form.description(class="form-control") }}
-        </p>
+    <div class="mb-3">
+        {{ form.title.label(class="form-label") }}
+        {{ form.title(class="form-control") }}
+    </div>
 
-        <p>
-            <label for="{{ form.ingredients.id }}">{{ form.ingredients.label }}</label>
-            {{ form.ingredients(class="form-control") }}
-        </p>
+    <div class="mb-3">
+        {{ form.description.label(class="form-label") }}
+        {{ form.description(class="form-control") }}
+    </div>
 
-        <p>
-            <label for="{{ form.steps.id }}">{{ form.steps.label }}</label>
-            {{ form.steps(class="form-control") }}
-        </p>
+    <div class="mb-3">
+        {{ form.ingredients.label(class="form-label") }}
+        {{ form.ingredients(class="form-control") }}
+    </div>
 
-        <p>
-            <label for="{{ form.cuisine.id }}">{{ form.cuisine.label }}</label>
+    <div class="mb-3">
+        {{ form.steps.label(class="form-label") }}
+        {{ form.steps(class="form-control") }}
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            {{ form.cuisine.label(class="form-label") }}
             {{ form.cuisine(class="form-control") }}
-        </p>
-
-        <p>
-            <label for="{{ form.prep_time.id }}">{{ form.prep_time.label }}</label>
-            {{ form.prep_time(class="form-control") }}
-        </p>
-
-        <p>
-            <label for="{{ form.difficulty.id }}">{{ form.difficulty.label }}</label>
-            {{ form.difficulty(class="form-select") }}
-        </p>
-
-        <!-- ✅ Categories Section -->
-        <div class="mb-3">
-            <label class="form-label"><strong>{{ form.categories.label }}</strong></label><br>
-            {% for subfield in form.categories %}
-                <div class="form-check form-check-inline">
-                    {{ subfield(class="form-check-input") }}
-                    {{ subfield.label(class="form-check-label") }}
-                </div>
-            {% endfor %}
         </div>
+        <div class="col-md-3 mb-3">
+            {{ form.prep_time.label(class="form-label") }}
+            {{ form.prep_time(class="form-control") }}
+        </div>
+        <div class="col-md-3 mb-3">
+            {{ form.difficulty.label(class="form-label") }}
+            {{ form.difficulty(class="form-select") }}
+        </div>
+    </div>
 
-        <p>
-            <label for="{{ form.image.id }}">{{ form.image.label }}</label>
-            {{ form.image(class="form-control") }}
-        </p>
+    <!-- ✅ Categories Section -->
+    <div class="mb-3">
+        <label class="form-label"><strong>{{ form.categories.label }}</strong></label><br>
+        {% for subfield in form.categories %}
+            <div class="form-check form-check-inline">
+                {{ subfield(class="form-check-input") }}
+                {{ subfield.label(class="form-check-label") }}
+            </div>
+        {% endfor %}
+    </div>
 
-        <p>{{ form.submit(class="btn btn-success") }}</p>
-    </form>
+    <div class="mb-3">
+        {{ form.image.label(class="form-label") }}
+        {{ form.image(class="form-control") }}
+    </div>
 
-    <p><a href="{{ url_for('main.home') }}" class="btn btn-secondary">Back to Home</a></p>
+    <div class="mb-3">
+        {{ form.submit(class="btn btn-success") }}
+        <a href="{{ url_for('main.home') }}" class="btn btn-secondary ms-2">Cancel</a>
+    </div>
+</form>
 {% endblock %}
