@@ -16,7 +16,8 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
-    recipes = db.relationship('Recipe', backref='user', lazy=True)  # ✅ FIXED
+    recipes = db.relationship('Recipe', backref='user', lazy=True)
+    likes = db.relationship('Like', backref='user', lazy=True)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password).decode('utf-8')
@@ -56,7 +57,7 @@ class Like(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
 
-    user = db.relationship('User', backref='likes', lazy=True)
+    recipe = db.relationship('Recipe', backref=db.backref('likes', lazy='dynamic'))
     recipe = db.relationship('Recipe', backref='likes', lazy=True)
 
 

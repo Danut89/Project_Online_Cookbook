@@ -47,7 +47,13 @@ def home():
 @main.route('/recipe/<int:recipe_id>')
 def view_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
-    return render_template('view_recipe.html', recipe=recipe)
+
+    is_liked = False
+    if current_user.is_authenticated:
+        is_liked = recipe.is_liked_by(current_user)
+
+    return render_template('view_recipe.html', recipe=recipe, is_liked=is_liked)
+
 
 @main.route('/add_recipe', methods=['GET', 'POST'])
 @login_required
@@ -129,3 +135,35 @@ def delete_recipe(recipe_id):
     db.session.commit()
     flash('Recipe deleted successfully!', 'success')
     return redirect(url_for('main.home'))
+
+@main.route('/recipe/<int:recipe_id>/like', methods=['POST'])
+@login_required
+def like_recipe(recipe_id):
+    recipe = Recipe.query.get_or_404(recipe_id)
+
+    existing_like = next((like for like in recipe.likes if like.user_id == current_user.id), None)
+
+    if existing_like:
+        db.session.delete(existing_like)
+        flash("Removed from your favorites.", "info")
+    else:
+        from app.models import Like  # Import here to avoid circular imports
+        new_like = Like(user_id=current_user.id, recipe_id=recipe.id)
+        db.session.add(new_like)
+        flash("Added to your favorites!", "success")
+
+    db.session.commit()
+    return redirect(url_for('main.view_recipe', recipe_id=recipe.id))
+
+@main.route('/profile')
+@login_required
+def profile():
+    # Recipes created by the user
+    my_recipes = Recipe.query.filter_by(user_id=current_user.id).all()
+
+    # Recipes the user has liked
+    from app.models import Like  # ensure Like is imported
+    liked_recipe_ids = [like.recipe_id for like in current_user.likes]
+    liked_recipes = Recipe.query.filter(Recipe.id.in_(liked_recipe_ids)).all()
+
+    return render_template('profile.html', my_recipes=my_recipes, liked_recipes=liked_recipes)
