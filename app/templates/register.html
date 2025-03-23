@@ -1,34 +1,48 @@
 <!-- app/templates/register.html -->
 {% extends "base.html" %}
 {% block content %}
-    <h2>Register</h2>
-    <form method="POST" action="{{ url_for('auth.register') }}">
-        {{ form.hidden_tag() }}  <!-- CSRF Protection -->
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title mb-4 text-center">📝 Register</h2>
+                <form method="POST" action="{{ url_for('auth.register') }}">
+                    {{ form.hidden_tag() }}
 
-        <p>
-            <label for="{{ form.username.id }}">{{ form.username.label }}</label>
-            {{ form.username(class="form-control") }}
-        </p>
+                    <div class="mb-3">
+                        <label for="{{ form.username.id }}" class="form-label">{{ form.username.label }}</label>
+                        {{ form.username(class="form-control", placeholder="Choose a username") }}
+                    </div>
 
-        <p>
-            <label for="{{ form.email.id }}">{{ form.email.label }}</label>
-            {{ form.email(class="form-control") }}
-        </p>
+                    <div class="mb-3">
+                        <label for="{{ form.email.id }}" class="form-label">{{ form.email.label }}</label>
+                        {{ form.email(class="form-control", placeholder="Enter your email") }}
+                    </div>
 
-        <p>
-            <label for="{{ form.password.id }}">{{ form.password.label }}</label>
-            {{ form.password(class="form-control") }}
-        </p>
+                    <div class="mb-3">
+                        <label for="{{ form.password.id }}" class="form-label">{{ form.password.label }}</label>
+                        {{ form.password(class="form-control", placeholder="Enter a password") }}
+                    </div>
 
-        <p>
-            <label for="{{ form.confirm_password.id }}">{{ form.confirm_password.label }}</label>
-            {{ form.confirm_password(class="form-control") }}
-        </p>
+                    <div class="mb-3">
+                        <label for="{{ form.confirm_password.id }}" class="form-label">{{ form.confirm_password.label }}</label>
+                        {{ form.confirm_password(class="form-control", placeholder="Confirm your password") }}
+                    </div>
 
-        <p>{{ form.submit(class="btn btn-primary") }}</p>
-    </form>
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-success") }}
+                    </div>
+                </form>
 
-    <p>Already have an account? <a href="{{ url_for('auth.login') }}">Log in</a></p>
+                <p class="mt-3 text-center">
+                    Already have an account?
+                    <a href="{{ url_for('auth.login') }}">Log in here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
+
 
 
