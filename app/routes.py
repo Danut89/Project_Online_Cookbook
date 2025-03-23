@@ -1,3 +1,5 @@
+from flask import request
+from app.models import User  # Already imported Recipe, but need User too
 import os
 from flask import current_app
 from werkzeug.utils import secure_filename
@@ -7,13 +9,27 @@ from app import db
 from app.models import Recipe  
 from app.forms import RecipeForm  
 
+
 # Define the blueprint
 main = Blueprint('main', __name__)
 
 @main.route('/')
 def home():
-    recipes = Recipe.query.all()  # Fetch all recipes from the database
+    query = request.args.get('q')  # Get the search query from URL
+    page = request.args.get('page', 1, type=int)
+
+    if query:
+        # Case-insensitive search using ilike()
+        recipes = Recipe.query.join(User).filter(
+            (Recipe.title.ilike(f"%{query}%")) |
+            (Recipe.cuisine.ilike(f"%{query}%")) |
+            (Recipe.difficulty.ilike(f"%{query}%"))
+        ).paginate(page=page, per_page=6)
+    else:
+        recipes = Recipe.query.join(User).paginate(page=page, per_page=6)
+
     return render_template('home.html', recipes=recipes)
+
 
 @main.route('/recipe/<int:recipe_id>')  # ✅ FIXED: Added missing route decorator
 def view_recipe(recipe_id):

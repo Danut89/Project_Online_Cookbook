@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
     <h2>All Recipes</h2>
-    
+    <!-- ✅ Search Form -->
+        <form method="GET" action="{{ url_for('main.home') }}" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search recipes by title, cuisine, or difficulty" value="{{ request.args.get('q', '') }}">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
     {% if recipes %}
         <div class="row">
             {% for recipe in recipes %}
@@ -25,6 +31,15 @@
     {% else %}
         <p>No recipes available. <a href="{{ url_for('main.add_recipe') }}">Add one here</a>!</p>
     {% endif %}
+    <!-- ✅ Pagination -->
+{% if recipes.has_prev %}
+<a href="{{ url_for('main.home', page=recipes.prev_num, q=request.args.get('q')) }}" class="btn btn-outline-secondary">Previous</a>
+{% endif %}
+
+{% if recipes.has_next %}
+<a href="{{ url_for('main.home', page=recipes.next_num, q=request.args.get('q')) }}" class="btn btn-outline-secondary">Next</a>
+{% endif %}
+
 {% endblock %}
 
 
