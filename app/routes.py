@@ -206,3 +206,16 @@ def delete_comment(comment_id):
     db.session.commit()
     flash("Comment deleted.", "info")
     return redirect(url_for('main.view_recipe', recipe_id=comment.recipe_id))
+
+# 🔍 View all categories
+@main.route('/categories')
+def browse_categories():
+    categories = Category.query.order_by(Category.name).all()
+    return render_template('browse_categories.html', categories=categories)
+
+# 📂 View all recipes in a specific category
+@main.route('/category/<string:category_name>')
+def recipes_by_category(category_name):
+    category = Category.query.filter_by(name=category_name).first_or_404()
+    recipes = category.recipes.order_by(Recipe.created_at.desc()).all()
+    return render_template('home.html', recipes=recipes, selected_category=category.name)

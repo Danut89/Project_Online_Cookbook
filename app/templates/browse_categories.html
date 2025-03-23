@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>📂 Browse by Category</h2>
+
+{% if categories %}
+    <div class="row">
+        {% for category in categories %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ category.name }}</h5>
+                        <a href="{{ url_for('main.recipes_by_category', category_name=category.name) }}" class="btn btn-outline-primary">
+                            View Recipes
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No categories found.</p>
+{% endif %}
+
+<a href="{{ url_for('main.home') }}" class="btn btn-secondary mt-4">Back to Home</a>
+{% endblock %}
