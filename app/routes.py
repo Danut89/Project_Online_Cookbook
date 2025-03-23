@@ -8,7 +8,7 @@ from flask_login import login_required, current_user
 from app import db
 from app.models import Recipe  
 from app.forms import RecipeForm  
-
+from app.utils import save_uploaded_image  # ✅ Import the utility function
 
 # Define the blueprint
 main = Blueprint('main', __name__)
@@ -41,13 +41,8 @@ def view_recipe(recipe_id):
 def add_recipe():
     form = RecipeForm()
     if form.validate_on_submit():
-        image_filename = None
-        if form.image.data:
-            image_file = form.image.data
-            image_filename = secure_filename(image_file.filename)
-            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image_filename)
-            os.makedirs(os.path.dirname(image_path), exist_ok=True)  # Ensure the folder exists
-            image_file.save(image_path)  # Save the image
+        # Use the utility function to save the image
+        image_url = save_uploaded_image(form.image.data)
 
         recipe = Recipe(
             title=form.title.data,
@@ -57,7 +52,7 @@ def add_recipe():
             cuisine=form.cuisine.data,
             prep_time=form.prep_time.data,
             difficulty=form.difficulty.data,
-            image_url=f"/static/uploads/{image_filename}" if image_filename else None,
+            image_url=image_url,  # ✅ Use the returned image URL
             user_id=current_user.id  
         )
         db.session.add(recipe)
@@ -86,14 +81,9 @@ def edit_recipe(recipe_id):
         recipe.prep_time = form.prep_time.data
         recipe.difficulty = form.difficulty.data
 
-        # Handle image upload
+        # Use the utility function to save the image if a new one is uploaded
         if form.image.data:
-            image_file = form.image.data
-            image_filename = secure_filename(image_file.filename)
-            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image_filename)
-            os.makedirs(os.path.dirname(image_path), exist_ok=True)  # Ensure the folder exists
-            image_file.save(image_path)  # Save the image
-            recipe.image_url = f"/static/uploads/{image_filename}"  # Update the image URL
+            recipe.image_url = save_uploaded_image(form.image.data)
 
         db.session.commit()
         flash('Recipe updated successfully!', 'success')
