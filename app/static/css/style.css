@@ -81,3 +81,17 @@ textarea.form-control {
   text-align: center;
   margin-top: 2rem;
 }
+
+/* === Admin Dashboard Summary Cards === */
+.dashboard-card {
+  border-left: 6px solid transparent;
+  transition: transform 0.2s ease-in-out;
+}
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05);
+}
+.dashboard-card.users { border-color: #0d6efd; }
+.dashboard-card.recipes { border-color: #198754; }
+.dashboard-card.comments { border-color: #ffc107; }
+.dashboard-card.likes { border-color: #dc3545; }

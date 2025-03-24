@@ -16,6 +16,9 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)  # 👈 Add this line
+
+    # Relationships
     recipes = db.relationship('Recipe', backref='user', lazy=True)
     likes = db.relationship('Like', backref='user', lazy=True)
 
@@ -24,6 +27,7 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -10,7 +10,7 @@ from app.forms import RecipeForm
 from app.utils import save_uploaded_image  
 from app.models import Recipe, User, Category, Comment 
 from app.forms import RecipeForm, CommentForm  
-
+from app.models import Like
 
 # Define the blueprint
 main = Blueprint('main', __name__)
@@ -247,3 +247,45 @@ def recipes_by_category(category_name):
     category = Category.query.filter_by(name=category_name).first_or_404()
     recipes = category.recipes.order_by(Recipe.created_at.desc()).all()
     return render_template('home.html', recipes=recipes, selected_category=category.name)
+
+from functools import wraps
+from flask import abort
+
+# ✅ Admin-only access decorator
+def admin_required(f):
+    @wraps(f)
+    @login_required
+    def decorated_function(*args, **kwargs):
+        if not current_user.is_admin:
+            abort(403)
+        return f(*args, **kwargs)
+    return decorated_function
+
+# ✅ Admin Dashboard route
+@main.route('/admin')
+@admin_required
+def admin_dashboard():
+    users = User.query.all()
+    recipes = Recipe.query.all()
+    comments = Comment.query.all()
+    total_likes = Like.query.count()  # ✅ Add this line
+
+    return render_template('admin/dashboard.html',
+                           users=users,
+                           recipes=recipes,
+                           comments=comments,
+                           total_likes=total_likes)
+
+@main.route('/admin/users')
+@admin_required
+def manage_users():
+    # Placeholder logic
+    users = User.query.all()
+    return render_template('admin/manage_users.html', users=users)
+
+@main.route('/admin/recipes')
+@admin_required
+def manage_recipes():
+    # Placeholder logic
+    recipes = Recipe.query.all()
+    return render_template('admin/manage_recipes.html', recipes=recipes)
