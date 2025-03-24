@@ -2,7 +2,7 @@
 {% block content %}
 
 <!-- 🌟 Hero Section -->
-<section class="hero-section text-white text-center py-5 mb-4" style="background: linear-gradient(to right, #a0522d, #ffb347); border-radius: 12px;">
+<section class="hero-section text-white text-center py-5 mb-5" style="background: linear-gradient(to right, #a0522d, #ffb347); border-radius: 1rem;">
   <div class="container">
     <h1 class="display-4 fw-bold">Discover & Share Incredible Recipes</h1>
     <p class="lead">A community-powered cookbook for food lovers everywhere.</p>
@@ -10,23 +10,23 @@
   </div>
 </section>
 
-<!-- 🔍 Redesigned Filter & Search Bar -->
+<!-- 🔍 Filter & Search Bar -->
 <section class="container mb-5">
   <form method="GET" action="{{ url_for('main.home') }}" class="p-4 bg-white shadow-sm rounded-4">
     <div class="row g-3 align-items-end">
       <div class="col-md-6">
-        <label class="form-label fw-semibold">🔍 Search Recipes</label>
-        <input type="text" name="q" class="form-control rounded-pill px-4" placeholder="e.g. Pasta, Vegan..."
-               value="{{ request.args.get('q', '') }}">
+        <label for="searchQuery" class="form-label fw-semibold">🔍 Search Recipes</label>
+        <input id="searchQuery" type="text" name="q" class="form-control rounded-pill px-4"
+               placeholder="e.g. Pasta, Vegan..." value="{{ request.args.get('q', '') }}">
       </div>
       <div class="col-md-3">
-        <label class="form-label fw-semibold">🍝 Cuisine</label>
-        <input type="text" name="cuisine" class="form-control rounded-pill px-4" placeholder="e.g. Italian, Asian"
-               value="{{ request.args.get('cuisine', '') }}">
+        <label for="cuisineFilter" class="form-label fw-semibold">🍝 Cuisine</label>
+        <input id="cuisineFilter" type="text" name="cuisine" class="form-control rounded-pill px-4"
+               placeholder="e.g. Italian, Asian" value="{{ request.args.get('cuisine', '') }}">
       </div>
       <div class="col-md-2">
-        <label class="form-label fw-semibold">⚙️ Difficulty</label>
-        <select name="difficulty" class="form-select rounded-pill px-4">
+        <label for="difficultySelect" class="form-label fw-semibold">⚙️ Difficulty</label>
+        <select id="difficultySelect" name="difficulty" class="form-select rounded-pill px-4">
           <option value="">All</option>
           <option value="Easy" {% if request.args.get('difficulty') == 'Easy' %}selected{% endif %}>Easy</option>
           <option value="Medium" {% if request.args.get('difficulty') == 'Medium' %}selected{% endif %}>Medium</option>
@@ -46,16 +46,16 @@
 </section>
 
 <!-- 🧾 Recipe Grid -->
-<section class="container">
+<section class="container pb-5">
   {% if recipes %}
     <div class="row g-4">
       {% for recipe in recipes %}
-        <div class="col-md-4">
+        <div class="col-sm-6 col-md-4">
           <div class="card h-100 shadow-sm border-0 rounded-4">
             {% if recipe.image_url %}
-              <img src="{{ recipe.image_url }}" class="card-img-top rounded-top-4" style="height: 200px; object-fit: cover;">
+              <img src="{{ recipe.image_url }}" class="card-img-top rounded-top-4" alt="{{ recipe.title }}" style="height: 200px; object-fit: cover;">
             {% else %}
-              <img src="{{ url_for('static', filename='uploads/default_recipe.jpg') }}" class="card-img-top rounded-top-4" style="height: 200px; object-fit: cover;">
+              <img src="{{ url_for('static', filename='uploads/default_recipe.jpg') }}" class="card-img-top rounded-top-4" alt="Default recipe image" style="height: 200px; object-fit: cover;">
             {% endif %}
             <div class="card-body d-flex flex-column">
               <h5 class="fw-semibold text-dark">{{ recipe.title }}</h5>

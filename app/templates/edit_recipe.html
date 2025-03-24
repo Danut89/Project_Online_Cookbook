@@ -1,66 +1,112 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Edit Recipe</h2>
 
-<form method="POST" action="{{ url_for('main.edit_recipe', recipe_id=recipe.id, next=next_url) }}" enctype="multipart/form-data">
+<section class="container py-5">
+  <h2 class="text-center fw-bold mb-4 text-primary">✏️ Edit Recipe</h2>
+
+  <form method="POST" action="{{ url_for('main.edit_recipe', recipe_id=recipe.id, next=next_url) }}"
+        enctype="multipart/form-data"
+        class="row g-4 bg-white shadow-sm p-4 rounded-4 needs-validation" novalidate>
+
     {{ form.hidden_tag() }}
 
-    <div class="mb-3">
-        {{ form.title.label(class="form-label") }}
-        {{ form.title(class="form-control") }}
+    <!-- 🧾 Title & Cuisine -->
+    <div class="col-md-6">
+      <label for="{{ form.title.id }}" class="form-label fw-semibold">📌 {{ form.title.label }}</label>
+      {{ form.title(class="form-control rounded-pill px-4 py-2", required=True) }}
     </div>
 
-    <div class="mb-3">
-        {{ form.description.label(class="form-label") }}
-        {{ form.description(class="form-control") }}
+    <div class="col-md-6">
+      <label for="{{ form.cuisine.id }}" class="form-label fw-semibold">🌍 {{ form.cuisine.label }}</label>
+      {{ form.cuisine(class="form-control rounded-pill px-4 py-2") }}
     </div>
 
-    <div class="mb-3">
-        {{ form.ingredients.label(class="form-label") }}
-        {{ form.ingredients(class="form-control") }}
+    <!-- 🕒 Time & Difficulty -->
+    <div class="col-md-6">
+      <label for="{{ form.prep_time.id }}" class="form-label fw-semibold">⏱ {{ form.prep_time.label }}</label>
+      {{ form.prep_time(class="form-control rounded-pill px-4 py-2") }}
     </div>
 
-    <div class="mb-3">
-        {{ form.steps.label(class="form-label") }}
-        {{ form.steps(class="form-control") }}
+    <div class="col-md-6">
+      <label for="{{ form.difficulty.id }}" class="form-label fw-semibold">⚙️ {{ form.difficulty.label }}</label>
+      {{ form.difficulty(class="form-select rounded-pill px-4 py-2") }}
     </div>
 
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            {{ form.cuisine.label(class="form-label") }}
-            {{ form.cuisine(class="form-control") }}
-        </div>
-        <div class="col-md-3 mb-3">
-            {{ form.prep_time.label(class="form-label") }}
-            {{ form.prep_time(class="form-control") }}
-        </div>
-        <div class="col-md-3 mb-3">
-            {{ form.difficulty.label(class="form-label") }}
-            {{ form.difficulty(class="form-select") }}
-        </div>
+    <!-- 📝 Description -->
+    <div class="col-12">
+      <label for="{{ form.description.id }}" class="form-label fw-semibold">📝 {{ form.description.label }}</label>
+      {{ form.description(class="form-control rounded-4 px-4 py-2", rows="3") }}
     </div>
 
-    <!-- ✅ Categories Section -->
-    <div class="mb-3">
-        <label class="form-label"><strong>{{ form.categories.label }}</strong></label><br>
+    <!-- 🧅 Ingredients -->
+    <div class="col-12">
+      <label for="{{ form.ingredients.id }}" class="form-label fw-semibold">🥦 {{ form.ingredients.label }}</label>
+      {{ form.ingredients(class="form-control rounded-4 px-4 py-2", rows="3") }}
+    </div>
+
+    <!-- 🍳 Steps -->
+    <div class="col-12">
+      <label for="{{ form.steps.id }}" class="form-label fw-semibold">👨‍🍳 {{ form.steps.label }}</label>
+      {{ form.steps(class="form-control rounded-4 px-4 py-2", rows="3") }}
+    </div>
+
+    <!-- 🏷 Categories -->
+    <div class="col-12">
+      <label class="form-label fw-semibold">📂 {{ form.categories.label }}</label>
+      <div class="d-flex flex-wrap gap-3">
         {% for subfield in form.categories %}
-            <div class="form-check form-check-inline">
-                {{ subfield(class="form-check-input") }}
-                {{ subfield.label(class="form-check-label") }}
-            </div>
+          <div class="form-check">
+            {{ subfield(class="form-check-input") }}
+            {{ subfield.label(class="form-check-label") }}
+          </div>
         {% endfor %}
+      </div>
     </div>
 
-    <div class="mb-3">
-        {{ form.image.label(class="form-label") }}
-        {{ form.image(class="form-control") }}
+    <!-- 📸 Image -->
+    <div class="col-md-6">
+      <label for="{{ form.image.id }}" class="form-label fw-semibold">📷 {{ form.image.label }}</label>
+      {{ form.image(class="form-control rounded-pill px-4 py-2", onchange="previewImage(event)") }}
     </div>
 
-    <div class="d-flex justify-content-start gap-3">
-        {{ form.submit(class="btn btn-success") }}
-        <a href="{{ next_url or url_for('main.view_recipe', recipe_id=recipe.id) }}" class="btn btn-outline-secondary">Cancel</a>
+    {% if recipe.image_url %}
+      <div class="col-md-6 text-center">
+        <label class="form-label fw-semibold">Current Image:</label><br>
+        <img src="{{ recipe.image_url }}" id="current-image" class="img-fluid rounded-3" style="max-height: 150px;">
+      </div>
+    {% endif %}
+    <div class="col-12 d-none" id="new-image-preview-container">
+      <label class="form-label fw-semibold">New Image Preview:</label><br>
+      <img id="image-preview" class="img-fluid rounded-3" style="max-height: 150px;">
     </div>
-</form>
+
+    <!-- 🎯 Actions -->
+    <div class="col-12 text-center mt-3">
+      {{ form.submit(class="btn btn-success rounded-pill px-5 py-2 fw-semibold") }}
+      <a href="{{ next_url or url_for('main.view_recipe', recipe_id=recipe.id) }}"
+         class="btn btn-outline-secondary rounded-pill px-4 py-2 ms-3">Cancel</a>
+    </div>
+  </form>
+</section>
+
+<script>
+  function previewImage(event) {
+    const fileInput = event.target;
+    const preview = document.getElementById("image-preview");
+    const container = document.getElementById("new-image-preview-container");
+
+    if (fileInput.files && fileInput.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        preview.src = e.target.result;
+        preview.classList.remove("d-none");
+        container.classList.remove("d-none");
+      };
+      reader.readAsDataURL(fileInput.files[0]);
+    }
+  }
+</script>
 
 {% endblock %}
+
 

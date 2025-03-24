@@ -4,51 +4,61 @@
 <section class="container py-5">
   <h2 class="text-center fw-bold mb-4 text-primary">📝 Add a New Recipe</h2>
 
-  <form method="POST" action="{{ url_for('main.add_recipe', next=next_url) }}" enctype="multipart/form-data" class="row g-4 bg-white shadow-sm p-4 rounded-4">
+  <form method="POST" action="{{ url_for('main.add_recipe', next=next_url) }}"
+        enctype="multipart/form-data"
+        class="row g-4 bg-white shadow-sm p-4 rounded-4 needs-validation" novalidate>
+
     {{ form.hidden_tag() }}
 
+    <!-- 🔤 Title & Cuisine -->
     <div class="col-md-6">
-      <label for="{{ form.title.id }}" class="form-label fw-semibold">{{ form.title.label }}</label>
-      {{ form.title(class="form-control rounded-pill px-4 py-2") }}
+      <label for="{{ form.title.id }}" class="form-label fw-semibold">📌 {{ form.title.label }}</label>
+      {{ form.title(class="form-control rounded-pill px-4 py-2", required=True) }}
     </div>
 
     <div class="col-md-6">
-      <label for="{{ form.cuisine.id }}" class="form-label fw-semibold">{{ form.cuisine.label }}</label>
+      <label for="{{ form.cuisine.id }}" class="form-label fw-semibold">🌍 {{ form.cuisine.label }}</label>
       {{ form.cuisine(class="form-control rounded-pill px-4 py-2") }}
     </div>
 
+    <!-- 🕒 Prep Time / Difficulty / Image -->
     <div class="col-md-4">
-      <label for="{{ form.prep_time.id }}" class="form-label fw-semibold">{{ form.prep_time.label }}</label>
+      <label for="{{ form.prep_time.id }}" class="form-label fw-semibold">⏱ {{ form.prep_time.label }}</label>
       {{ form.prep_time(class="form-control rounded-pill px-4 py-2") }}
     </div>
 
     <div class="col-md-4">
-      <label for="{{ form.difficulty.id }}" class="form-label fw-semibold">{{ form.difficulty.label }}</label>
+      <label for="{{ form.difficulty.id }}" class="form-label fw-semibold">⚙️ {{ form.difficulty.label }}</label>
       {{ form.difficulty(class="form-select rounded-pill px-4 py-2") }}
     </div>
 
     <div class="col-md-4">
-      <label for="{{ form.image.id }}" class="form-label fw-semibold">{{ form.image.label }}</label>
-      {{ form.image(class="form-control rounded-pill px-4 py-2") }}
+      <label for="{{ form.image.id }}" class="form-label fw-semibold">📸 {{ form.image.label }}</label>
+      {{ form.image(class="form-control rounded-pill px-4 py-2", onchange="previewImage(event)") }}
+      <img id="image-preview" class="img-fluid mt-2 rounded-3 d-none" style="max-height: 150px;">
     </div>
 
+    <!-- ✍️ Description -->
     <div class="col-12">
-      <label for="{{ form.description.id }}" class="form-label fw-semibold">{{ form.description.label }}</label>
+      <label for="{{ form.description.id }}" class="form-label fw-semibold">📝 {{ form.description.label }}</label>
       {{ form.description(class="form-control rounded-4 px-4 py-2", rows="3") }}
     </div>
 
+    <!-- 🧅 Ingredients -->
     <div class="col-12">
-      <label for="{{ form.ingredients.id }}" class="form-label fw-semibold">{{ form.ingredients.label }}</label>
-      {{ form.ingredients(class="form-control rounded-4 px-4 py-2", rows="3") }}
+      <label for="{{ form.ingredients.id }}" class="form-label fw-semibold">🥦 {{ form.ingredients.label }}</label>
+      {{ form.ingredients(class="form-control rounded-4 px-4 py-2", rows="3", placeholder="List ingredients line by line...") }}
     </div>
 
+    <!-- 🍳 Steps -->
     <div class="col-12">
-      <label for="{{ form.steps.id }}" class="form-label fw-semibold">{{ form.steps.label }}</label>
-      {{ form.steps(class="form-control rounded-4 px-4 py-2", rows="3") }}
+      <label for="{{ form.steps.id }}" class="form-label fw-semibold">👨‍🍳 {{ form.steps.label }}</label>
+      {{ form.steps(class="form-control rounded-4 px-4 py-2", rows="3", placeholder="Step-by-step instructions...") }}
     </div>
 
+    <!-- 🏷 Categories -->
     <div class="col-12">
-      <label class="form-label fw-semibold">{{ form.categories.label }}</label>
+      <label class="form-label fw-semibold">📂 {{ form.categories.label }}</label>
       <div class="d-flex flex-wrap gap-3">
         {% for subfield in form.categories %}
           <div class="form-check">
@@ -59,14 +69,44 @@
       </div>
     </div>
 
-    <div class="col-12 text-center mt-3">
+    <!-- 🎯 Submit / Cancel -->
+    <div class="col-12 text-center mt-4">
       {{ form.submit(class="btn btn-success rounded-pill px-5 py-2 fw-semibold") }}
       <a href="{{ next_url or url_for('main.home') }}" class="btn btn-outline-secondary rounded-pill px-4 py-2 ms-3">Cancel</a>
     </div>
   </form>
 </section>
 
+<!-- 📸 Image Preview Script -->
+<script>
+  function previewImage(event) {
+    const input = event.target;
+    const preview = document.getElementById("image-preview");
+    const file = input.files[0];
+
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        preview.src = e.target.result;
+        preview.classList.remove("d-none");
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // Optional: Bootstrap validation
+  (() => {
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>
+
 {% endblock %}
-
-
-
