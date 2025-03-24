@@ -1,15 +1,245 @@
 
-        body { font-family: 'Inter', sans-serif; background-color: #FDF8F3; color: #3B302A; }
-        .navbar { background-color: #A0522D !important; }
-        .navbar-brand, .nav-link { color: white !important; font-weight: 500; }
-        .nav-link:hover { color: #FFB347 !important; }
-        .btn-primary { background-color: #A0522D; border-color: #A0522D; }
-        .btn-primary:hover { background-color: #814421; border-color: #814421; }
-        .alert { border-radius: 8px; }
-        .container { max-width: 960px; }
+     /* 🌟 Global Typography & Base Styles */
+body {
+    font-size: 16.5px;
+    line-height: 1.7;
+    font-family: 'Inter', sans-serif;
+    color: #3b302a;
+    background-color: #fdf8f3;
+  }
+  
+  h1, h2, h3, h4, h5 {
+    letter-spacing: -0.3px;
+  }
+
+  
+  /* 🎨 Hero Section page */
+  .hero-section {
+    background: linear-gradient(135deg, #a0522d, #ffb347);
+    border-radius: 20px;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  }
+  
+  .hero-section .btn {
+    font-size: 1rem;
+    padding: 12px 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+  }
+  .hero-section .btn:hover {
+    transform: scale(1.05);
+  }
+
+  
+  /* 🔍 Filter Section */
+  form.bg-white {
+    border-radius: 20px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+    transition: all 0.3s ease-in-out;
+  }
+  form.bg-white:hover {
+    transform: scale(1.01);
+  }
+  
+  form label {
+    font-weight: 600;
+    color: #5a463c;
+  }
+  
+  form input,
+  form select {
+    border-radius: 50px;
+    transition: all 0.2s ease;
+  }
+  form input:focus,
+  form select:focus {
+    border-color: #a0522d;
+    box-shadow: 0 0 0 0.15rem rgba(160, 82, 45, 0.25);
+  }
+
+  
+  /* 🧾 Recipe Cards */
+  .card {
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  }
+  .card h5 {
+    font-weight: 600;
+    color: #3b302a;
+  }
+  .card .btn {
+    border-radius: 50px;
+  }
+
+
+  /* 📂 browse_category page  */
+.card-category {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 16px;
+    background: #fffdfa;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid #f0e5dc;
+  }
+  .card-category:hover {
+    transform: translateY(-6px);
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(255, 181, 107, 0.15);
+    border-color: #ffcf9f;
+  }
+  /* 🎨 Add soft pastel backgrounds for variety */
+.card-category:nth-child(3n) {
+    background: #fff9f4;
+  }
+  .card-category:nth-child(3n+1) {
+    background: #fefcf6;
+  }
+  .card-category:nth-child(3n+2) {
+    background: #fcfefe;
+  }
+  .card-category h5 {
+    font-weight: 600;
+    color: #3b302a;
+    margin-bottom: 0.75rem;
+  }
+  .card-category .btn {
+    border-radius: 50px;
+    font-weight: 500;
+    padding: 6px 18px;
+  }
+  
+  
+  .category-section h2 {
+    font-size: 2rem;
+    color: #a0522d;
+  }
+  .category-section p {
+    color: #7a6d64;
+    max-width: 600px;
+    margin: 0 auto 40px;
+  }
+  
+  
+  /* 🏷️ Category Badges */
+  .badge {
+    font-size: 0.75rem;
+    padding: 5px 12px;
+    border-radius: 50px;
+  }
+  .badge.bg-info {
+    background: linear-gradient(to right, #c5f0f4, #90e0ef);
+    color: #004b5c;
+  }
+  .badge.bg-warning {
+    background: linear-gradient(to right, #ffe29a, #ffc107);
+    color: #5f4c00;
+  }
+
+  /* 📝 Add_Recipe page */
+form {
+    max-width: 850px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  }
+  
+  /* ✍️ Labels and Inputs */
+  form .form-label {
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #3b302a;
+  }
+  
+  form .form-control,
+  form .form-select {
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    border: 1px solid #ddd;
+    transition: 0.2s ease;
+  }
+  
+  form .form-control:focus,
+  form .form-select:focus {
+    border-color: #a0522d;
+    box-shadow: 0 0 0 0.15rem rgba(160, 82, 45, 0.15);
+  }
+  
+  /* 🧾 Textareas */
+  textarea.form-control {
+    min-height: 120px;
+  }
+  
+  /* 📂 Section Styling */
+  .form-section-title {
+    font-size: 1.2rem;
+    margin-top: 30px;
+    color: #a0522d;
+    font-weight: 600;
+  }
+  
+  /* ✅ Button Group */
+  form .btn {
+    padding: 10px 24px;
+    font-weight: 600;
+    border-radius: 50px;
+  }
+  
+
+/* Profile page */
+  .profile-header {
+    background: linear-gradient(to right, #a0522d, #ffb347);
+    color: white;
+    border-radius: 16px;
+    padding: 30px 20px;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  .profile-header h3 {
+    margin-bottom: 0;
+    font-weight: 700;
+  }
+  .recipe-link:hover {
+    text-decoration: underline;
+    color: #a0522d;
+  }
+  .list-group-item {
+    border: none;
+    border-bottom: 1px solid #eee;
+    border-radius: 12px;
+    transition: background 0.2s ease;
+  }
+  .list-group-item:hover {
+    background: #fff7f0;
+  }
+  
+  
+  
+  /* 🌐 Utility */
+  .rounded-4 {
+    border-radius: 1rem !important;
+  }
+  .rounded-pill {
+    border-radius: 50rem !important;
+  }
+  .shadow-sm {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04) !important;
+  }
+  .text-shadow {
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  }
+
     
         /* Footer */
-        
+
         .site-footer {
             background-color: #fff5ec;
             padding: 40px 0 20px;
@@ -59,3 +289,18 @@
             font-size: 0.85rem;
           }
           
+        .site-footer {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid #e2cfc3;
+            background: #fff5ec;
+            font-size: 0.95rem;
+        }
+        .footer-bottom {
+            color: #a27c68;
+            font-size: 0.85rem;
+            padding-bottom: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+  
