@@ -1,78 +1,72 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container">
-    <h2 class="mb-4">Add a New Recipe</h2>
 
-    <form method="POST" action="{{ url_for('main.add_recipe', next=next_url) }}" enctype="multipart/form-data" class="row g-3">
-        {{ form.hidden_tag() }}
+<section class="container py-5">
+  <h2 class="text-center fw-bold mb-4 text-primary">📝 Add a New Recipe</h2>
 
-        <!-- Title -->
-        <div class="col-md-6">
-            <label for="{{ form.title.id }}" class="form-label">{{ form.title.label }}</label>
-            {{ form.title(class="form-control") }}
-        </div>
+  <form method="POST" action="{{ url_for('main.add_recipe', next=next_url) }}" enctype="multipart/form-data" class="row g-4 bg-white shadow-sm p-4 rounded-4">
+    {{ form.hidden_tag() }}
 
-        <!-- Cuisine -->
-        <div class="col-md-6">
-            <label for="{{ form.cuisine.id }}" class="form-label">{{ form.cuisine.label }}</label>
-            {{ form.cuisine(class="form-control") }}
-        </div>
+    <div class="col-md-6">
+      <label for="{{ form.title.id }}" class="form-label fw-semibold">{{ form.title.label }}</label>
+      {{ form.title(class="form-control rounded-pill px-4 py-2") }}
+    </div>
 
-        <!-- Prep Time -->
-        <div class="col-md-4">
-            <label for="{{ form.prep_time.id }}" class="form-label">{{ form.prep_time.label }}</label>
-            {{ form.prep_time(class="form-control") }}
-        </div>
+    <div class="col-md-6">
+      <label for="{{ form.cuisine.id }}" class="form-label fw-semibold">{{ form.cuisine.label }}</label>
+      {{ form.cuisine(class="form-control rounded-pill px-4 py-2") }}
+    </div>
 
-        <!-- Difficulty -->
-        <div class="col-md-4">
-            <label for="{{ form.difficulty.id }}" class="form-label">{{ form.difficulty.label }}</label>
-            {{ form.difficulty(class="form-select") }}
-        </div>
+    <div class="col-md-4">
+      <label for="{{ form.prep_time.id }}" class="form-label fw-semibold">{{ form.prep_time.label }}</label>
+      {{ form.prep_time(class="form-control rounded-pill px-4 py-2") }}
+    </div>
 
-        <!-- Image -->
-        <div class="col-md-4">
-            <label for="{{ form.image.id }}" class="form-label">{{ form.image.label }}</label>
-            {{ form.image(class="form-control") }}
-        </div>
+    <div class="col-md-4">
+      <label for="{{ form.difficulty.id }}" class="form-label fw-semibold">{{ form.difficulty.label }}</label>
+      {{ form.difficulty(class="form-select rounded-pill px-4 py-2") }}
+    </div>
 
-        <!-- Description -->
-        <div class="col-12">
-            <label for="{{ form.description.id }}" class="form-label">{{ form.description.label }}</label>
-            {{ form.description(class="form-control", rows="3") }}
-        </div>
+    <div class="col-md-4">
+      <label for="{{ form.image.id }}" class="form-label fw-semibold">{{ form.image.label }}</label>
+      {{ form.image(class="form-control rounded-pill px-4 py-2") }}
+    </div>
 
-        <!-- Ingredients -->
-        <div class="col-12">
-            <label for="{{ form.ingredients.id }}" class="form-label">{{ form.ingredients.label }}</label>
-            {{ form.ingredients(class="form-control", rows="3") }}
-        </div>
+    <div class="col-12">
+      <label for="{{ form.description.id }}" class="form-label fw-semibold">{{ form.description.label }}</label>
+      {{ form.description(class="form-control rounded-4 px-4 py-2", rows="3") }}
+    </div>
 
-        <!-- Steps -->
-        <div class="col-12">
-            <label for="{{ form.steps.id }}" class="form-label">{{ form.steps.label }}</label>
-            {{ form.steps(class="form-control", rows="3") }}
-        </div>
+    <div class="col-12">
+      <label for="{{ form.ingredients.id }}" class="form-label fw-semibold">{{ form.ingredients.label }}</label>
+      {{ form.ingredients(class="form-control rounded-4 px-4 py-2", rows="3") }}
+    </div>
 
-        <!-- Categories -->
-        <div class="col-12">
-            <label class="form-label"><strong>{{ form.categories.label }}</strong></label>
-            <div class="d-flex flex-wrap gap-2">
-                {% for subfield in form.categories %}
-                    <div class="form-check me-3">
-                        {{ subfield(class="form-check-input") }}
-                        {{ subfield.label(class="form-check-label") }}
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
+    <div class="col-12">
+      <label for="{{ form.steps.id }}" class="form-label fw-semibold">{{ form.steps.label }}</label>
+      {{ form.steps(class="form-control rounded-4 px-4 py-2", rows="3") }}
+    </div>
 
-        <!-- Submit & Cancel -->
-        <div class="col-12">
-            {{ form.submit(class="btn btn-success") }}
-            <a href="{{ next_url or url_for('main.home') }}" class="btn btn-outline-secondary ms-2">Cancel</a>
-        </div>
-    </form>
-</div>
+    <div class="col-12">
+      <label class="form-label fw-semibold">{{ form.categories.label }}</label>
+      <div class="d-flex flex-wrap gap-3">
+        {% for subfield in form.categories %}
+          <div class="form-check">
+            {{ subfield(class="form-check-input") }}
+            {{ subfield.label(class="form-check-label") }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-12 text-center mt-3">
+      {{ form.submit(class="btn btn-success rounded-pill px-5 py-2 fw-semibold") }}
+      <a href="{{ next_url or url_for('main.home') }}" class="btn btn-outline-secondary rounded-pill px-4 py-2 ms-3">Cancel</a>
+    </div>
+  </form>
+</section>
+
 {% endblock %}
+
+
 
