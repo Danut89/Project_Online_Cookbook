@@ -1,0 +1,61 @@
+
+        body { font-family: 'Inter', sans-serif; background-color: #FDF8F3; color: #3B302A; }
+        .navbar { background-color: #A0522D !important; }
+        .navbar-brand, .nav-link { color: white !important; font-weight: 500; }
+        .nav-link:hover { color: #FFB347 !important; }
+        .btn-primary { background-color: #A0522D; border-color: #A0522D; }
+        .btn-primary:hover { background-color: #814421; border-color: #814421; }
+        .alert { border-radius: 8px; }
+        .container { max-width: 960px; }
+    
+        /* Footer */
+        
+        .site-footer {
+            background-color: #fff5ec;
+            padding: 40px 0 20px;
+            border-top: 2px solid #e2cfc3;
+            font-size: 0.95rem;
+            color: #3b302a;
+            margin-top: 40px;
+          }
+          
+          .footer-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+            margin-bottom: 20px;
+          }
+          
+          .site-footer h5,
+          .site-footer h6 {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #a0522d;
+          }
+          
+          .site-footer ul {
+            list-style: none;
+            padding: 0;
+          }
+          
+          .site-footer ul li {
+            margin-bottom: 8px;
+          }
+          
+          .site-footer ul li a {
+            text-decoration: none;
+            color: #3b302a;
+            transition: color 0.3s;
+          }
+          
+          .site-footer ul li a:hover {
+            color: #ffb347;
+          }
+          
+          .footer-bottom {
+            text-align: center;
+            color: #7a6d64;
+            font-size: 0.85rem;
+          }
+          
