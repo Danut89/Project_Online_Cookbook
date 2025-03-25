@@ -63,7 +63,7 @@
       </div>
     </div>
 
-    <!-- 📸 Image -->
+    <!-- 📸 Image Upload and Preview -->
     <div class="col-md-6">
       <label for="{{ form.image.id }}" class="form-label fw-semibold">📷 {{ form.image.label }}</label>
       {{ form.image(class="form-control rounded-pill px-4 py-2", onchange="previewImage(event)") }}
@@ -108,5 +108,7 @@
 </script>
 
 {% endblock %}
+
+
 
 
