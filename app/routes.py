@@ -256,10 +256,46 @@ def delete_comment(comment_id):
     return redirect(url_for('main.view_recipe', recipe_id=comment.recipe_id))
 
 # 🔍 View all categories
-@main.route('/categories')
-def browse_categories():
+@main.route('/browse')
+def browse_recipes():
+    query = request.args.get('q', '')
+    category = request.args.get('category', '')
+    difficulty = request.args.get('difficulty', '')
+    page = request.args.get('page', 1, type=int)
+
+    # Start base query
+    recipes_query = Recipe.query
+
+    if query:
+        recipes_query = recipes_query.filter(
+            or_(
+                Recipe.title.ilike(f"%{query}%"),
+                Recipe.cuisine.ilike(f"%{query}%"),
+                Recipe.description.ilike(f"%{query}%")
+            )
+        )
+
+    if category:
+        recipes_query = recipes_query.join(Recipe.categories).filter(Category.name == category)
+
+    if difficulty:
+        recipes_query = recipes_query.filter(Recipe.difficulty == difficulty)
+
+    # Pagination
+    recipes_paginated = recipes_query.order_by(Recipe.created_at.desc()).paginate(page=page, per_page=6)
+
+    # Pass available categories and difficulties for filters
     categories = Category.query.order_by(Category.name).all()
-    return render_template('browse_categories.html', categories=categories)
+    difficulties = ['Easy', 'Medium', 'Hard']
+
+    return render_template('browse_recipes.html',
+                           recipes=recipes_paginated,
+                           categories=categories,
+                           selected_category=category,
+                           selected_difficulty=difficulty,
+                           query=query,
+                           difficulties=difficulties)
+
 
 # 📂 View all recipes in a specific category
 @main.route('/category/<string:category_name>')
@@ -270,12 +306,10 @@ def recipes_by_category(category_name):
     categories = Category.query.order_by(Category.name).all()
 
     return render_template(
-        'home.html',
-        recipes=recipes,
-        featured_recipes=featured_recipes,
-        selected_category=category.name,
-        categories=categories
-    )
+    'browse_recipes.html',
+    recipes=recipes,
+    selected_category=category.name
+)
 
 
 from functools import wraps

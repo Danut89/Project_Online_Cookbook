@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="container py-5">
+
+  <!-- 🧭 Page Heading -->
+  <div class="text-center mb-5">
+    <h1 class="fw-bold text-primary">🔎 Browse All Recipes</h1>
+    <p class="text-muted">Search, filter, and discover recipes from the community.</p>
+  </div>
+
+  <!-- 🔍 Filter Form -->
+  <form method="GET" class="row g-3 align-items-end mb-4">
+    <div class="col-md-4">
+      <label class="form-label fw-semibold">Search</label>
+      <input type="text" name="q" class="form-control" placeholder="e.g. pasta, vegan..." value="{{ query }}">
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label fw-semibold">Category</label>
+      <select name="category" class="form-select">
+        <option value="">All</option>
+        {% for cat in categories %}
+          <option value="{{ cat.name }}" {% if selected_category == cat.name %}selected{% endif %}>{{ cat.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label fw-semibold">Difficulty</label>
+      <select name="difficulty" class="form-select">
+        <option value="">All</option>
+        {% for diff in difficulties %}
+          <option value="{{ diff }}" {% if selected_difficulty == diff %}selected{% endif %}>{{ diff }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <button class="btn btn-primary w-100">Apply</button>
+    </div>
+  </form>
+
+  <!-- 🍽️ Recipe Results -->
+  <div class="row g-4">
+    {% if recipes.items %}
+      {% for recipe in recipes.items %}
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm border-0 rounded-4">
+            <img src="{{ recipe.image_url or url_for('static', filename='uploads/default_recipe.jpg') }}"
+                 class="card-img-top rounded-top-4" style="height: 200px; object-fit: cover;">
+            <div class="card-body d-flex flex-column">
+              <h5 class="fw-bold">{{ recipe.title }}</h5>
+              <p class="text-muted small mb-2">{{ recipe.description[:90] }}...</p>
+              <div class="d-flex justify-content-between small mb-2">
+                <span class="badge bg-secondary">{{ recipe.cuisine }}</span>
+                <span class="badge bg-warning text-dark">{{ recipe.difficulty }}</span>
+              </div>
+              <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}"
+                 class="btn btn-outline-primary rounded-pill mt-auto">View Recipe</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="col-12 text-center">
+        <p class="text-muted">No recipes found. Try adjusting your filters.</p>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- 📄 Pagination -->
+  {% if recipes.pages > 1 %}
+    <nav class="mt-5">
+      <ul class="pagination justify-content-center">
+        {% if recipes.has_prev %}
+          <li class="page-item">
+            <a class="page-link" href="{{ url_for('main.browse_recipes', page=recipes.prev_num, q=query, category=selected_category, difficulty=selected_difficulty) }}">Previous</a>
+          </li>
+        {% endif %}
+        {% for page_num in recipes.iter_pages() %}
+          {% if page_num %}
+            <li class="page-item {% if recipes.page == page_num %}active{% endif %}">
+              <a class="page-link" href="{{ url_for('main.browse_recipes', page=page_num, q=query, category=selected_category, difficulty=selected_difficulty) }}">{{ page_num }}</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">…</span></li>
+          {% endif %}
+        {% endfor %}
+        {% if recipes.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="{{ url_for('main.browse_recipes', page=recipes.next_num, q=query, category=selected_category, difficulty=selected_difficulty) }}">Next</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+
+</section>
+
+{% endblock %}
+
