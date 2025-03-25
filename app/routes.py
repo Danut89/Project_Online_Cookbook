@@ -42,10 +42,22 @@ def home():
     if cuisine:
         recipes_query = recipes_query.filter(Recipe.cuisine.ilike(f"%{cuisine}%"))
 
-    # Paginate
-    recipes = recipes_query.order_by(Recipe.created_at.desc()).paginate(page=page, per_page=6)
+    # Paginate results for normal listing
+    recipes_paginated = recipes_query.order_by(Recipe.created_at.desc()).paginate(page=page, per_page=6)
 
-    return render_template('home.html', recipes=recipes)
+    # Get all for featured and random pick
+    all_recipes = recipes_query.all()
+
+    # Get all categories
+    categories = Category.query.order_by(Category.name).all()
+
+    return render_template(
+        'home.html',
+        recipes=recipes_paginated,
+        featured_recipes=all_recipes,
+        categories=categories
+    )
+
 
 @main.route('/recipe/<int:recipe_id>', methods=['GET', 'POST'])
 def view_recipe(recipe_id):
@@ -117,17 +129,19 @@ def add_recipe():
 def edit_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
 
+    # Only the author can edit
     if recipe.user_id != current_user.id:
         flash("You don't have permission to edit this recipe.", "danger")
-        return redirect(url_for('main.home'))
+        return redirect(url_for('main.view_recipe', recipe_id=recipe.id))
 
     form = RecipeForm(obj=recipe)
-    next_url = request.args.get('next') or url_for('main.view_recipe', recipe_id=recipe.id)
 
+    # Pre-select categories for GET
     if request.method == 'GET':
         form.categories.data = [c.id for c in recipe.categories]
 
     if form.validate_on_submit():
+        # Update fields
         recipe.title = form.title.data
         recipe.description = form.description.data
         recipe.ingredients = form.ingredients.data
@@ -135,16 +149,22 @@ def edit_recipe(recipe_id):
         recipe.cuisine = form.cuisine.data
         recipe.prep_time = form.prep_time.data
         recipe.difficulty = form.difficulty.data
+
+        # Update categories
         recipe.categories = Category.query.filter(Category.id.in_(form.categories.data)).all()
 
+        # Save new image if uploaded
         if form.image.data:
-            recipe.image_url = save_uploaded_image(form.image.data)
+            image_url = save_uploaded_image(form.image.data)
+            recipe.image_url = image_url
 
         db.session.commit()
         flash('Recipe updated successfully!', 'success')
-        return redirect(next_url)
+        return redirect(url_for('main.view_recipe', recipe_id=recipe.id))
 
-    return render_template('edit_recipe.html', form=form, recipe=recipe, next_url=next_url)
+    return render_template('edit_recipe.html', form=form, recipe=recipe)
+
+
 
 
 

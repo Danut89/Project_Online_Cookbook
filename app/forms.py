@@ -46,7 +46,7 @@ class RecipeForm(FlaskForm):
     cuisine = StringField('Cuisine', validators=[DataRequired(), Length(max=100)])
     prep_time = IntegerField('Prep Time (minutes)', validators=[DataRequired(), NumberRange(min=1)])
     difficulty = SelectField('Difficulty', choices=[('Easy', 'Easy'), ('Medium', 'Medium'), ('Hard', 'Hard')], validators=[DataRequired()])
-    image = FileField('Recipe Image', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'gif'])])
+    image = FileField('Recipe Image', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'gif', 'webp'])])
     categories = MultiCheckboxField('Categories', coerce=int)
     submit = SubmitField('Add Recipe')
 

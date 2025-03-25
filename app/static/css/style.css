@@ -95,3 +95,57 @@ textarea.form-control {
 .dashboard-card.recipes { border-color: #198754; }
 .dashboard-card.comments { border-color: #ffc107; }
 .dashboard-card.likes { border-color: #dc3545; }
+
+/* === Global Enhancements === */
+body {
+  background-color: #fefcf9;
+  color: #333;
+}
+
+h1, h2, h3, h4 {
+  color: #2c2c2c;
+}
+
+a {
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: #ff5722;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #e64a19;
+}
+
+.btn-success {
+  background-color: #4caf50;
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #388e3c;
+}
+
+.badge {
+  font-weight: 500;
+  padding: 0.5em 0.75em;
+  font-size: 0.9rem;
+}
+
+.card:hover {
+  transform: scale(1.02);
+  transition: 0.3s ease;
+}
+
+/* Section Spacing & Color Separation */
+section {
+  margin-bottom: 4rem;
+}
+
+section:nth-child(even) {
+  background-color: #fcf8f2;
+  padding: 2rem 0;
+  border-radius: 1rem;
+}

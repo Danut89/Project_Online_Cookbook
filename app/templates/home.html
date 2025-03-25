@@ -1,88 +1,125 @@
 {% extends "base.html" %}
 {% block content %}
 
-<!-- 🌟 Hero Section -->
-<section class="hero-section text-white text-center py-5 mb-5" style="background: linear-gradient(to right, #a0522d, #ffb347); border-radius: 1rem;">
+<!-- 🔝 Hero Section -->
+<section class="py-5 text-center bg-white rounded-4 shadow-sm mb-5">
   <div class="container">
-    <h1 class="display-4 fw-bold">Discover & Share Incredible Recipes</h1>
-    <p class="lead">A community-powered cookbook for food lovers everywhere.</p>
-    <a href="{{ url_for('main.add_recipe') }}" class="btn btn-light btn-lg mt-3 fw-semibold rounded-pill px-4">🍳 Add Your Recipe</a>
+    <h1 class="display-5 fw-bold text-primary">Discover & Share Incredible Recipes</h1>
+    <p class="lead text-muted">Join a growing community of food lovers exchanging their favorite dishes from around the world.</p>
+    <div class="mt-4">
+      <a href="{{ url_for('main.home') }}" class="btn btn-primary rounded-pill px-4 me-2">🍽 Browse Recipes</a>
+      <a href="{{ url_for('main.add_recipe') }}" class="btn btn-success rounded-pill px-4">➕ Add Your Recipe</a>
+    </div>
   </div>
 </section>
 
-<!-- 🔍 Filter & Search Bar -->
-<section class="container mb-5">
-  <form method="GET" action="{{ url_for('main.home') }}" class="p-4 bg-white shadow-sm rounded-4">
-    <div class="row g-3 align-items-end">
-      <div class="col-md-6">
-        <label for="searchQuery" class="form-label fw-semibold">🔍 Search Recipes</label>
-        <input id="searchQuery" type="text" name="q" class="form-control rounded-pill px-4"
-               placeholder="e.g. Pasta, Vegan..." value="{{ request.args.get('q', '') }}">
-      </div>
-      <div class="col-md-3">
-        <label for="cuisineFilter" class="form-label fw-semibold">🍝 Cuisine</label>
-        <input id="cuisineFilter" type="text" name="cuisine" class="form-control rounded-pill px-4"
-               placeholder="e.g. Italian, Asian" value="{{ request.args.get('cuisine', '') }}">
-      </div>
-      <div class="col-md-2">
-        <label for="difficultySelect" class="form-label fw-semibold">⚙️ Difficulty</label>
-        <select id="difficultySelect" name="difficulty" class="form-select rounded-pill px-4">
-          <option value="">All</option>
-          <option value="Easy" {% if request.args.get('difficulty') == 'Easy' %}selected{% endif %}>Easy</option>
-          <option value="Medium" {% if request.args.get('difficulty') == 'Medium' %}selected{% endif %}>Medium</option>
-          <option value="Hard" {% if request.args.get('difficulty') == 'Hard' %}selected{% endif %}>Hard</option>
-        </select>
-      </div>
-      <div class="col-md-1 d-grid">
-        <button type="submit" class="btn btn-primary rounded-pill fw-bold">Apply</button>
-      </div>
-    </div>
-  </form>
-  {% if request.args %}
-    <div class="mt-2 text-end">
-      <a href="{{ url_for('main.home') }}" class="btn btn-sm btn-outline-secondary rounded-pill">Clear Filters</a>
-    </div>
-  {% endif %}
-</section>
-
-<!-- 🧾 Recipe Grid -->
-<section class="container pb-5">
-  {% if recipes %}
+<!-- 🌟 Featured Recipes -->
+<section class="mb-5">
+  <div class="container">
+    <h2 class="fw-bold mb-4">🌟 Featured Recipes</h2>
     <div class="row g-4">
-      {% for recipe in recipes %}
-        <div class="col-sm-6 col-md-4">
-          <div class="card h-100 shadow-sm border-0 rounded-4">
-            {% if recipe.image_url %}
-              <img src="{{ recipe.image_url }}" class="card-img-top rounded-top-4" alt="{{ recipe.title }}" style="height: 200px; object-fit: cover;">
-            {% else %}
-              <img src="{{ url_for('static', filename='uploads/default_recipe.jpg') }}" class="card-img-top rounded-top-4" alt="Default recipe image" style="height: 200px; object-fit: cover;">
-            {% endif %}
-            <div class="card-body d-flex flex-column">
-              <h5 class="fw-semibold text-dark">{{ recipe.title }}</h5>
-              <p class="text-muted small mb-2">{{ recipe.description[:90] }}...</p>
-              <div class="mb-2">
-                {% if recipe.categories %}
-                  {% for cat in recipe.categories %}
-                    <span class="badge bg-info text-dark rounded-pill me-1">{{ cat.name }}</span>
-                  {% endfor %}
-                {% endif %}
-                {% if recipe.difficulty %}
-                  <span class="badge bg-warning text-dark rounded-pill">{{ recipe.difficulty }}</span>
-                {% endif %}
-              </div>
-              <div class="mt-auto">
-                <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}" class="btn btn-outline-primary w-100 rounded-pill fw-semibold">View Recipe</a>
-              </div>
+      {% for recipe in featured_recipes[:3] %}
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm rounded-4 border-0">
+          <img src="{{ recipe.image_url or url_for('static', filename='uploads/default_recipe.jpg') }}"
+               class="card-img-top rounded-top-4" style="height: 200px; object-fit: cover;">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title fw-semibold">{{ recipe.title }}</h5>
+            <p class="text-muted small">{{ recipe.description[:90] }}...</p>
+            <div class="mt-auto">
+              <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}"
+                 class="btn btn-outline-primary rounded-pill w-100 fw-semibold">View Recipe</a>
             </div>
           </div>
         </div>
+      </div>
       {% endfor %}
     </div>
-  {% else %}
-    <div class="alert alert-info shadow-sm rounded-pill text-center">
-      No recipes found. <a href="{{ url_for('main.add_recipe') }}">Add one here</a>!
+  </div>
+</section>
+
+<!-- 🏷 Popular Categories -->
+<section class="mb-5">
+  <div class="container">
+    <h2 class="fw-bold mb-4">🏷 Popular Categories</h2>
+    <div class="d-flex flex-wrap gap-2">
+      {% for category in categories %}
+        <a href="{{ url_for('main.recipes_by_category', category_name=category.name) }}"
+           class="badge bg-secondary-subtle border text-dark rounded-pill px-3 py-2 text-decoration-none">
+          #{{ category.name }}
+        </a>
+      {% endfor %}
     </div>
-  {% endif %}
+  </div>
+</section>
+
+<!-- 💬 Community Highlights -->
+<section class="mb-5">
+  <div class="container">
+    <h2 class="fw-bold mb-4">💬 Community Highlights</h2>
+    <p class="text-muted">Top contributors and most active members coming soon!</p>
+  </div>
+</section>
+
+<!-- 🧾 Recipe of the Day -->
+{% if featured_recipes %}
+  {% set recipe = featured_recipes|random %}
+  <section class="mb-5">
+    <div class="container">
+      <h2 class="fw-bold mb-4">🧾 Recipe of the Day</h2>
+      <div class="card shadow-sm rounded-4 border-0">
+        <img src="{{ url_for('static', filename='../static/uploads/pexels-abhinavcoca-291528.jpg') }}"
+       class="card-img-top rounded-top-4" style="height: 300px; object-fit: cover;">
+
+        <div class="card-body">
+          <h4 class="fw-bold">{{ recipe.title }}</h4>
+          <p class="text-muted">{{ recipe.description[:120] }}...</p>
+          <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}"
+             class="btn btn-outline-primary rounded-pill fw-semibold">🌟 View Full Recipe</a>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+
+<!-- 🗣️ Testimonials -->
+<section class="mb-5 bg-light py-5">
+  <div class="container">
+    <h2 class="fw-bold mb-4 text-center">🗣️ What Our Users Say</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <blockquote class="blockquote p-4 bg-white rounded-4 shadow-sm h-100">
+          <p>"This cookbook has completely changed the way I cook!"</p>
+          <footer class="blockquote-footer">Maria T.</footer>
+        </blockquote>
+      </div>
+      <div class="col-md-4">
+        <blockquote class="blockquote p-4 bg-white rounded-4 shadow-sm h-100">
+          <p>"I love sharing my family recipes and discovering new ones."</p>
+          <footer class="blockquote-footer">Luca B.</footer>
+        </blockquote>
+      </div>
+      <div class="col-md-4">
+        <blockquote class="blockquote p-4 bg-white rounded-4 shadow-sm h-100">
+          <p>"Simple, elegant, and full of delicious ideas."</p>
+          <footer class="blockquote-footer">Ayesha K.</footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 📬 Newsletter Signup -->
+<section class="bg-white border-top py-5">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-3">📬 Join Our Recipe Newsletter</h2>
+    <p class="text-muted">Get hand-picked recipes and cooking tips delivered to your inbox weekly!</p>
+    <form class="d-flex justify-content-center gap-2 mt-3">
+      <input type="email" class="form-control rounded-pill px-4 w-50" placeholder="Your email address">
+      <button type="submit" class="btn btn-primary rounded-pill px-4">Subscribe</button>
+    </form>
+  </div>
 </section>
 
 {% endblock %}
