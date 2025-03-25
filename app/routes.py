@@ -309,3 +309,9 @@ def manage_recipes():
     # Placeholder logic
     recipes = Recipe.query.all()
     return render_template('admin/manage_recipes.html', recipes=recipes)
+
+@main.route('/recipes')
+def all_recipes():
+    page = request.args.get('page', 1, type=int)
+    recipes = Recipe.query.order_by(Recipe.created_at.desc()).paginate(page=page, per_page=6)
+    return render_template('all_recipes.html', recipes=recipes)
