@@ -22,7 +22,7 @@
               {% elif 'vegetarian' in name %}🥗{% else %}🍴{% endif %}
               {{ category.name }}
             </h5>
-            <a href="{{ url_for('main.recipes_by_category', category_name=category.name) }}"
+            <a href="{{ url_for('main.recipes_by_category', category_name='Breakfast') }}"
                class="btn btn-outline-primary rounded-pill px-4 fw-semibold">View Recipes</a>
           </div>
         </div>

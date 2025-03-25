@@ -266,7 +266,17 @@ def browse_categories():
 def recipes_by_category(category_name):
     category = Category.query.filter_by(name=category_name).first_or_404()
     recipes = category.recipes.order_by(Recipe.created_at.desc()).all()
-    return render_template('home.html', recipes=recipes, selected_category=category.name)
+    featured_recipes = recipes[:3]  # Get top 3 from this category
+    categories = Category.query.order_by(Category.name).all()
+
+    return render_template(
+        'home.html',
+        recipes=recipes,
+        featured_recipes=featured_recipes,
+        selected_category=category.name,
+        categories=categories
+    )
+
 
 from functools import wraps
 from flask import abort
