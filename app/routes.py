@@ -253,13 +253,17 @@ def profile():
 def delete_comment(comment_id):
     comment = Comment.query.get_or_404(comment_id)
 
-    if comment.user_id != current_user.id:
+    if comment.user_id != current_user.id and not current_user.is_admin:
         flash("You are not authorized to delete this comment.", "error")
         return redirect(url_for('main.view_recipe', recipe_id=comment.recipe_id))
 
     db.session.delete(comment)
     db.session.commit()
     flash("Comment deleted.", "info")
+    # Redirect depending on where delete came from
+    if request.referrer and '/admin' in request.referrer:
+        return redirect(url_for('main.admin_dashboard'))
+    
     return redirect(url_for('main.view_recipe', recipe_id=comment.recipe_id))
 
 # 🔍 View all categories
@@ -346,10 +350,16 @@ def admin_required(f):
 @main.route('/admin')
 @admin_required
 def admin_dashboard():
+    # ✅ Fetch full lists (for count display)
     users = User.query.all()
     recipes = Recipe.query.all()
+
+    # ✅ Fetch limited for recent previews
+    recent_users = User.query.order_by(User.id.desc()).limit(3).all()
+    recent_recipes = Recipe.query.order_by(Recipe.created_at.desc()).limit(3).all()
+
     comments = Comment.query.all()
-    total_likes = Like.query.count()  # ✅ Add this line
+    total_likes = Like.query.count()
 
     # 🕒 Time-based analytics
     today = datetime.utcnow()
@@ -371,8 +381,15 @@ def admin_dashboard():
     return render_template('admin/dashboard.html',
                            users=users,
                            recipes=recipes,
+                           recent_users=recent_users,
+                           recent_recipes=recent_recipes,
                            comments=comments,
-                           total_likes=total_likes)
+                           total_likes=total_likes,
+                           recipes_this_week=recipes_this_week,
+                           recipes_this_month=recipes_this_month,
+                           most_liked_recipe=most_liked_recipe)
+
+
 
 @main.route('/admin/users')
 @admin_required
@@ -405,6 +422,8 @@ def demote_user(user_id):
     user.is_admin = False
     db.session.commit()
     flash(f'{user.username} has been demoted from admin.', 'info')
+    if request.referrer and '/admin' in request.referrer:
+        return redirect(url_for('main.admin_dashboard'))
     return redirect(url_for('main.manage_users'))
 
 @main.route('/admin/user/<int:user_id>/delete', methods=['POST'])
@@ -419,6 +438,16 @@ def delete_user(user_id):
     flash(f'User {user.username} has been deleted.', 'danger')
     return redirect(url_for('main.manage_users'))
 
+@main.route('/admin/comment/<int:comment_id>/delete', methods=['POST'])
+@admin_required
+def admin_delete_comment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+    db.session.delete(comment)
+    db.session.commit()
+    flash('Comment deleted by admin.', 'warning')
+
+    return redirect(url_for('main.admin_dashboard'))
+
 
 @main.route('/admin/recipes')
 @admin_required
@@ -426,8 +455,9 @@ def manage_recipes():
     if not current_user.is_admin:
         abort(403)
 
-    recipes = Recipe.query.order_by(Recipe.created_at.desc()).all()
-
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
+    recipes = Recipe.query.order_by(Recipe.created_at.desc()).paginate(page=page, per_page=per_page)
     return render_template('admin/manage_recipes.html', recipes=recipes)
 
 @main.route('/recipes')

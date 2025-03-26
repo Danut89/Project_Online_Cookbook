@@ -280,4 +280,41 @@ footer {
   min-width: 120px;
 }
 
+/* Tables */
+
+.table-responsive td,
+.table-responsive th {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;  /* Adjust width if needed */
+    vertical-align: middle;
+}
+
+.table-responsive td:hover,
+.table-responsive th:hover {
+    overflow: visible;
+    white-space: normal;
+    position: relative;
+    z-index: 1;
+    background-color: #f8f9fa;  /* Optional: highlight hovered cell */
+}
+
+.admin-table th,
+.admin-table td {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.admin-table td .btn {
+  margin: 2px;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.admin-table {
+  min-width: 1000px; /* Ensures table is wide enough */
+}
   

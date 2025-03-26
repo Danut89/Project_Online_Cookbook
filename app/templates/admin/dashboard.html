@@ -47,64 +47,50 @@
 
   <!-- 👥 All Users Table -->
   <div class="mb-5">
-    <h4 class="fw-bold mb-3">👥 All Users</h4>
-    <div class="table-responsive">
-      <table class="table table-hover align-middle shadow-sm">
-        <thead class="table-light">
-          <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Admin</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for user in users %}
+    <h5 class="fw-semibold mt-5 mb-3">👥 Recent Users</h5>
+    <table class="table table-borderless">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in recent_users %}
           <tr>
             <td>{{ user.id }}</td>
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
-            <td>
-              {% if user.is_admin %}
-              <span class="badge bg-success">Yes</span>
-              {% else %}
-              <span class="badge bg-secondary">No</span>
-              {% endif %}
-            </td>
           </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="{{ url_for('main.manage_users') }}" class="btn btn-sm btn-outline-primary">View All Users</a>
   </div>
 
   <!-- 📖 All Recipes Table -->
   <div class="mb-5">
-    <h4 class="fw-bold mb-3">📖 All Recipes</h4>
-    <div class="table-responsive">
-      <table class="table table-hover align-middle shadow-sm">
-        <thead class="table-light">
+      <h5 class="fw-semibold mt-5 mb-3">🍽 Recent Recipes</h5>
+      <table class="table table-borderless">
+        <thead>
           <tr>
-            <th>ID</th>
             <th>Title</th>
             <th>Author</th>
-            <th>Difficulty</th>
-            <th>Prep Time</th>
+            <th>Created</th>
           </tr>
         </thead>
         <tbody>
-          {% for recipe in recipes %}
-          <tr>
-            <td>{{ recipe.id }}</td>
-            <td>{{ recipe.title }}</td>
-            <td>{{ recipe.user.username }}</td>
-            <td><span class="badge bg-warning text-dark">{{ recipe.difficulty }}</span></td>
-            <td>{{ recipe.prep_time }} min</td>
-          </tr>
+          {% for recipe in recent_recipes %}
+            <tr>
+              <td>{{ recipe.title }}</td>
+              <td>{{ recipe.user.username }}</td>
+              <td>{{ recipe.created_at.strftime('%Y-%m-%d') }}</td>
+            </tr>
           {% endfor %}
         </tbody>
       </table>
-    </div>
+      <a href="{{ url_for('main.manage_recipes') }}" class="btn btn-sm btn-outline-primary">View All Recipes</a>
   </div>
 
   <!-- 💬 All Comments Table -->
@@ -127,7 +113,42 @@
             <td>{{ comment.user.username }}</td>
             <td>{{ comment.recipe.title }}</td>
             <td>{{ comment.content }}</td>
+            <td>
+              <form method="POST" action="{{ url_for('main.admin_delete_comment', comment_id=comment.id) }}"
+                    onsubmit="return confirm('Are you sure you want to delete this comment?')">
+               <!-- Trigger Modal -->
+                <button type="button"
+                class="btn btn-sm btn-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteCommentModal{{ comment.id }}">
+                Delete
+                </button>
+              </form>
+            </td>
           </tr>
+
+          <!-- Delete Comment Confirmation Modal -->
+          <div class="modal fade" id="deleteCommentModal{{ comment.id }}" tabindex="-1" aria-labelledby="deleteCommentLabel{{ comment.id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content shadow rounded-4 border-0">
+                <div class="modal-header bg-danger text-white rounded-top-4">
+                  <h5 class="modal-title" id="deleteCommentLabel{{ comment.id }}">🗑️ Confirm Deletion</h5>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                  <p class="mb-0">Are you sure you want to delete this comment?</p>
+                  <p class="fst-italic mt-2 text-muted">"{{ comment.content }}"</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                  <form method="POST" action="{{ url_for('main.delete_comment', comment_id=comment.id) }}">
+                    <button type="submit" class="btn btn-danger rounded-pill px-4">Yes, delete</button>
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {% endfor %}
         </tbody>
       </table>
@@ -135,34 +156,5 @@
   </div>
 
 </section>
-
-<!-- 📊 Analytics Section -->
-<h4 class="mt-5 mb-3 fw-semibold">📊 Analytics</h4>
-<div class="row text-center">
-  <div class="col-md-4">
-    <div class="border rounded-4 p-4 bg-light shadow-sm">
-      <h6 class="text-muted">📅 Recipes This Week</h6>
-      <h3 class="text-primary">{{ recipes_this_week }}</h3>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="border rounded-4 p-4 bg-light shadow-sm">
-      <h6 class="text-muted">📆 Recipes This Month</h6>
-      <h3 class="text-primary">{{ recipes_this_month }}</h3>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="border rounded-4 p-4 bg-light shadow-sm">
-      <h6 class="text-muted">❤️ Most Liked Recipe</h6>
-      {% if most_liked_recipe %}
-        <p class="fw-bold mb-1">{{ most_liked_recipe.title }}</p>
-        <small class="text-muted">By {{ most_liked_recipe.user.username }}</small>
-      {% else %}
-        <p class="text-muted">No likes yet</p>
-      {% endif %}
-    </div>
-  </div>
-</div>
-
 
 {% endblock %}

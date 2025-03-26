@@ -19,8 +19,9 @@ class User(db.Model, UserMixin):
     is_admin = db.Column(db.Boolean, default=False) 
 
     # Relationships
-    recipes = db.relationship('Recipe', backref='user', lazy=True)
-    likes = db.relationship('Like', backref='user', lazy=True)
+    recipes = db.relationship('Recipe', backref='user', lazy=True, cascade='all, delete-orphan')
+    likes = db.relationship('Like', backref='user', lazy=True, cascade='all, delete-orphan')
+    comments = db.relationship('Comment', backref='user', lazy=True, cascade='all, delete-orphan')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password).decode('utf-8')
@@ -36,6 +37,7 @@ class Category(db.Model):
     def __repr__(self):
         return f'<Category {self.name}>'
 
+
 # Recipe Model
 class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -49,35 +51,34 @@ class Recipe(db.Model):
     image_url = db.Column(db.String(255), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    categories = db.relationship('Category', secondary=recipe_categories, backref=db.backref('recipes', lazy='dynamic'))
 
-    # ✅ Helper method to check if a user liked this recipe
+    # Relationships
+    categories = db.relationship('Category', secondary=recipe_categories, backref=db.backref('recipes', lazy='dynamic'))
+    comments = db.relationship('Comment', backref='recipe', lazy=True, cascade='all, delete-orphan')
+    likes = db.relationship('Like', backref='recipe', lazy=True, cascade='all, delete-orphan')
+
     def is_liked_by(self, user):
         return any(like.user_id == user.id for like in self.likes)
 
 
+# Like Model
 class Like(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
 
-    recipe = db.relationship('Recipe', backref=db.backref('likes', lazy='dynamic'))
-    recipe = db.relationship('Recipe', backref='likes', lazy=True)
 
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
+# Comment Model
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    # Relationships
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
 
-    user = db.relationship('User', backref='comments', lazy=True)
-    recipe = db.relationship('Recipe', backref='comments', lazy=True)
 
+# Flask-Login user loader
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
