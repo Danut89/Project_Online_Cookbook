@@ -17,6 +17,7 @@ from flask import abort
 
 from datetime import datetime, timedelta
 from sqlalchemy import func
+from urllib.parse import urlparse
 
 # Define the blueprint
 main = Blueprint('main', __name__)
@@ -207,15 +208,23 @@ def edit_recipe(recipe_id):
 def delete_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
 
-    if recipe.user_id != current_user.id and not current_user.is_admin:
-        flash("You don't have permission to delete this recipe.", "error")
-        return redirect(url_for('main.view_recipe', recipe_id=recipe.id))
+    if current_user.id != recipe.user_id and not current_user.is_admin:
+        flash("You don't have permission to delete this recipe.", "danger")
+        return redirect(url_for('main.home'))
 
     db.session.delete(recipe)
     db.session.commit()
-    flash('Recipe deleted successfully!', 'success')
-    if current_user.is_admin:
-        return redirect(url_for('main.manage_recipes'))
+    flash("Recipe deleted successfully.", "success")
+
+    # Handle redirect safely
+    next_url = request.form.get('next') or request.referrer
+    if next_url:
+        # If coming from the same page (view_recipe), avoid redirecting to deleted content
+        parsed_url = urlparse(next_url)
+        if f'/recipe/{recipe_id}' in parsed_url.path:
+            return redirect(url_for('main.home'))
+        return redirect(next_url)
+
     return redirect(url_for('main.home'))
 
 @main.route('/recipe/<int:recipe_id>/like', methods=['POST'])

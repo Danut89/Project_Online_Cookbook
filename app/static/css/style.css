@@ -1,4 +1,4 @@
-/* Fonts and Reset */
+/* === Fonts & Resets === */
 body {
   font-family: 'Inter', sans-serif;
   background-color: #fdfdfd;
@@ -21,7 +21,47 @@ p {
   color: #555;
 }
 
-/* Layout */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+a:hover {
+  color: #ff5722;
+  text-decoration: underline;
+}
+
+a:focus-visible {
+  outline: 2px solid #ff5722;
+  outline-offset: 2px;
+}
+
+/* === Navbar === */
+.navbar-nav .nav-link {
+  position: relative;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  width: 0%;
+  height: 2px;
+  background-color: #ff5722;
+  transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link:focus::after {
+  width: 100%;
+}
+
+/* === Layout & Containers === */
 .container {
   max-width: 1140px;
   margin: 0 auto;
@@ -39,8 +79,7 @@ section {
   color: #222;
 }
 
-/* === Buttons Modernized === */
-/* === Professional Button Redesign === */
+/* === Buttons === */
 .btn {
   border: none;
   font-weight: 600;
@@ -60,7 +99,11 @@ section {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
-/* Primary Button */
+.btn i,
+.btn svg {
+  margin-right: 8px;
+}
+
 .btn-primary {
   background: linear-gradient(135deg, #ff5722, #e64a19);
   color: #fff;
@@ -70,7 +113,6 @@ section {
   background: linear-gradient(135deg, #f4511e, #d84315);
 }
 
-/* Success (CTA) */
 .btn-success {
   background: linear-gradient(135deg, #43a047, #388e3c);
   color: white;
@@ -80,7 +122,6 @@ section {
   background: linear-gradient(135deg, #2e7d32, #1b5e20);
 }
 
-/* Subtle Secondary */
 .btn-secondary {
   background: #f5f5f5;
   color: #444;
@@ -92,7 +133,6 @@ section {
   color: #222;
 }
 
-/* Outline Button */
 .btn-outline-primary {
   background: white;
   color: #ff5722;
@@ -105,20 +145,7 @@ section {
   box-shadow: 0 4px 14px rgba(255, 87, 34, 0.2);
 }
 
-/* Slight button text glow */
-.btn-primary,
-.btn-success {
-  text-shadow: 0 1px 1px rgba(0,0,0,0.15);
-}
-
-/* Icons inside buttons spacing */
-.btn i,
-.btn svg {
-  margin-right: 8px;
-}
-
-
-/* Cards */
+/* === Cards === */
 .card {
   background-color: #fff;
   border-radius: 1.25rem;
@@ -129,7 +156,7 @@ section {
   transform: scale(1.015);
 }
 
-/* Badges and Tags */
+/* === Badges === */
 .badge {
   background-color: #efefef;
   color: #555;
@@ -139,7 +166,16 @@ section {
   font-weight: 500;
 }
 
-/* Feature & Newsletter Sections */
+/* === Footer === */
+footer {
+  background: #fff;
+  border-top: 1px solid #eaeaea;
+  padding: 2rem 0;
+  color: #777;
+  font-size: 0.875rem;
+}
+
+/* === Newsletter & Featured === */
 .featured-section, .newsletter-section {
   background: linear-gradient(135deg, #fffaf0, #fefefe);
   border-radius: 1.5rem;
@@ -162,44 +198,61 @@ section {
   border-radius: 50rem;
 }
 
-/* 🏆 Recipe of the Month */
+/* === Recipe of the Month === */
 .recipe-month-highlight {
   background: linear-gradient(to right, #fff9f4, #fff3e0);
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
 }
-
-.recipe-month-card {
-  transition: transform 0.3s ease;
-}
-
 .recipe-month-card:hover {
   transform: translateY(-4px);
 }
 
-.section-heading {
-  font-weight: 700;
-  font-size: 1.75rem;
-  display: flex;
-  align-items: center;
-  color: #333;
+/* === Modals === */
+.modal-content {
+  border-radius: 1rem;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+}
+.modal-header.bg-danger {
+  background-color: #dc3545;
+}
+.modal-footer .btn {
+  min-width: 120px;
 }
 
-.object-fit-cover {
-  object-fit: cover;
+/* === Tables === */
+.table-responsive td,
+.table-responsive th {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+  vertical-align: middle;
 }
 
-/* Footer */
-footer {
-  background: #fff;
-  border-top: 1px solid #eaeaea;
-  padding: 2rem 0;
-  color: #777;
-  font-size: 0.875rem;
+.table-responsive td:hover,
+.table-responsive th:hover {
+  overflow: visible;
+  white-space: normal;
+  position: relative;
+  z-index: 1;
+  background-color: #f8f9fa;
 }
 
-/* Responsive Layout */
+.admin-table th,
+.admin-table td {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.admin-table td .btn {
+  margin: 2px;
+}
+.admin-table {
+  min-width: 1000px;
+}
+
+/* === Responsive Adjustments === */
 @media (max-width: 768px) {
   .section-title {
     font-size: 1.75rem;
@@ -212,109 +265,38 @@ footer {
   .btn {
     width: 100%;
   }
-}
 
-
-/* Inline style to enhance visuals directly */
-  .category-section h2 {
-    font-size: 2.25rem;
-    font-weight: 800;
-    color: #ff5722;
+  .navbar-nav .nav-link {
+    text-align: center;
   }
-
-  .card-category {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 1.25rem;
-    background-color: #fffaf3;
-    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05);
-  }
-
-  .card-category:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 1rem 2rem rgba(0,0,0,0.08);
-  }
-
-  .card-category h5 {
-    font-size: 1.25rem;
-    color: #333;
-  }
-
-  .card-category .btn-outline-primary {
-    border: 2px solid #ff5722;
-    color: #ff5722;
-    font-weight: 600;
-  }
-
-  .card-category .btn-outline-primary:hover {
-    background-color: #ff5722;
-    color: white;
-  }
-
-  .btn-secondary {
-    background-color: #6c757d;
-    border: none;
-    padding: 0.6rem 1.5rem;
-  }
-
-  .btn-secondary:hover {
-    background-color: #5a6268;
-    color: #fff;
-  }
-
-  .alert-warning {
-    background-color: #fff3cd;
-    color: #856404;
-    border: none;
-  }
-
-/* === Delete Modal === */
-.modal-content {
-  border-radius: 1rem;
 }
 
-.modal-header.bg-danger {
-  background-color: #dc3545;
+/* === Additional Polish === */
+.card-category {
+  background-color: #fffaf3;
+  border-radius: 1.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.modal-footer .btn {
-  min-width: 120px;
+.card-category:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 1rem 2rem rgba(0,0,0,0.08);
 }
 
-/* Tables */
-
-.table-responsive td,
-.table-responsive th {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 180px;  /* Adjust width if needed */
-    vertical-align: middle;
+.card-category .btn-outline-primary {
+  border: 2px solid #ff5722;
+  color: #ff5722;
+  font-weight: 600;
 }
 
-.table-responsive td:hover,
-.table-responsive th:hover {
-    overflow: visible;
-    white-space: normal;
-    position: relative;
-    z-index: 1;
-    background-color: #f8f9fa;  /* Optional: highlight hovered cell */
+.card-category .btn-outline-primary:hover {
+  background-color: #ff5722;
+  color: white;
 }
 
-.admin-table th,
-.admin-table td {
-  white-space: nowrap;
-  vertical-align: middle;
+.alert-warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border: none;
 }
-
-.admin-table td .btn {
-  margin: 2px;
-}
-
-.table-responsive {
-  overflow-x: auto;
-}
-
-.admin-table {
-  min-width: 1000px; /* Ensures table is wide enough */
-}
-  
