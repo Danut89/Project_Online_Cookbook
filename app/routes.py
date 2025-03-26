@@ -96,7 +96,7 @@ def view_recipe(recipe_id):
 @login_required
 def add_recipe():
     form = RecipeForm()
-    next_url = request.args.get('next') or url_for('main.home')  # Get 'next' or fallback to home
+    next_url = request.args.get('next') or url_for('main.home')
 
     if form.validate_on_submit():
         image_url = save_uploaded_image(form.image.data)
@@ -119,9 +119,10 @@ def add_recipe():
         db.session.add(recipe)
         db.session.commit()
         flash('Recipe added successfully!', 'success')
-        return redirect(next_url)  # Redirect to 'next_url'
+        return redirect(next_url)  # Redirect back to where user came from
 
     return render_template('add_recipe.html', form=form, next_url=next_url)
+
 
 
 @main.route('/recipe/<int:recipe_id>/edit', methods=['GET', 'POST'])
@@ -261,9 +262,9 @@ def browse_recipes():
     query = request.args.get('q', '')
     category = request.args.get('category', '')
     difficulty = request.args.get('difficulty', '')
+    sort_by = request.args.get('sort', 'newest')
     page = request.args.get('page', 1, type=int)
 
-    # Start base query
     recipes_query = Recipe.query
 
     if query:
@@ -281,20 +282,34 @@ def browse_recipes():
     if difficulty:
         recipes_query = recipes_query.filter(Recipe.difficulty == difficulty)
 
-    # Pagination
-    recipes_paginated = recipes_query.order_by(Recipe.created_at.desc()).paginate(page=page, per_page=6)
+    # ✅ Sorting logic
+    if sort_by == 'oldest':
+        recipes_query = recipes_query.order_by(Recipe.created_at.asc())
+    elif sort_by == 'title':
+        recipes_query = recipes_query.order_by(Recipe.title.asc())
+    elif sort_by == 'prep_time_asc':
+        recipes_query = recipes_query.order_by(Recipe.prep_time.asc())
+    elif sort_by == 'prep_time_desc':
+        recipes_query = recipes_query.order_by(Recipe.prep_time.desc())
+    else:
+        recipes_query = recipes_query.order_by(Recipe.created_at.desc())
 
-    # Pass available categories and difficulties for filters
+    recipes_paginated = recipes_query.paginate(page=page, per_page=6)
+
     categories = Category.query.order_by(Category.name).all()
     difficulties = ['Easy', 'Medium', 'Hard']
 
-    return render_template('browse_recipes.html',
-                           recipes=recipes_paginated,
-                           categories=categories,
-                           selected_category=category,
-                           selected_difficulty=difficulty,
-                           query=query,
-                           difficulties=difficulties)
+    return render_template(
+        'browse_recipes.html',
+        recipes=recipes_paginated,
+        categories=categories,
+        selected_category=category,
+        selected_difficulty=difficulty,
+        query=query,
+        sort=sort_by,
+        difficulties=difficulties
+    )
+
 
 
 # 📂 View all recipes in a specific category

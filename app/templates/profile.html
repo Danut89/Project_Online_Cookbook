@@ -73,5 +73,12 @@
     </div>
 
   </div>
+
+  <div class="text-center mt-5">
+    <a href="{{ request.referrer or url_for('main.home') }}" class="btn btn-outline-secondary rounded-pill px-4 py-2">
+      ← Go Back
+    </a>
+  </div>
+  
 </section>
 {% endblock %}
