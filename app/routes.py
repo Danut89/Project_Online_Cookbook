@@ -12,6 +12,12 @@ from app.models import Recipe, User, Category, Comment
 from app.forms import RecipeForm, CommentForm  
 from app.models import Like
 
+from functools import wraps
+from flask import abort
+
+from datetime import datetime, timedelta
+from sqlalchemy import func
+
 # Define the blueprint
 main = Blueprint('main', __name__)
 
@@ -326,10 +332,6 @@ def recipes_by_category(category_name):
     selected_category=category.name
 )
 
-
-from functools import wraps
-from flask import abort
-
 # ✅ Admin-only access decorator
 def admin_required(f):
     @wraps(f)
@@ -349,6 +351,23 @@ def admin_dashboard():
     comments = Comment.query.all()
     total_likes = Like.query.count()  # ✅ Add this line
 
+    # 🕒 Time-based analytics
+    today = datetime.utcnow()
+    start_of_week = today - timedelta(days=today.weekday())
+    start_of_month = today.replace(day=1)
+
+    recipes_this_week = Recipe.query.filter(Recipe.created_at >= start_of_week).count()
+    recipes_this_month = Recipe.query.filter(Recipe.created_at >= start_of_month).count()
+
+    # ❤️ Most liked recipe
+    most_liked_recipe = (
+        db.session.query(Recipe)
+        .outerjoin(Recipe.likes)
+        .group_by(Recipe.id)
+        .order_by(func.count(Recipe.likes).desc())
+        .first()
+    )
+
     return render_template('admin/dashboard.html',
                            users=users,
                            recipes=recipes,
@@ -358,15 +377,57 @@ def admin_dashboard():
 @main.route('/admin/users')
 @admin_required
 def manage_users():
-    # Placeholder logic
-    users = User.query.all()
+    if not current_user.is_admin:
+        abort(403)
+
+    users = User.query.order_by(User.id).all()
     return render_template('admin/manage_users.html', users=users)
+
+@main.route('/admin/user/<int:user_id>/promote', methods=['POST'])
+@login_required
+def promote_user(user_id):
+    if not current_user.is_admin:
+        abort(403)
+
+    user = User.query.get_or_404(user_id)
+    user.is_admin = True
+    db.session.commit()
+    flash(f'{user.username} has been promoted to admin.', 'success')
+    return redirect(url_for('main.manage_users'))
+
+@main.route('/admin/user/<int:user_id>/demote', methods=['POST'])
+@login_required
+def demote_user(user_id):
+    if not current_user.is_admin or current_user.id == user_id:
+        abort(403)
+
+    user = User.query.get_or_404(user_id)
+    user.is_admin = False
+    db.session.commit()
+    flash(f'{user.username} has been demoted from admin.', 'info')
+    return redirect(url_for('main.manage_users'))
+
+@main.route('/admin/user/<int:user_id>/delete', methods=['POST'])
+@login_required
+def delete_user(user_id):
+    if not current_user.is_admin or current_user.id == user_id:
+        abort(403)
+
+    user = User.query.get_or_404(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    flash(f'User {user.username} has been deleted.', 'danger')
+    return redirect(url_for('main.manage_users'))
+
 
 @main.route('/admin/recipes')
 @admin_required
 def manage_recipes():
-    # Placeholder logic
-    recipes = Recipe.query.all()
+    if not current_user.is_admin:
+        abort(403)
+
+    recipes = Recipe.query.order_by(Recipe.created_at.desc()).all()
+
     return render_template('admin/manage_recipes.html', recipes=recipes)
 
 @main.route('/recipes')

@@ -136,4 +136,33 @@
 
 </section>
 
+<!-- 📊 Analytics Section -->
+<h4 class="mt-5 mb-3 fw-semibold">📊 Analytics</h4>
+<div class="row text-center">
+  <div class="col-md-4">
+    <div class="border rounded-4 p-4 bg-light shadow-sm">
+      <h6 class="text-muted">📅 Recipes This Week</h6>
+      <h3 class="text-primary">{{ recipes_this_week }}</h3>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="border rounded-4 p-4 bg-light shadow-sm">
+      <h6 class="text-muted">📆 Recipes This Month</h6>
+      <h3 class="text-primary">{{ recipes_this_month }}</h3>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="border rounded-4 p-4 bg-light shadow-sm">
+      <h6 class="text-muted">❤️ Most Liked Recipe</h6>
+      {% if most_liked_recipe %}
+        <p class="fw-bold mb-1">{{ most_liked_recipe.title }}</p>
+        <small class="text-muted">By {{ most_liked_recipe.user.username }}</small>
+      {% else %}
+        <p class="text-muted">No likes yet</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
 {% endblock %}
