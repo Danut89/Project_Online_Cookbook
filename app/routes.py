@@ -207,13 +207,15 @@ def edit_recipe(recipe_id):
 def delete_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
 
-    if recipe.user_id != current_user.id:
+    if recipe.user_id != current_user.id and not current_user.is_admin:
         flash("You don't have permission to delete this recipe.", "error")
-        return redirect(url_for('main.home'))
+        return redirect(url_for('main.view_recipe', recipe_id=recipe.id))
 
     db.session.delete(recipe)
     db.session.commit()
     flash('Recipe deleted successfully!', 'success')
+    if current_user.is_admin:
+        return redirect(url_for('main.manage_recipes'))
     return redirect(url_for('main.home'))
 
 @main.route('/recipe/<int:recipe_id>/like', methods=['POST'])
