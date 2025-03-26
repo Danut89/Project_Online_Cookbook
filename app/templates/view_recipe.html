@@ -86,19 +86,20 @@
       </div>
 
       <!-- 🗑️ Delete Recipe Button and Modal -->
-        {% if current_user.id == recipe.user_id %}
-            <div class="d-flex gap-2 mt-3">
-                <a href="{{ url_for('main.edit_recipe', recipe_id=recipe.id, next=request.full_path) }}"
-                class="btn btn-warning fw-semibold">Edit Recipe</a>
+      {% if current_user.id == recipe.user_id %}
+      <div class="d-flex gap-2 mt-3">
+        <a href="{{ url_for('main.edit_recipe', recipe_id=recipe.id, next=request.full_path) }}"
+          class="btn btn-warning fw-semibold">Edit Recipe</a>
 
-                <!-- Trigger Delete Modal -->
-                <button type="button"
-                        class="btn btn-outline-danger"
-                        data-bs-toggle="modal"
-                        data-bs-target="#confirmDeleteModal">
-                  🗑 Delete Recipe
-                </button>
-        {% endif %}
+        <!-- Trigger Delete Modal -->
+        <button type="button"
+                class="btn btn-outline-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#confirmDeleteModal{{ recipe.id }}">
+          🗑 Delete Recipe
+        </button>
+      </div>
+      {% endif %}
     </div>
   </div>
 </section>
@@ -179,12 +180,12 @@
 
 
 <!-- Delete recipe Confirmation Modal -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="deleteRecipeModalLabel" aria-hidden="true">
+<div class="modal fade" id="confirmDeleteModal{{ recipe.id }}" tabindex="-1" aria-labelledby="deleteRecipeModalLabel{{ recipe.id }}" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content shadow rounded-4 border-0">
       <div class="modal-header bg-danger text-white rounded-top-4">
-        <h5 class="modal-title" id="deleteRecipeModalLabel">🗑️ Confirm Recipe Deletion</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title" id="deleteRecipeModalLabel{{ recipe.id }}">🗑️ Confirm Recipe Deletion</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"  aria-label="Close"></button>
       </div>
 
       <div class="modal-body text-center">

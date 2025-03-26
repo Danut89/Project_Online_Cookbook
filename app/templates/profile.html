@@ -7,10 +7,13 @@
   <!-- 🙌 Welcome Summary -->
   <div class="bg-white shadow-sm rounded-4 p-4 mb-5 text-center">
     <h4 class="fw-bold mb-2">👋 Welcome, Food Lover!</h4>
-    <p class="mb-0">You’ve added <strong>{{ my_recipes|length }}</strong> recipe{{ 's' if my_recipes|length != 1 else '' }} and liked <strong>{{ liked_recipes|length }}</strong>.</p>
+    <p class="mb-0">
+      You’ve added <strong>{{ my_recipes|length }}</strong> recipe{{ 's' if my_recipes|length != 1 else '' }} 
+      and liked <strong>{{ liked_recipes|length }}</strong>.
+    </p>
   </div>
 
-  <!-- 🧭 Tabs: My Recipes / Liked -->
+  <!-- 🧭 Tabs -->
   <ul class="nav nav-pills justify-content-center mb-4" id="profileTabs" role="tablist">
     <li class="nav-item" role="presentation">
       <button class="nav-link active rounded-pill px-4 py-2 me-2" id="my-tab" data-bs-toggle="pill" data-bs-target="#my-recipes" type="button" role="tab">
@@ -27,21 +30,30 @@
   <div class="tab-content" id="profileTabContent">
 
     <!-- 📜 My Recipes -->
-    <div class="tab-pane fade show active" id="my-recipes" role="tabpanel">
-      <div class="card shadow-sm border-0 rounded-4 mb-5">
-        <div class="card-body">
-          {% if my_recipes %}
-            <ul class="list-group list-group-flush">
-              {% for recipe in my_recipes %}
-                <li class="list-group-item d-flex justify-content-between align-items-center py-3">
-                  <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}"
-                     class="fw-semibold text-decoration-none text-dark">
-                    🍽 {{ recipe.title }}
-                  </a>
-                  <span class="badge bg-warning text-dark rounded-pill px-3 py-2">{{ recipe.difficulty }}</span>
-                </li>
-              {% endfor %}
-            </ul>
+<div class="tab-pane fade show active" id="my-recipes" role="tabpanel">
+  <div class="card shadow-sm border-0 rounded-4 mb-5">
+    <div class="card-body">
+      {% if my_recipes %}
+        <ul class="list-group list-group-flush">
+          {% for recipe in my_recipes %}
+            <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+              <div>
+                <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}"
+                  class="fw-semibold text-decoration-none text-dark">
+                  🍽 {{ recipe.title }}
+                </a>
+                <small class="text-muted ms-2">| {{ recipe.prep_time }} min</small>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-warning text-dark rounded-pill">{{ recipe.difficulty }}</span>
+                <a href="{{ url_for('main.edit_recipe', recipe_id=recipe.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteRecipeModal{{ recipe.id }}">Delete</button>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+            
+        
           {% else %}
             <p class="text-muted fst-italic text-center">You haven't added any recipes yet.</p>
           {% endif %}
@@ -49,22 +61,31 @@
       </div>
     </div>
 
-    <!-- ❤️ Liked Recipes -->
+    <!-- ❤️ Favorite Recipes -->
     <div class="tab-pane fade" id="liked-recipes" role="tabpanel">
       <div class="card shadow-sm border-0 rounded-4">
         <div class="card-body">
           {% if liked_recipes %}
-            <ul class="list-group list-group-flush">
+            <div class="row g-4">
               {% for recipe in liked_recipes %}
-                <li class="list-group-item d-flex justify-content-between align-items-center py-3">
-                  <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}"
-                     class="fw-semibold text-decoration-none text-dark">
-                    🌟 {{ recipe.title }}
-                  </a>
-                  <span class="badge bg-info text-dark rounded-pill px-3 py-2">{{ recipe.difficulty }}</span>
-                </li>
+                <div class="col-md-6 col-lg-4">
+                  <div class="card h-100 border-0 shadow-sm">
+                    {% if recipe.image_url %}
+                      <img src="{{ recipe.image_url }}" class="card-img-top" alt="{{ recipe.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                      <h6 class="card-title mb-1">
+                        <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}" class="text-decoration-none text-dark fw-bold">
+                          🌟 {{ recipe.title }}
+                        </a>
+                      </h6>
+                      <span class="badge bg-info text-dark">{{ recipe.difficulty }}</span>
+                      <p class="small text-muted mt-2">⏱ {{ recipe.prep_time }} min | 🌍 {{ recipe.cuisine }}</p>
+                    </div>
+                  </div>
+                </div>
               {% endfor %}
-            </ul>
+            </div>
           {% else %}
             <p class="text-muted fst-italic text-center">You haven't liked any recipes yet.</p>
           {% endif %}
@@ -74,11 +95,36 @@
 
   </div>
 
+  <!-- 🔙 Back -->
   <div class="text-center mt-5">
     <a href="{{ request.referrer or url_for('main.home') }}" class="btn btn-outline-secondary rounded-pill px-4 py-2">
       ← Go Back
     </a>
   </div>
-  
 </section>
+
+<!-- ✅ Modals should go OUTSIDE the list -->
+{% for recipe in my_recipes %}
+<div class="modal fade" id="deleteRecipeModal{{ recipe.id }}" tabindex="-1" aria-labelledby="deleteRecipeModalLabel{{ recipe.id }}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form action="{{ url_for('main.delete_recipe', recipe_id=recipe.id) }}" method="POST">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="deleteRecipeModalLabel{{ recipe.id }}">❌ Confirm Deletion</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete <strong>{{ recipe.title }}</strong>?
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">Yes, delete</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
 {% endblock %}
+

@@ -27,53 +27,28 @@
               <span class="badge bg-secondary">No</span>
             {% endif %}
           </td>
-          <td>
-            <form method="POST" action="{{ url_for('main.promote_user', user_id=user.id) }}" class="d-inline">
-              {% if not user.is_admin %}
+          <td class="d-flex gap-2">
+            {% if not user.is_admin %}
+              <form method="POST" action="{{ url_for('main.promote_user', user_id=user.id) }}">
                 <button class="btn btn-sm btn-success">Promote</button>
-              {% endif %}
-            </form>
+              </form>
+            {% endif %}
 
-            <form method="POST" action="{{ url_for('main.demote_user', user_id=user.id) }}" class="d-inline">
-              {% if user.is_admin and current_user.id != user.id %}
+            {% if user.is_admin and current_user.id != user.id %}
+              <form method="POST" action="{{ url_for('main.demote_user', user_id=user.id) }}">
                 <button class="btn btn-sm btn-warning">Demote</button>
-              {% endif %}
-            </form>
+              </form>
+            {% endif %}
 
-            <form method="POST" action="{{ url_for('main.delete_user', user_id=user.id) }}" class="d-inline">
-              {% if current_user.id != user.id %}
-                <!-- 🔴 Trigger Delete Modal -->
+            {% if current_user.id != user.id %}
+              <!-- Trigger Delete Modal -->
               <button type="button"
-                      class="btn btn-danger"
+                      class="btn btn-sm btn-danger"
                       data-bs-toggle="modal"
                       data-bs-target="#deleteUserModal{{ user.id }}">
                 Delete
               </button>
-
-              <!-- 🧼 Delete User Modal -->
-              <div class="modal fade" id="deleteUserModal{{ user.id }}" tabindex="-1" aria-labelledby="deleteUserModalLabel{{ user.id }}" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content shadow rounded-4 border-0">
-                    <div class="modal-header bg-danger text-white rounded-top-4">
-                      <h5 class="modal-title" id="deleteUserModalLabel{{ user.id }}">🗑️ Confirm User Deletion</h5>
-                      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body text-center">
-                      <p>Are you sure you want to delete <strong>{{ user.username }}</strong>?</p>
-                      <p class="text-muted small">This action cannot be undone.</p>
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                      <form method="POST" action="{{ url_for('main.delete_user', user_id=user.id) }}">
-                        <button type="submit" class="btn btn-danger rounded-pill px-4">Yes, delete</button>
-                        <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {% endif %}
-            </form>
+            {% endif %}
           </td>
         </tr>
       {% endfor %}
@@ -81,11 +56,37 @@
   </table>
 </section>
 
-<div class="text-center my-5">
-    <a href="{{ url_for('main.admin_dashboard') }}" class="btn btn-outline-secondary rounded-pill px-4">
-      ← Go Back
-    </a>
-  </div>
-  
-{% endblock %}
+<!-- ✅ Move all DELETE modals OUTSIDE the table -->
+{% for user in users %}
+  {% if current_user.id != user.id %}
+    <div class="modal fade" id="deleteUserModal{{ user.id }}" tabindex="-1" aria-labelledby="deleteUserModalLabel{{ user.id }}" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow rounded-4 border-0">
+          <div class="modal-header bg-danger text-white rounded-top-4">
+            <h5 class="modal-title" id="deleteUserModalLabel{{ user.id }}">🗑️ Confirm User Deletion</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <p>Are you sure you want to delete <strong>{{ user.username }}</strong>?</p>
+            <p class="text-muted small">This action cannot be undone.</p>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <form method="POST" action="{{ url_for('main.delete_user', user_id=user.id) }}">
+              <button type="submit" class="btn btn-danger rounded-pill px-4">Yes, delete</button>
+              <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endfor %}
 
+<!-- 🔙 Back -->
+<div class="text-center my-5">
+  <a href="{{ url_for('main.admin_dashboard') }}" class="btn btn-outline-secondary rounded-pill px-4">
+    ← Go Back
+  </a>
+</div>
+
+{% endblock %}
