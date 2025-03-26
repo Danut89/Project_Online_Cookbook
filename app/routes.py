@@ -201,7 +201,7 @@ def delete_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
 
     if recipe.user_id != current_user.id:
-        flash("You don't have permission to delete this recipe.", "danger")
+        flash("You don't have permission to delete this recipe.", "error")
         return redirect(url_for('main.home'))
 
     db.session.delete(recipe)
@@ -247,7 +247,7 @@ def delete_comment(comment_id):
     comment = Comment.query.get_or_404(comment_id)
 
     if comment.user_id != current_user.id:
-        flash("You are not authorized to delete this comment.", "danger")
+        flash("You are not authorized to delete this comment.", "error")
         return redirect(url_for('main.view_recipe', recipe_id=comment.recipe_id))
 
     db.session.delete(comment)
@@ -359,3 +359,4 @@ def all_recipes():
     page = request.args.get('page', 1, type=int)
     recipes = Recipe.query.order_by(Recipe.created_at.desc()).paginate(page=page, per_page=6)
     return render_template('all_recipes.html', recipes=recipes)
+
