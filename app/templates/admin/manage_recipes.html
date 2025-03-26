@@ -1,4 +1,46 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1 class="text-center my-5">🚧 Manage Recipes - Coming Soon</h1>
+
+<section class="container py-5">
+  <h2 class="text-primary text-center mb-4">📋 Manage Recipes</h2>
+
+  {% if recipes %}
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Prep Time</th>
+            <th>Difficulty</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for recipe in recipes %}
+            <tr>
+              <td>{{ recipe.id }}</td>
+              <td>{{ recipe.title }}</td>
+              <td>{{ recipe.user.username }}</td>
+              <td>{{ recipe.prep_time }} min</td>
+              <td><span class="badge bg-warning text-dark">{{ recipe.difficulty }}</span></td>
+              <td>
+                <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}" class="btn btn-sm btn-outline-info">View</a>
+                <a href="{{ url_for('main.edit_recipe', recipe_id=recipe.id) }}" class="btn btn-sm btn-warning">Edit</a>
+                <form action="{{ url_for('main.delete_recipe', recipe_id=recipe.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure?');">
+                  <button class="btn btn-sm btn-danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="text-center text-muted">No recipes available.</p>
+  {% endif %}
+</section>
+
 {% endblock %}
+
