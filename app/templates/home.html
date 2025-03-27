@@ -17,11 +17,11 @@
             </h1>
           </header>
           <p class="fs-5 text-muted mb-4">
-            Discover, share, and cook delicious dishes with ease.<br>
+            Discover, share, and cook delicious dishes.<br>
             Your online cookbook awaits!
           </p>
           <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-md-start" role="group" aria-label="Main call to actions">
-            <a href="{{ url_for('main.browse_recipes') }}"
+            <a href="{{ url_for('main.all_recipes') }}"
                class="btn btn-primary rounded-pill px-4 py-2 fw-semibold">
               Browse Recipes
             </a>
@@ -146,12 +146,6 @@
 <hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
 
 
-
-
-
-
-<hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
-
 <!-- 🗣️ Testimonials -->
 <section class="mb-5 soft-bg py-5">
   <div class="container">
@@ -182,15 +176,24 @@
 <hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
 
 <!-- 📬 Newsletter Signup -->
-<section class="newsletter-section my-5">
-  <div class="container">
-    <h2>📬 Join Our Recipe Newsletter</h2>
-    <p>Get hand-picked recipes and cooking tips delivered to your inbox weekly!</p>
-    <form class="newsletter-form" method="POST">
+<section class="newsletter-section my-5 position-relative text-white">
+  <div class="overlay"></div>
+  <div class="container position-relative z-2 py-5">
+    <h2 class="mb-3 d-flex align-items-center gap-2 text-white text-shadow">
+      <i class="fa-solid fa-envelope-open-text fs-4"></i>
+      <span>Join Our Recipe Newsletter</span>
+    </h2>
+    <p class="mb-4 text-white-50 fw-medium">
+      Get hand-picked recipes and cooking tips delivered to your inbox weekly!
+    </p>
+    <form class="newsletter-form d-flex flex-wrap gap-3 justify-content-center justify-content-md-start" method="POST" aria-label="Subscribe to recipe newsletter">
       <input type="email" name="email" placeholder="Enter your email" required>
       <button type="submit">Subscribe</button>
     </form>
   </div>
 </section>
+
+
+
 
 {% endblock %}

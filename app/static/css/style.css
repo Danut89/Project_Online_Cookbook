@@ -464,21 +464,48 @@ a.btn:hover {
 }
 
 /* ========================
-   💌 NEWSLETTER
+   💌 Newsletter Section
 =========================== */
-.featured-section,
 .newsletter-section {
-  background: linear-gradient(135deg, #fffaf0, #fefefe);
+  background-image: url("../uploads/recipe-month-bg.jpg");
+  background-size: cover;
+  background-position: center;
   border-radius: 1.5rem;
-  padding: 2.5rem 2rem;
-  box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.04);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
   margin: 3rem auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.newsletter-section .overlay {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5); /* darker overlay for readability */
+  z-index: 1;
+}
+
+.newsletter-section h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.newsletter-section p {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.newsletter-form {
+  max-width: 600px;
 }
 
 .newsletter-form input[type="email"] {
-  border: 1px solid #ddd;
   padding: 0.75rem 1.25rem;
   border-radius: 50rem;
+  min-width: 240px;
+  border: none;
+  font-size: 1rem;
 }
 
 .newsletter-form button {
@@ -487,7 +514,9 @@ a.btn:hover {
   border: none;
   padding: 0.75rem 1.75rem;
   border-radius: 50rem;
+  font-weight: 600;
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .newsletter-form button:hover {
@@ -495,6 +524,46 @@ a.btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(255, 87, 34, 0.15);
 }
+
+.text-shadow {
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .newsletter-form {
+    flex-direction: column;
+  }
+
+  .newsletter-form input[type="email"],
+  .newsletter-form button {
+    width: 100%;
+  }
+
+  .newsletter-section {
+    padding: 3rem 2rem;
+  }
+  
+}
+
+.newsletter-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0,0,0,0.5), rgba(0,0,0,0.2));
+  z-index: 0;
+  border-radius: 1.5rem;
+}
+.newsletter-section > .container {
+  position: relative;
+  z-index: 2;
+}
+
+.newsletter-bg::before {
+  backdrop-filter: blur(6px);
+}
+
+
 
 /* ========================
    📊 TABLES & ADMIN
@@ -729,6 +798,7 @@ form .btn-primary:hover {
   margin-bottom: 0.25rem;
   font-weight: 700;
   font-size: 2.25rem;
+  color: #fff;
 }
 
 
