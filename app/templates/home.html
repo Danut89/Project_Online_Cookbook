@@ -1,65 +1,110 @@
 {% extends "base.html" %}
 {% block content %}
 
-<!-- 🔝 Hero Section -->
-<section class="hero-section py-5 text-center rounded-4 shadow-sm mb-5">
-  <div class="container">
-    <h1 class="hero-title">Discover & Share Incredible Recipes</h1>
-    <p class="lead text-secondary">Join a growing community of food lovers exchanging their favorite dishes from around the world.</p>
-    <div class="mt-4">
-      <a href="{{ url_for('main.all_recipes') }}" class="btn btn-primary rounded-pill px-4 me-2">🍽 Browse Recipes</a>
-      <a href="{{ url_for('main.add_recipe') }}" class="btn btn-accent">➕ Add Your Recipe</a>
-    </div>
-  </div>
-</section>
+<main id="main-content">
 
-<hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
+  <!-- 🔝 Hero Section -->
+  <section class="hero-section py-5" aria-label="Introduction">
+    <div class="container">
+      <div class="row align-items-center p-4 p-md-5 rounded-5">
 
-
-<!-- 🌟 Featured Recipes -->
-<section class="mb-5">
-  <div class="container">
-    <h2 class="section-title">🌟 Featured Recipes</h2>
-    <div class="row g-4">
-      {% for recipe in featured_recipes[:3] %}
-      <div class="col-md-4">
-        <div class="card h-100 border-0">
-          <img src="{{ recipe.image_url or url_for('static', filename='uploads/default_recipe.jpg') }}"
-               class="card-img-top rounded-top-4" style="height: 200px; object-fit: cover;">
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title fw-semibold">{{ recipe.title }}</h5>
-            <p class="text-secondary small">{{ recipe.description[:90] }}...</p>
-            <div class="mt-auto">
-              <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}"
-                 class="btn btn-outline-brand w-100">View Recipe</a>
-            </div>
+        <!-- Text Column -->
+        <div class="col-md-6 mb-4 mb-md-0 text-center text-md-start">
+          <header>
+            <h1 class="fw-bold display-5 mb-3">
+              Discover & Share Incredible Recipes,<br>
+              <span class="text-highlight">All in One Place</span>
+            </h1>
+          </header>
+          <p class="fs-5 text-muted mb-4">
+            Discover, share, and cook delicious dishes with ease.<br>
+            Your online cookbook awaits!
+          </p>
+          <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-md-start" role="group" aria-label="Main call to actions">
+            <a href="{{ url_for('main.browse_recipes') }}"
+               class="btn btn-primary rounded-pill px-4 py-2 fw-semibold">
+              Browse Recipes
+            </a>
+            <a href="{{ url_for('main.add_recipe') }}"
+               class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-semibold">
+              Add Recipe
+            </a>
           </div>
         </div>
+
+        <!-- Image Column -->
+        <div class="col-md-6 text-center">
+          <figure>
+            <img src="{{ url_for('static', filename='../static/uploads/hero-image.jpg') }}"
+                 alt="A delicious dish served on a white plate"
+                 class="img-fluid rounded-4 shadow"
+                 style="max-height: 360px;">
+          </figure>
+        </div>
       </div>
+    </div>
+  </section>
+
+  <hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
+
+
+  <!-- 🌟 Featured Recipes -->
+  <section class="mb-5" aria-labelledby="featured-heading">
+    <div class="container">
+      <h2 class="section-title" id="featured-heading">🌟 Featured Recipes</h2>
+      <div class="row g-4">
+        {% for recipe in featured_recipes[:3] %}
+        <div class="col-md-4">
+          <article class="card h-100 border-0" role="article">
+            <img src="{{ recipe.image_url or url_for('static', filename='uploads/default_recipe.jpg') }}"
+                 alt="Image of {{ recipe.title }}"
+                 class="card-img-top rounded-top-4"
+                 style="height: 200px; object-fit: cover;">
+            <div class="card-body d-flex flex-column">
+              <h3 class="card-title fw-semibold h5">{{ recipe.title }}</h3>
+              <p class="text-secondary small">{{ recipe.description[:90] }}...</p>
+              <div class="mt-auto">
+                <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}"
+                   class="btn btn-outline-brand w-100">View Recipe</a>
+              </div>
+            </div>
+          </article>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
+
+
+  <!-- 🍽️ Explore by Category Section -->
+  <section class="container py-5 category-section" aria-labelledby="category-heading">
+    <h2 class="text-center mb-4 fs-3 fw-bold" id="category-heading">
+      <i class="fa-solid fa-utensils me-2" aria-hidden="true"></i>
+      Explore by Category
+    </h2>
+
+    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-4 justify-content-center">
+      {% for cat in categories %}
+        <div class="col text-center">
+          <a href="{{ url_for('main.browse_recipes', category=cat.name) }}"
+             class="text-decoration-none"
+             aria-label="Browse {{ cat.name }} recipes">
+            <div class="category-card p-4 rounded-4 shadow-sm h-100 {{ cat.name | lower }}-bg">
+              <i class="fa-solid {{ icon_map.get(cat.name, 'fa-circle') }} mb-3 d-block category-icon"
+                 aria-hidden="true"></i>
+              <div class="fw-semibold text-dark">{{ cat.name }}</div>
+            </div>
+          </a>
+        </div>
       {% endfor %}
     </div>
-  </div>
-</section>
+  </section>
 
-<hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
+</main>
 
 
-<!-- 🏷 Popular Categories -->
-<section class="popular-categories py-5">
-  <div class="container">
-    <h2 class="mb-4">🍽️ Explore by Category</h2>
-    <div class="d-flex flex-wrap gap-2">
-      {% for category in categories %}
-        <a href="{{ url_for('main.browse_recipes') }}?category={{ category.name }}"
-           class="badge bg-white border text-secondary rounded-pill px-3 py-2 text-decoration-none">
-           #{{ category.name }}
-        </a>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-<hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
 
 <hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
 
@@ -132,4 +177,5 @@
     </form>
   </div>
 </section>
+
 {% endblock %}

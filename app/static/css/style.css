@@ -128,13 +128,42 @@ section {
 }
 
 .hero-section {
-  background-color: #fff7f4;
   border: 1px solid #fbe6df;
+  background: linear-gradient(to right, #fff, #fdfcfb);
+  border-radius: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .text-secondary {
   color: var(--brand-accent);
 }
+
+
+.hero-img img {
+  border-radius: 2rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.text-icon {
+  font-size: 1.5rem;
+  vertical-align: middle;
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #ff6b6b, #f06595);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+@media (max-width: 767px) {
+  .hero-section h1 {
+    font-size: 1.8rem;
+  }
+}
+
+
 
 /* ========================
    🎨 BUTTONS
@@ -218,38 +247,89 @@ a.btn:hover {
 
 
 /* ========================
-   🃏 CARDS
+    Category Cards
 =========================== */
-.card {
-  background-color: #fff;
-  border-radius: 1.25rem;
-  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.05);
-  transition: transform 0.25s ease;
+
+.category-section {
+  background-image: url('../uploads/categories-2.jpg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 1.5rem;
+  padding: 3rem 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  text-align: center;
 }
 
-.card-title {
-  border-left: 4px solid var(--brand-primary);
-  padding-left: 0.5rem;
+.category-section h2 {
+  color: var(--brand-dark);
+  font-weight: 700;
+  position: relative;
 }
 
-
-.card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 1rem 2rem rgba(0,0,0,0.08);
-  border: 1px solid #ffe5da;
+.category-section h2::after {
+  content: '';
+  width: 100px;
+  height: 4px;
+  background: var(--brand-primary);
+  display: block;
+  margin: 0.75rem auto 0;
+  border-radius: 1rem;
 }
 
-.card-category {
-  background-color: #fffaf3;
-  border-radius: 1.25rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+.category-card {
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  padding: 1.5rem;
+  text-align: center;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  color: var(--brand-dark);
+  height: 100%;
 }
 
-.card-category:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.08);
+.category-card:hover {
+  transform: translateY(-6px) scale(1.2);
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  filter: brightness(1.15);
+  transition: transform 0.3s ease;
 }
+
+/* Icon Styling */
+.category-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Color themes for icons */
+.breakfast-bg i { color: #f59e0b; }     /* yellow */
+.dessert-bg i { color: #ec4899; }       /* pink */
+.dinner-bg i { color: #dc2626; }        /* red */
+.lunch-bg i { color: #10b981; }         /* green */
+.snack-bg i { color: #f97316; }         /* orange */
+.vegan-bg i { color: #047857; }         /* dark green */
+.vegetarian-bg i { color: #22c55e; }    /* bright green */
+
+/* Responsive Tweaks */
+@media (max-width: 768px) {
+  .category-card {
+    padding: 1.25rem 0.75rem;
+    font-size: 0.9rem;
+  }
+  .category-icon {
+    font-size: 1.5rem;
+  }
+}
+
+
+
+
+
+
+
 
 /* ========================
    🏷️ BADGES & TAGS
@@ -261,14 +341,6 @@ a.btn:hover {
   border-radius: 50rem;
   font-size: 0.9rem;
   font-weight: 500;
-}
-
-.badge:hover {
-  background-color: #ffedd5;
-  border-color: #f97316;
-  color: #f97316;
-  transition: all 0.2s ease-in-out;
-  cursor: pointer;
 }
 
 /* ========================

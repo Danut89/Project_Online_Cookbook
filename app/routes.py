@@ -58,11 +58,23 @@ def home():
     # Get all categories
     categories = Category.query.order_by(Category.name).all()
 
+    # ✅ Icon map (category name → Font Awesome icon class)
+    icon_map = {
+        "Breakfast": "fa-sun",
+        "Dessert": "fa-ice-cream",
+        "Dinner": "fa-drumstick-bite",
+        "Lunch": "fa-utensils",
+        "Snack": "fa-cookie",
+        "Vegan": "fa-leaf",
+        "Vegetarian": "fa-carrot"
+    }
+
     return render_template(
         'home.html',
         recipes=recipes_paginated,
         featured_recipes=all_recipes,
-        categories=categories
+        categories=categories,
+        icon_map=icon_map
     )
 
 
