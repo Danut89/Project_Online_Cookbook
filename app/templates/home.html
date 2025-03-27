@@ -38,19 +38,20 @@
 </section>
 
 <!-- 🏷 Popular Categories -->
-<section class="mb-5">
+<section class="popular-categories py-5">
   <div class="container">
-    <h2 class="section-title">🏷 Popular Categories</h2>
+    <h2 class="mb-4">🍽️ Explore by Category</h2>
     <div class="d-flex flex-wrap gap-2">
       {% for category in categories %}
-        <a href="{{ url_for('main.recipes_by_category', category_name=category.name) }}"
-           class="badge bg-secondary-subtle border text-dark rounded-pill px-3 py-2 text-decoration-none">
-          #{{ category.name }}
+        <a href="{{ url_for('main.browse_recipes') }}?category={{ category.name }}"
+           class="badge bg-light border text-dark rounded-pill px-3 py-2 text-decoration-none">
+           #{{ category.name }}
         </a>
       {% endfor %}
     </div>
   </div>
 </section>
+
 
 <!-- 💬 Community Highlights -->
 <section class="mb-5">
