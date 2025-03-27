@@ -1,16 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
+
 <!-- 🔝 Hero Section -->
 <section class="hero-section py-5 text-center rounded-4 shadow-sm mb-5">
   <div class="container">
-    <h1 class="display-5 fw-bold text-primary">Discover & Share Incredible Recipes</h1>
-    <p class="lead text-muted">Join a growing community of food lovers exchanging their favorite dishes from around the world.</p>
+    <h1 class="hero-title">Discover & Share Incredible Recipes</h1>
+    <p class="lead text-secondary">Join a growing community of food lovers exchanging their favorite dishes from around the world.</p>
     <div class="mt-4">
       <a href="{{ url_for('main.all_recipes') }}" class="btn btn-primary rounded-pill px-4 me-2">🍽 Browse Recipes</a>
-      <a href="{{ url_for('main.add_recipe') }}" class="btn btn-success">➕ Add Your Recipe</a>
+      <a href="{{ url_for('main.add_recipe') }}" class="btn btn-accent">➕ Add Your Recipe</a>
     </div>
   </div>
 </section>
+
+<hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
+
 
 <!-- 🌟 Featured Recipes -->
 <section class="mb-5">
@@ -24,10 +28,10 @@
                class="card-img-top rounded-top-4" style="height: 200px; object-fit: cover;">
           <div class="card-body d-flex flex-column">
             <h5 class="card-title fw-semibold">{{ recipe.title }}</h5>
-            <p class="text-muted small">{{ recipe.description[:90] }}...</p>
+            <p class="text-secondary small">{{ recipe.description[:90] }}...</p>
             <div class="mt-auto">
               <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}"
-                 class="btn btn-outline-primary w-100">View Recipe</a>
+                 class="btn btn-outline-brand w-100">View Recipe</a>
             </div>
           </div>
         </div>
@@ -37,6 +41,9 @@
   </div>
 </section>
 
+<hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
+
+
 <!-- 🏷 Popular Categories -->
 <section class="popular-categories py-5">
   <div class="container">
@@ -44,7 +51,7 @@
     <div class="d-flex flex-wrap gap-2">
       {% for category in categories %}
         <a href="{{ url_for('main.browse_recipes') }}?category={{ category.name }}"
-           class="badge bg-light border text-dark rounded-pill px-3 py-2 text-decoration-none">
+           class="badge bg-white border text-secondary rounded-pill px-3 py-2 text-decoration-none">
            #{{ category.name }}
         </a>
       {% endfor %}
@@ -52,14 +59,9 @@
   </div>
 </section>
 
+<hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
 
-<!-- 💬 Community Highlights -->
-<section class="mb-5">
-  <div class="container">
-    <h2 class="section-title">💬 Community Highlights</h2>
-    <p class="text-muted">Top contributors and most active members coming soon!</p>
-  </div>
-</section>
+<hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
 
 <!-- 🏆 Recipe of the Month -->
 {% if featured_recipes %}
@@ -78,9 +80,9 @@
           </div>
           <div class="col-md-8 p-4">
             <h4 class="fw-bold">{{ recipe.title }}</h4>
-            <p class="text-muted">{{ recipe.description[:100] }}...</p>
+            <p class="text-secondary">{{ recipe.description[:100] }}...</p>
             <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}"
-               class="btn btn-outline-primary rounded-pill mt-2">🍽 View Full Recipe</a>
+               class="btn btn-outline-brand rounded-pill mt-2">🍽 View Full Recipe</a>
           </div>
         </div>
       </div>
@@ -88,10 +90,10 @@
   </section>
 {% endif %}
 
-
+<hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
 
 <!-- 🗣️ Testimonials -->
-<section class="mb-5 bg-light py-5">
+<section class="mb-5 soft-bg py-5">
   <div class="container">
     <h2 class="text-center section-title">🗣️ What Our Users Say</h2>
     <div class="row g-4 mt-4">
@@ -116,6 +118,8 @@
     </div>
   </div>
 </section>
+
+<hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
 
 <!-- 📬 Newsletter Signup -->
 <section class="newsletter-section my-5">
