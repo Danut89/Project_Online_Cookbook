@@ -519,3 +519,45 @@ form .btn-primary:hover {
   color: white;
   box-shadow: 0 4px 14px rgba(79, 93, 117, 0.15);
 }
+
+/* === View Recipes Page === */
+
+.recipe-header-overlay {
+  position: absolute;
+  bottom: 20px;
+  left: 30px;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  color: white;
+  max-width: 90%;
+}
+
+.recipe-header-overlay h1 {
+  margin-bottom: 0.25rem;
+  font-weight: 700;
+  font-size: 2.25rem;
+}
+
+
+.recipe-header-overlay {
+  position: absolute;
+  bottom: 20px;
+  left: 30px;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 1.25rem 2rem;
+  border-radius: 1rem;
+  color: white;
+  max-width: 90%;
+}
+
+.recipe-header-overlay h1 {
+  font-weight: 700;
+  font-size: 2.5rem;
+}
+
+.recipe-meta-badges .badge {
+  margin-right: 0.5rem;
+  font-size: 0.95rem;
+  padding: 0.4rem 1rem;
+}
