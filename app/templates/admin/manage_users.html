@@ -2,61 +2,64 @@
 {% block content %}
 
 <section class="container py-5">
-  <h2 class="fw-bold text-center mb-4">👥 Manage Users</h2>
+  <h2 class="fw-bold text-center mb-4" data-aos="fade-up">👥 Manage Users</h2>
 
-  <table class="table table-bordered shadow-sm rounded-4 bg-white">
-    <thead class="table-light">
-      <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Admin</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for user in users %}
+  <div class="table-responsive" data-aos="fade-up" data-aos-delay="100">
+    <table class="table table-hover align-middle shadow-sm">
+      <thead class="table-light">
         <tr>
-          <td>{{ user.id }}</td>
-          <td>{{ user.username }}</td>
-          <td>{{ user.email }}</td>
-          <td>
-            {% if user.is_admin %}
-              <span class="badge bg-success">Yes</span>
-            {% else %}
-              <span class="badge bg-secondary">No</span>
-            {% endif %}
-          </td>
-          <td class="d-flex gap-2">
-            {% if not user.is_admin %}
-              <form method="POST" action="{{ url_for('main.promote_user', user_id=user.id) }}">
-                <button class="btn btn-sm btn-success">Promote</button>
-              </form>
-            {% endif %}
-
-            {% if user.is_admin and current_user.id != user.id %}
-              <form method="POST" action="{{ url_for('main.demote_user', user_id=user.id) }}">
-                <button class="btn btn-sm btn-warning">Demote</button>
-              </form>
-            {% endif %}
-
-            {% if current_user.id != user.id %}
-              <!-- Trigger Delete Modal -->
-              <button type="button"
-                      class="btn btn-sm btn-danger"
-                      data-bs-toggle="modal"
-                      data-bs-target="#deleteUserModal{{ user.id }}">
-                Delete
-              </button>
-            {% endif %}
-          </td>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Admin</th>
+          <th>Actions</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {% for user in users %}
+          <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              {% if user.is_admin %}
+                <span class="badge bg-success">Yes</span>
+              {% else %}
+                <span class="badge bg-secondary">No</span>
+              {% endif %}
+            </td>
+            <td>
+              <div class="d-flex flex-wrap gap-2">
+                {% if not user.is_admin %}
+                  <form method="POST" action="{{ url_for('main.promote_user', user_id=user.id) }}">
+                    <button class="btn btn-sm btn-outline-success rounded-pill">Promote</button>
+                  </form>
+                {% endif %}
+
+                {% if user.is_admin and current_user.id != user.id %}
+                  <form method="POST" action="{{ url_for('main.demote_user', user_id=user.id) }}">
+                    <button class="btn btn-sm btn-outline-warning rounded-pill">Demote</button>
+                  </form>
+                {% endif %}
+
+                {% if current_user.id != user.id %}
+                  <button type="button"
+                          class="btn btn-sm btn-outline-danger rounded-pill"
+                          data-bs-toggle="modal"
+                          data-bs-target="#deleteUserModal{{ user.id }}">
+                    Delete
+                  </button>
+                {% endif %}
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </section>
 
-<!-- ✅ Move all DELETE modals OUTSIDE the table -->
+<!-- 🔴 Delete Modals -->
 {% for user in users %}
   {% if current_user.id != user.id %}
     <div class="modal fade" id="deleteUserModal{{ user.id }}" tabindex="-1" aria-labelledby="deleteUserModalLabel{{ user.id }}" aria-hidden="true">
@@ -64,7 +67,7 @@
         <div class="modal-content shadow rounded-4 border-0">
           <div class="modal-header bg-danger text-white rounded-top-4">
             <h5 class="modal-title" id="deleteUserModalLabel{{ user.id }}">🗑️ Confirm User Deletion</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body text-center">
             <p>Are you sure you want to delete <strong>{{ user.username }}</strong>?</p>
@@ -82,11 +85,12 @@
   {% endif %}
 {% endfor %}
 
-<!-- 🔙 Back -->
-<div class="text-center my-5">
+<!-- 🔙 Back Button -->
+<div class="text-center my-5" data-aos="fade-up">
   <a href="{{ url_for('main.admin_dashboard') }}" class="btn btn-outline-secondary rounded-pill px-4">
     ← Go Back
   </a>
 </div>
 
 {% endblock %}
+

@@ -561,3 +561,75 @@ form .btn-primary:hover {
   font-size: 0.95rem;
   padding: 0.4rem 1rem;
 }
+
+/* === Admin Dashboard === */
+
+.dashboard-card {
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  border: 1px solid #f1f1f1;
+  background-color: var(--brand-soft-bg);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.dashboard-card.users {
+  border-left: 4px solid var(--brand-accent);
+}
+.dashboard-card.recipes {
+  border-left: 4px solid var(--brand-primary);
+}
+.dashboard-card.comments {
+  border-left: 4px solid #ffc107;
+}
+.dashboard-card.likes {
+  border-left: 4px solid #dc3545;
+}
+
+.table thead th {
+  background-color: var(--brand-soft-bg);
+  font-weight: 600;
+}
+
+.table tbody td {
+  vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #fef6f2;
+}
+
+.admin-section h5, .admin-section h4 {
+  font-weight: 700;
+  color: var(--brand-accent);
+}
+
+.admin-section .btn-sm {
+  font-size: 0.875rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 50rem;
+}
+
+/* Responsive padding fix for admin cards */
+@media (max-width: 768px) {
+  .dashboard-card {
+    padding: 1.5rem;
+  }
+}
+
+/* Tables in admin */
+.table th {
+  font-weight: 600;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+/* Small buttons in admin */
+.btn-sm {
+  font-size: 0.875rem;
+  padding: 0.375rem 0.75rem;
+}
