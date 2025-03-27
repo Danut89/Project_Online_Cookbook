@@ -76,33 +76,38 @@
   </main>
 
   <!-- Footer -->
-  <footer class="border-top mt-5 py-4">
-    <div class="container text-center text-md-start">
-      <div class="row">
-        <div class="col-md-4 mb-3">
+  <footer class="footer-section border-top mt-5">
+    <div class="container">
+      <div class="row text-center text-md-start">
+        <div class="col-md-4 mb-4">
           <h5 class="fw-bold">🍽 Online Cookbook</h5>
           <p class="text-muted">Share and discover your favorite recipes from around the world.</p>
         </div>
-        <div class="col-md-4 mb-3">
+        <div class="col-md-4 mb-4">
           <h6 class="fw-semibold">Quick Links</h6>
           <ul class="list-unstyled">
-            <li><a href="{{ url_for('main.home') }}" class="text-decoration-none">Home</a></li>
-            <li><a href="{{ url_for('main.browse_recipes') }}" class="text-decoration-none">Explore Recipes</a></li>
-            <li><a href="{{ url_for('main.add_recipe') }}" class="text-decoration-none">Add Recipe</a></li>
+            <li><a href="{{ url_for('main.home') }}">Home</a></li>
+            <li><a href="{{ url_for('main.browse_recipes') }}">Explore Recipes</a></li>
+            <li><a href="{{ url_for('main.add_recipe') }}">Add Recipe</a></li>
           </ul>
         </div>
-        <div class="col-md-4 mb-3">
+        <div class="col-md-4 mb-4">
           <h6 class="fw-semibold">Connect</h6>
           <ul class="list-unstyled">
-            <li><a href="#" class="text-decoration-none">Instagram</a></li>
-            <li><a href="#" class="text-decoration-none">Pinterest</a></li>
-            <li><a href="#" class="text-decoration-none">Contact</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Pinterest</a></li>
+            <li><a href="#">Contact</a></li>
           </ul>
         </div>
       </div>
-      <p class="text-center mt-4 small text-muted">© 2025 Online Cookbook. Built with ❤️ by food lovers.</p>
+      <div class="text-center pt-3 mt-3 border-top">
+        <p class="small text-muted mb-0">
+          © 2025 Online Cookbook. Built with ❤️ by food lovers.
+        </p>
+      </div>
     </div>
   </footer>
+  
 
   <!-- Flash auto-dismiss -->
   <script>

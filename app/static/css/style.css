@@ -59,11 +59,35 @@ blockquote p {
 /* ========================
    🧭 NAVBAR
 =========================== */
+.navbar {
+  background-color: #ffffff;
+  padding: 1rem 0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.navbar-brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--brand-dark);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .navbar-nav .nav-link {
   position: relative;
   padding: 0.5rem 1rem;
   font-weight: 600;
+  color: var(--text-dark);
   transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+  color: var(--brand-primary);
+  text-decoration: none;
 }
 
 .navbar-nav .nav-link::after {
@@ -81,6 +105,17 @@ blockquote p {
 .navbar-nav .nav-link:focus::after {
   width: 100%;
 }
+
+/* Optional: Highlight active nav item (if using Flask context vars) */
+.navbar-nav .nav-link.active {
+  color: var(--brand-primary);
+}
+
+.navbar-toggler {
+  border: none;
+  font-size: 1.25rem;
+}
+
 
 /* ========================
    📐 LAYOUT & STRUCTURE
@@ -110,7 +145,7 @@ section {
    🎯 HERO SECTION
 =========================== */
 .hero-title {
-  color: var(--brand-primary);
+  color: var(--brand-dark);
   font-size: 2.5rem;
   font-weight: 700;
   position: relative;
@@ -621,6 +656,63 @@ a.btn:hover {
 .modal-footer .btn {
   min-width: 120px;
 }
+
+/* ========================
+   🦶 FOOTER
+=========================== */
+footer {
+  background-color: #f9f9f9;
+  padding: 3rem 0 2rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  border-top: 1px solid #eee;
+}
+
+footer h5,
+footer h6 {
+  color: var(--brand-dark);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+footer a {
+  color: var(--text-muted);
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+footer a:hover,
+footer a:focus {
+  color: var(--brand-primary);
+  text-decoration: none;
+}
+
+footer ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+footer .text-muted {
+  font-size: 0.875rem;
+}
+
+footer .small {
+  font-size: 0.8rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 767px) {
+  footer {
+    text-align: center;
+  }
+
+  footer .row > div {
+    margin-bottom: 2rem;
+  }
+}
+
 
 /* ========================
    📱 RESPONSIVE
