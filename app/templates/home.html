@@ -45,12 +45,49 @@
     </div>
   </section>
 
+
+  <hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
+
+  <!-- 🏆 Recipe of the Month -->
+{% if featured_recipes %}
+{% set recipe = featured_recipes|random %}
+<section class="recipe-month-highlight mb-5 py-5 px-3 px-md-5 rounded-4 shadow">
+  <div class="container">
+    <h2 class="section-heading mb-4 text-dark text-shadow-sm">
+      <i class="fa-solid fa-trophy me-2 text-warning"></i>Recipe of the Month
+    </h2>
+    <div class="card border-0 recipe-month-card d-flex flex-column flex-md-row overflow-hidden shadow-sm">
+       <!-- 🏷️ Top Pick Badge -->
+       <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-3 z-3 fw-semibold">
+        ⭐ Top Pick
+      </span>
+      <!-- Recipe Image -->
+      <div class="col-md-4 p-3 p-md-0">
+        <img src="{{ recipe.image_url or url_for('static', filename='uploads/default_recipe.jpg') }}"
+             class="img-fluid rounded-start w-100 h-100"
+             alt="{{ recipe.title }}" style="object-fit: cover; max-height: 240px;">
+      </div>
+
+      <!-- Recipe Content -->
+      <div class="col-md-8 d-flex flex-column justify-content-center p-4 bg-white bg-opacity-75">
+        <h4 class="fw-bold text-dark">{{ recipe.title }}</h4>
+        <p class="text-secondary small mb-3">{{ recipe.description[:130] }}...</p>
+        <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}"
+           class="btn btn-outline-brand rounded-pill px-4 fw-semibold">
+          <i class="fa-solid fa-utensils me-1"></i> View Full Recipe
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
   <hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
 
 
   <!-- 🌟 Featured Recipes -->
   <section class="mb-5" aria-labelledby="featured-heading">
-    <div class="container">
+    <div class="container py-3">
       <h2 class="section-title" id="featured-heading">🌟 Featured Recipes</h2>
       <div class="row g-4">
         {% for recipe in featured_recipes[:3] %}
@@ -108,32 +145,10 @@
 
 <hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
 
-<!-- 🏆 Recipe of the Month -->
-{% if featured_recipes %}
-  {% set recipe = featured_recipes|random %}
-  <section class="recipe-month-highlight mb-5">
-    <div class="container">
-      <h2 class="section-heading mb-4">
-        <span class="me-2">🏆</span>Recipe of the Month
-      </h2>
-      <div class="card shadow-sm border-0 rounded-4 overflow-hidden recipe-month-card">
-        <div class="row g-0 align-items-center">
-          <div class="col-md-4">
-            <img src="{{ recipe.image_url or url_for('static', filename='uploads/default_recipe.jpg') }}"
-                 class="img-fluid w-100 h-100 object-fit-cover" alt="{{ recipe.title }}"
-                 style="max-height: 250px; object-fit: cover;">
-          </div>
-          <div class="col-md-8 p-4">
-            <h4 class="fw-bold">{{ recipe.title }}</h4>
-            <p class="text-secondary">{{ recipe.description[:100] }}...</p>
-            <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}"
-               class="btn btn-outline-brand rounded-pill mt-2">🍽 View Full Recipe</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-{% endif %}
+
+
+
+
 
 <hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
 
