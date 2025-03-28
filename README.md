@@ -461,3 +461,205 @@ DishCraft integrates **Cloudinary** to handle secure and scalable image hosting 
 ![Cloudinary Upload](/app/static/readme-screenshoots/cloudinary-screenshoot.png)
 
 </details>
+
+---
+
+### Category Filtering and Search
+
+DishCraft allows users to efficiently search and filter recipes to discover dishes that suit their preferences, dietary needs, or available ingredients.
+
+#### Search & Filter Features:
+- **Search Bar**:
+  - Users can search recipes by keyword (e.g., “pasta”, “vegan”, “chicken”)
+  - Partial match support across titles, ingredients, and cuisine type
+  - Case-insensitive
+
+- **Filter by Category**:
+  - Categories include: Breakfast, Lunch, Dinner, Dessert, Snack, Vegan, Vegetarian
+  - Category filters are displayed in a grid with icons on the homepage
+  - Clicking a category dynamically shows related recipes
+
+- **Filter by Difficulty**:
+  - Options: Easy, Medium, Hard
+  - Helps users find recipes based on their skill level
+
+- **Sort Options**:
+  - Newest first
+  - Most liked 
+  - Alphabetical 
+
+#### Responsive & Accessible:
+- Dropdown filters collapse gracefully on mobile
+- All filter controls are keyboard accessible
+- Form uses semantic `<label>`s and `aria` attributes for usability
+
+#### Backend Integration:
+- Flask routes query the PostgreSQL database with dynamic filters
+- Queries are constructed securely with SQLAlchemy
+
+<details>
+<summary>📸 Filtering & Search UI (Click to expand)</summary>
+
+![Search and Filters](/app/static/readme-screenshoots/filter-screenshoot.png)
+
+</details>
+
+---
+
+### LikeFavorite Recipes
+
+DishCraft enables users to express appreciation for recipes by "liking" them — effectively adding them to their list of favorite dishes.
+
+#### How it Works:
+- Every recipe includes a **like (heart)** button
+- Logged-in users can:
+  - ❤️ Like a recipe (adds to their profile’s favorite list)
+  - 💔 Unlike a recipe to remove it from favorites
+- Likes are updated in real-time via form submission
+
+#### Visual Feedback:
+- Filled heart icon indicates a recipe is liked
+- Count of total likes is displayed next to the icon
+- Button uses subtle animation or color feedback on interaction
+
+#### Data Model:
+- Many-to-many relationship between users and recipes
+- Likes are stored in a separate table (`likes`) with user and recipe foreign keys
+- Prevents duplicate likes per user
+
+#### Profile Integration:
+- A user's profile includes a section displaying their liked recipes
+- Encourages users to save favorites for later access
+
+#### Permissions:
+- Only authenticated users can like/unlike recipes
+- Unauthenticated users are prompted to log in
+
+<details>
+<summary>📸 Like Feature UI (Click to expand)</summary>
+
+![Like Recipes](/app/static/readme-screenshoots/like-screenshoot.png)
+
+</details>
+
+---
+
+### Comments
+
+DishCraft allows authenticated users to leave comments on any recipe, encouraging discussion, feedback, and community interaction.
+
+#### Core Features:
+- Users can:
+  - 💬 Add a new comment to any recipe
+  - 🗑️ Delete their own comments
+- Comments display:
+  - Author name
+  - Timestamp (e.g., “Posted 2 hours ago”)
+  - Content in clean readable format
+
+#### Form Behavior:
+- Comment form is positioned beneath each recipe detail page
+- Includes textarea input, submit button, and flash message feedback
+- Validation ensures empty comments are not submitted
+
+#### Moderation (Admin Role):
+- Admin users can:
+  - View and delete any comment for moderation
+  - Access comments through the admin dashboard
+
+#### Backend Handling:
+- Comments are stored in a relational table linked to both:
+  - The **user** who posted it
+  - The **recipe** it belongs to
+- Flask and SQLAlchemy handle form submission, validation, and storage
+
+#### UX Considerations:
+- New comments appear in real-time upon submission
+- Each comment has a minimal, clean layout with user-friendly spacing
+
+<details>
+<summary>📸 Comments UI (Click to expand)</summary>
+
+![Recipe Comments](/app/static/readme-screenshoots/comment-screenshoot.png)
+
+</details>
+
+---
+
+### Admin Dashboard
+
+DishCraft includes a powerful admin interface that allows site administrators to manage users, recipes, comments, and maintain the platform’s content quality.
+
+#### Access Control:
+- Only users with the `admin` role can access the dashboard
+- Access is protected via Flask-Login and checked on every admin route
+
+#### Dashboard Features:
+- 📊 Overview cards for:
+  - Total users
+  - Total recipes
+  - Total comments
+  - Total likes 
+- 🧑‍💼 User Management:
+  - View all registered users
+  - Promote or demote user roles
+  - Delete inactive or inappropriate users
+- 📋 Recipe Management:
+  - View all submitted recipes
+  - Edit or delete any recipe
+- 💬 Comment Moderation:
+  - View all comments site-wide
+  - Delete inappropriate comments
+
+#### Design:
+- Dashboard uses responsive tables and styled cards for data visibility
+- Tooltips and icons clarify available actions
+- Sortable or searchable tables improve admin workflow (optional enhancement)
+
+#### Backend Logic:
+- Role checking with conditionals (e.g., `current_user.is_admin`)
+- All admin views query models using SQLAlchemy with pagination if needed
+
+<details>
+<summary>📸 Admin Dashboard UI (Click to expand)</summary>
+
+![Admin Dashboard](/app/static/readme-screenshoots/admin-screenshoot.png)
+
+</details>
+
+---
+
+### User Profiles
+
+Each registered user on DishCraft has a personalized profile page that displays their contributions and saved favorites.
+
+#### Profile Page Features:
+- 👤 Display username and profile avatar (if implemented)
+- 🧾 List of user-submitted recipes, each with:
+  - Title, category, likes, and edit/delete options
+- ❤️ Liked Recipes:
+  - Section showing recipes the user has favorited
+  - Allows quick access to saved dishes
+
+#### Functionality:
+- Logged-in users can access their profile from the navbar
+- Profile route is protected — users can only access their own page
+- Recipes listed have action buttons:
+  - `Edit` and `Delete` for the user's own content
+- Uses pagination or scroll-based loading if the user has many recipes
+
+#### Backend Integration:
+- Profile queries recipes and likes based on `current_user.id`
+- Admins may access all profiles for moderation if necessary
+
+#### UX Touches:
+- Profile layout adapts responsively for mobile
+- Clean grid or card layout for recipes and favorites
+- Flash messages confirm successful updates or deletions
+
+<details>
+<summary>📸 Profile Page UI (Click to expand)</summary>
+
+![User Profile](/app/static/readme-screenshoots/profile-screenshoot.png)
+
+</details>
