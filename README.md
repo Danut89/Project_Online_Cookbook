@@ -855,6 +855,50 @@ Tested the application in the following browsers:
 | Safari (iOS)   | 15+            | ✅ Pass   |
 | Brave          | Latest         | ✅ Pass   |
 
+### Accessibility
+
+DishCraft was built with accessibility as a core consideration, ensuring the platform is inclusive and user-friendly for all visitors, including those using assistive technologies.
+
+Key accessibility measures implemented:
+
+- **Semantic HTML Structure**  
+  All pages utilize semantic HTML5 elements such as `<main>`, `<nav>`, `<header>`, and `<section>` to enhance document structure and assistive tool readability.
+
+- **Keyboard Navigability**  
+  All interactive elements (e.g., navigation links, buttons, forms) are accessible via keyboard (Tab/Shift+Tab and Enter) with visible focus states for clarity.
+
+- **Color Contrast Compliance**  
+  The color scheme was selected with accessibility in mind, maintaining strong foreground/background contrast ratios to meet [WCAG 2.1 AA](https://www.w3.org/TR/WCAG21/) standards.
+
+- **Descriptive Alt Text**  
+  All images include relevant `alt` attributes to provide visual context for screen reader users.
+
+- **Accessible Forms**  
+  All form fields include associated `<label>` tags, and use `aria-` attributes where needed for improved screen reader support.
+
+- **Modal Accessibility**  
+  Confirmation modals (e.g., delete recipe) are built using Bootstrap and enhanced with ARIA roles to ensure focus trapping and proper keyboard control.
+
+- **Responsive Typography**  
+  Font sizes and spacing are responsive and legible across all screen sizes without the need for zoom.
+
+<details>
+<summary>🌐 Lighthouse Accessibility Audit (Click to expand)</summary>
+
+Accessibility audits were performed using Chrome’s Lighthouse tool to validate best practices across different views of the application.
+
+**Add_recipe page Accessibility Score**  
+![Lighthouse Audit](/app/static/readme-screenshoots/accesibility-addrecipe.png)
+
+**Explore_Recipe Page Accessibility Score**  
+![Lighthouse Audit](/app/static/readme-screenshoots/accesibility-browse_recipe.png)
+
+**Profile Page Accessibility Score**  
+![Lighthouse Audit](/app/static/readme-screenshoots/accesibility=profile.png)
+
+</details>
+
+
 ### Bugs and Fixes
 
 | Bug Description                           | Resolution                                  |

@@ -5,58 +5,67 @@
 
   <!-- 🧭 Page Heading -->
   <div class="text-center mb-5">
-    <h1 class="fw-bold hero-title">🔎 Explore All Recipes</h1>
+    <h1 class="fw-bold hero-title">
+      <span role="img" aria-label="Magnifying glass">🔎</span> Explore All Recipes
+    </h1>
     <p class="text-secondary">Search, filter, and discover recipes from the community.</p>
   </div>
 
   <!-- 🔍 Filter Form -->
-  <form method="GET" class="row g-3 align-items-end mb-4">
-    <!-- 🔍 Search -->
-    <div class="col-md-4">
-      <label for="search" class="form-label fw-semibold">Search</label>
-      <input type="text" name="q" id="search" class="form-control rounded-pill"
-            placeholder="e.g. pasta, vegan..." value="{{ query }}">
-    </div>
+  <form method="GET" aria-labelledby="filterForm">
+    <fieldset class="row g-3 align-items-end mb-4">
+      <legend id="filterForm" class="visually-hidden">Filter Recipes</legend>
 
-    <!-- 📂 Category -->
-    <div class="col-md-2">
-      <label for="category" class="form-label fw-semibold">Category</label>
-      <select name="category" id="category" class="form-select rounded-pill">
-        <option value="">All</option>
-        {% for cat in categories %}
-          <option value="{{ cat.name }}" {% if selected_category == cat.name %}selected{% endif %}>{{ cat.name }}</option>
-        {% endfor %}
-      </select>
-    </div>
+      <!-- 🔍 Search -->
+      <div class="col-md-4">
+        <label for="search" class="form-label fw-semibold">Search</label>
+        <input type="text" name="q" id="search" class="form-control rounded-pill"
+              placeholder="e.g. pasta, vegan..." value="{{ query }}">
+      </div>
 
-    <!-- ⚙️ Difficulty -->
-    <div class="col-md-2">
-      <label for="difficulty" class="form-label fw-semibold">Difficulty</label>
-      <select name="difficulty" id="difficulty" class="form-select rounded-pill">
-        <option value="">All</option>
-        {% for level in difficulties %}
-          <option value="{{ level }}" {% if selected_difficulty == level %}selected{% endif %}>{{ level }}</option>
-        {% endfor %}
-      </select>
-    </div>
+      <!-- 📂 Category -->
+      <div class="col-md-2">
+        <label for="category" class="form-label fw-semibold">Category</label>
+        <select name="category" id="category" class="form-select rounded-pill">
+          <option value="">All</option>
+          {% for cat in categories %}
+            <option value="{{ cat.name }}" {% if selected_category == cat.name %}selected{% endif %}>{{ cat.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
 
-    <!-- 📊 Sort By -->
-    <div class="col-md-2">
-      <label for="sort" class="form-label fw-semibold">Sort by</label>
-      <select name="sort" id="sort" class="form-select rounded-pill">
-        <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest</option>
-        <option value="oldest" {% if sort == 'oldest' %}selected{% endif %}>Oldest</option>
-        <option value="title" {% if sort == 'title' %}selected{% endif %}>Title (A-Z)</option>
-        <option value="prep_time_asc" {% if sort == 'prep_time_asc' %}selected{% endif %}>Prep Time ↑</option>
-        <option value="prep_time_desc" {% if sort == 'prep_time_desc' %}selected{% endif %}>Prep Time ↓</option>
-      </select>
-    </div>
+      <!-- ⚙️ Difficulty -->
+      <div class="col-md-2">
+        <label for="difficulty" class="form-label fw-semibold">Difficulty</label>
+        <select name="difficulty" id="difficulty" class="form-select rounded-pill">
+          <option value="">All</option>
+          {% for level in difficulties %}
+            <option value="{{ level }}" {% if selected_difficulty == level %}selected{% endif %}>{{ level }}</option>
+          {% endfor %}
+        </select>
+      </div>
 
-    <!-- 🔘 Submit + Reset -->
-    <div class="col-md-2 text-end">
-      <button type="submit" class="btn btn-primary rounded-pill px-4 w-100 mb-2">Apply</button>
-      <a href="{{ url_for('main.browse_recipes') }}" class="btn btn-outline-secondary rounded-pill w-100">Reset</a>
-    </div>
+      <!-- 📊 Sort By -->
+      <div class="col-md-2">
+        <label for="sort" class="form-label fw-semibold">Sort by</label>
+        <select name="sort" id="sort" class="form-select rounded-pill">
+          <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest</option>
+          <option value="oldest" {% if sort == 'oldest' %}selected{% endif %}>Oldest</option>
+          <option value="title" {% if sort == 'title' %}selected{% endif %}>Title (A-Z)</option>
+          <option value="prep_time_asc" {% if sort == 'prep_time_asc' %}selected{% endif %}>Prep Time ↑</option>
+          <option value="prep_time_desc" {% if sort == 'prep_time_desc' %}selected{% endif %}>Prep Time ↓</option>
+        </select>
+      </div>
+
+      <!-- 🔘 Submit + Reset -->
+      <div class="col-md-2 text-end">
+        <button type="submit" class="btn btn-primary rounded-pill px-4 w-100 mb-2" aria-label="Apply filters">Apply</button>
+        <a href="{{ url_for('main.browse_recipes') }}"
+           class="btn btn-outline-secondary rounded-pill w-100"
+           aria-label="Reset filters">Reset</a>
+      </div>
+
+    </fieldset>
   </form>
 
   <!-- 🍽️ Recipe Results -->
@@ -66,7 +75,9 @@
         <div class="col-md-4" data-aos="fade-up">
           <div class="card h-100 shadow-sm border-0 rounded-4">
             <img src="{{ recipe.image_url or url_for('static', filename='uploads/default_recipe.jpg') }}"
-                 class="card-img-top rounded-top-4" style="height: 200px; object-fit: cover;">
+                 alt="Image of {{ recipe.title }}"
+                 class="card-img-top rounded-top-4"
+                 style="height: 200px; object-fit: cover;">
             <div class="card-body d-flex flex-column">
               <h5 class="fw-bold">{{ recipe.title }}</h5>
               <p class="text-muted small mb-2">{{ recipe.description[:90] }}...</p>
@@ -89,17 +100,20 @@
 
   <!-- 📄 Pagination -->
   {% if recipes.pages > 1 %}
-    <nav class="mt-5">
+    <nav class="mt-5" role="navigation" aria-label="Pagination">
       <ul class="pagination justify-content-center">
         {% if recipes.has_prev %}
           <li class="page-item">
-            <a class="page-link" href="{{ url_for('main.browse_recipes', page=recipes.prev_num, q=query, category=selected_category, difficulty=selected_difficulty) }}">Previous</a>
+            <a class="page-link"
+               href="{{ url_for('main.browse_recipes', page=recipes.prev_num, q=query, category=selected_category, difficulty=selected_difficulty) }}">Previous</a>
           </li>
         {% endif %}
         {% for page_num in recipes.iter_pages() %}
           {% if page_num %}
             <li class="page-item {% if recipes.page == page_num %}active{% endif %}">
-              <a class="page-link" href="{{ url_for('main.browse_recipes', page=page_num, q=query, category=selected_category, difficulty=selected_difficulty) }}">{{ page_num }}</a>
+              <a class="page-link"
+                 {% if recipes.page == page_num %}aria-current="page"{% endif %}
+                 href="{{ url_for('main.browse_recipes', page=page_num, q=query, category=selected_category, difficulty=selected_difficulty) }}">{{ page_num }}</a>
             </li>
           {% else %}
             <li class="page-item disabled"><span class="page-link">…</span></li>
@@ -107,7 +121,8 @@
         {% endfor %}
         {% if recipes.has_next %}
           <li class="page-item">
-            <a class="page-link" href="{{ url_for('main.browse_recipes', page=recipes.next_num, q=query, category=selected_category, difficulty=selected_difficulty) }}">Next</a>
+            <a class="page-link"
+               href="{{ url_for('main.browse_recipes', page=recipes.next_num, q=query, category=selected_category, difficulty=selected_difficulty) }}">Next</a>
           </li>
         {% endif %}
       </ul>
@@ -124,3 +139,4 @@
 </section>
 
 {% endblock %}
+
