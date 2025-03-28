@@ -8,8 +8,9 @@ import cloudinary
 import os
 from dotenv import load_dotenv
 
-# ✅ Load environment variables from .env file
-load_dotenv()
+if os.getenv("RENDER") is None:  # Only load .env locally
+    load_dotenv()
+
 
 csrf = CSRFProtect()
 
