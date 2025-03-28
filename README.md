@@ -30,6 +30,7 @@
   - [Comments](#comments)
   - [Admin Dashboard](#admin-dashboard)
   - [User Profiles](#user-profiles)
+  - [Contact Page](#contact-page)
 
 - [Technologies Used](#technologies-used)
   - [Languages and Frameworks](#languages-and-frameworks)
@@ -338,7 +339,7 @@ The navbar is sticky, lightweight, and mobile-friendly. It collapses into a togg
 <details>
 <summary>📸 Homepage & Navbar Example (Click to expand)</summary>
 
-![Homepage UI](/app/static/readme-screenshoots/home-page-screenshoot.png)
+![Homepage UI](/app/static/readme-screenshoots/home-page.png)
 
 </details>
 
@@ -378,7 +379,7 @@ DishCraft features a secure and user-friendly authentication system built with F
 <details>
 <summary>📸 Authentication UI (Click to expand)</summary>
 
-![Login Register UI](/app/static/readme-screenshoots/login.register-screenshoot.png)
+![Login Register UI](/app/static/readme-screenshoots/register.png)
 
 </details>
 
@@ -418,7 +419,7 @@ DishCraft allows authenticated users to fully manage their own recipes using CRU
 <details>
 <summary>📸 Recipe CRUD Interface (Click to expand)</summary>
 
-![CRUD Example](/app/static/readme-screenshoots/CRUD-screenshoot.png)
+![CRUD Example](/app/static/readme-screenshoots/add_recipe.png)
 
 </details>
 <details>
@@ -652,9 +653,28 @@ Each registered user on DishCraft has a personalized profile page that displays 
 <details>
 <summary>📸 Profile Page UI (Click to expand)</summary>
 
-![User Profile](/app/static/readme-screenshoots/profile-screenshoot.png)
+![User Profile](/app/static/readme-screenshoots/profile.html.png)
 
 </details>
+
+### Contact Page
+
+The Contact page allows users to get in touch with the DishCraft team for feedback, inquiries, or support.
+
+- Users can fill out a form with their **name**, **email**, and **message**.
+- Form includes:
+  - Client-side input validation
+  - Clear confirmation on successful submission
+- Styled consistently with the rest of the application
+- Protected with CSRF (Flask-WTF) for security
+
+<details>
+<summary>📸 Contact Page Screenshot (Click to expand)</summary>
+
+![Contact Page](/app/static/readme-screenshoots/contact-page.png)
+
+</details>
+
 
 ---
 
