@@ -1,6 +1,11 @@
 /* ========================
    🌐 GLOBAL RESET & ROOT
 =========================== */
+html {
+  scroll-behavior: smooth;
+}
+
+
 :root {
   --brand-primary: #EF8354;     /* Coral */
   --brand-dark: #2D3142;        /* Gunmetal */
