@@ -541,7 +541,7 @@ DishCraft allows authenticated users to leave comments on any recipe, encouragin
   - 🗑️ Delete their own comments
 - Comments display:
   - Author name
-  - Timestamp (e.g., “Posted 2 hours ago”)
+  - Timestamp 
   - Content in clean readable format
 
 #### Form Behavior:
@@ -619,7 +619,7 @@ DishCraft includes a powerful admin interface that allows site administrators to
 Each registered user on DishCraft has a personalized profile page that displays their contributions and saved favorites.
 
 #### Profile Page Features:
-- 👤 Display username and profile avatar (if implemented)
+- 👤 Display username and profile avatar 
 - 🧾 List of user-submitted recipes, each with:
   - Title, category, likes, and edit/delete options
 - ❤️ Liked Recipes:
@@ -893,10 +893,37 @@ Steps to deploy the application on Render:
 - **Icons** throughout the site are provided by [Font Awesome](https://fontawesome.com/).
 - **Cloudinary** is used to handle image uploads from users.
 
----
-
 ### Inspiration & Acknowledgements
 
 - All design decisions, layout structure, and interactive elements were custom-designed for this project by the developer.
 - The concept of DishCraft was created to bring together community-driven cooking and elegant, user-friendly web application design.
 - Huge thanks to my **Code Institute tutor** for their invaluable feedback and support throughout the project, to my **mentor** for their guidance and to the **Code Institute Slack community** for their helpful discussions, resources, and peer reviews during development.
+
+---
+
+## 🚀 Future Improvements
+
+While DishCraft already provides a solid foundation for sharing and discovering recipes, there are several enhancements planned for future development:
+
+- **Advanced Search & Filters**  
+  Implement multi-tag filters, dietary filters (e.g., gluten-free, keto), and better ingredient-based search.
+
+- **Recipe Rating System**  
+  Allow users to rate recipes with a 1–5 star system to help surface the best content.
+
+- **Recipe Collections**  
+  Let users save and organize recipes into custom collections (e.g., “Meal Prep,” “Holiday Dishes”).
+
+- **Private Recipes / Draft Mode**  
+  Enable users to save recipes privately or work on drafts before publishing them.
+
+- **Newsletter Integration**  
+  Store emails and build functionality to send periodic recipe newsletters.
+
+- **Accessibility Enhancements**  
+  Improve color contrast and keyboard navigation to meet WCAG AA+ standards.
+
+- **Dark Mode**  
+  Provide a toggle to switch between light and dark themes for better user preference.
+
+These improvements aim to elevate the user experience, expand engagement, and make DishCraft more dynamic and user-centric over time.

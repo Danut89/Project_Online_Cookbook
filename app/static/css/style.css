@@ -992,3 +992,26 @@ form .btn-primary:hover {
   font-size: 0.875rem;
   padding: 0.375rem 0.75rem;
 }
+
+/* Logo container */
+.navbar-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Logo image inside navbar */
+.navbar-brand img {
+  height: 50px;
+  width: auto;
+  border-radius: 50%;
+  transition: transform 0.2s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-brand img:hover {
+  transform: scale(1.05);
+}
