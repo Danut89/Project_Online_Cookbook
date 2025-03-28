@@ -1,15 +1,23 @@
 import os
-from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
+from flask import (
+    Blueprint,
+    render_template,
+    redirect,
+    url_for,
+    flash,
+    request,
+    current_app,
+)
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 from sqlalchemy import or_
 
 from app import db
-from app.models import Recipe, User, Category  
+from app.models import Recipe, User, Category
 from app.forms import RecipeForm
-from app.utils import save_uploaded_image  
-from app.models import Recipe, User, Category, Comment 
-from app.forms import RecipeForm, CommentForm  
+from app.utils import save_uploaded_image
+from app.models import Recipe, User, Category, Comment
+from app.forms import RecipeForm, CommentForm
 from app.models import Like
 
 from functools import wraps
@@ -22,14 +30,15 @@ from urllib.parse import urlparse
 import cloudinary.uploader
 
 # Define the blueprint
-main = Blueprint('main', __name__)
+main = Blueprint("main", __name__)
 
-@main.route('/')
+
+@main.route("/")
 def home():
-    query = request.args.get('q', '')
-    difficulty = request.args.get('difficulty', '')
-    cuisine = request.args.get('cuisine', '')
-    page = request.args.get('page', 1, type=int)
+    query = request.args.get("q", "")
+    difficulty = request.args.get("difficulty", "")
+    cuisine = request.args.get("cuisine", "")
+    page = request.args.get("page", 1, type=int)
 
     recipes_query = Recipe.query.join(User)
 
@@ -39,7 +48,7 @@ def home():
             or_(
                 Recipe.title.ilike(f"%{query}%"),
                 Recipe.cuisine.ilike(f"%{query}%"),
-                Recipe.difficulty.ilike(f"%{query}%")
+                Recipe.difficulty.ilike(f"%{query}%"),
             )
         )
 
@@ -52,7 +61,9 @@ def home():
         recipes_query = recipes_query.filter(Recipe.cuisine.ilike(f"%{cuisine}%"))
 
     # Paginate results for normal listing
-    recipes_paginated = recipes_query.order_by(Recipe.created_at.desc()).paginate(page=page, per_page=6)
+    recipes_paginated = recipes_query.order_by(Recipe.created_at.desc()).paginate(
+        page=page, per_page=6
+    )
 
     # Get all for featured and random pick
     all_recipes = recipes_query.all()
@@ -68,19 +79,19 @@ def home():
         "Lunch": "fa-utensils",
         "Snack": "fa-cookie",
         "Vegan": "fa-leaf",
-        "Vegetarian": "fa-carrot"
+        "Vegetarian": "fa-carrot",
     }
 
     return render_template(
-        'home.html',
+        "home.html",
         recipes=recipes_paginated,
         featured_recipes=all_recipes,
         categories=categories,
-        icon_map=icon_map
+        icon_map=icon_map,
     )
 
 
-@main.route('/recipe/<int:recipe_id>', methods=['GET', 'POST'])
+@main.route("/recipe/<int:recipe_id>", methods=["GET", "POST"])
 def view_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
 
@@ -93,33 +104,37 @@ def view_recipe(recipe_id):
     form = CommentForm()
     if form.validate_on_submit():
         comment = Comment(
-            content=form.content.data,
-            user_id=current_user.id,
-            recipe_id=recipe.id
+            content=form.content.data, user_id=current_user.id, recipe_id=recipe.id
         )
         db.session.add(comment)
         db.session.commit()
         flash("Comment posted successfully!", "success")
-        return redirect(url_for('main.view_recipe', recipe_id=recipe.id))
+        return redirect(url_for("main.view_recipe", recipe_id=recipe.id))
 
-    comments = Comment.query.filter_by(recipe_id=recipe.id).order_by(Comment.created_at.desc()).all()
+    comments = (
+        Comment.query.filter_by(recipe_id=recipe.id)
+        .order_by(Comment.created_at.desc())
+        .all()
+    )
 
     return render_template(
-        'view_recipe.html',
+        "view_recipe.html",
         recipe=recipe,
         is_liked=is_liked,
         form=form,
-        comments=comments
+        comments=comments,
     )
 
 
-@main.route('/add_recipe', methods=['GET', 'POST'])
+@main.route("/add_recipe", methods=["GET", "POST"])
 @login_required
 def add_recipe():
     form = RecipeForm()
-    form.categories.choices = [(c.id, c.name) for c in Category.query.all()] #Ensure categories are available
+    form.categories.choices = [
+        (c.id, c.name) for c in Category.query.all()
+    ]  # Ensure categories are available
 
-    next_url = request.args.get('next') or url_for('main.home')
+    next_url = request.args.get("next") or url_for("main.home")
 
     if form.validate_on_submit():
         image_url = None
@@ -127,7 +142,7 @@ def add_recipe():
         if form.image.data:
             # Upload to Cloudinary
             upload_result = cloudinary.uploader.upload(form.image.data)
-            image_url = upload_result['secure_url']
+            image_url = upload_result["secure_url"]
 
         recipe = Recipe(
             title=form.title.data,
@@ -138,22 +153,23 @@ def add_recipe():
             prep_time=form.prep_time.data,
             difficulty=form.difficulty.data,
             image_url=image_url,
-            user_id=current_user.id
+            user_id=current_user.id,
         )
 
-        selected_categories = Category.query.filter(Category.id.in_(form.categories.data)).all()
+        selected_categories = Category.query.filter(
+            Category.id.in_(form.categories.data)
+        ).all()
         recipe.categories.extend(selected_categories)
 
         db.session.add(recipe)
         db.session.commit()
-        flash('Recipe added successfully!', 'success')
+        flash("Recipe added successfully!", "success")
         return redirect(next_url)  # Redirect back to where user came from
 
-    return render_template('add_recipe.html', form=form, next_url=next_url)
+    return render_template("add_recipe.html", form=form, next_url=next_url)
 
 
-
-@main.route('/recipe/<int:recipe_id>/edit', methods=['GET', 'POST'])
+@main.route("/recipe/<int:recipe_id>/edit", methods=["GET", "POST"])
 @login_required
 def edit_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
@@ -161,13 +177,15 @@ def edit_recipe(recipe_id):
     # Only the author can edit
     if recipe.user_id != current_user.id:
         flash("You don't have permission to edit this recipe.", "danger")
-        return redirect(url_for('main.view_recipe', recipe_id=recipe.id))
+        return redirect(url_for("main.view_recipe", recipe_id=recipe.id))
 
     form = RecipeForm(obj=recipe)
-    form.categories.choices = [(c.id, c.name) for c in Category.query.all()] # Ensure categories are available
+    form.categories.choices = [
+        (c.id, c.name) for c in Category.query.all()
+    ]  # Ensure categories are available
 
     # Pre-select categories for GET
-    if request.method == 'GET':
+    if request.method == "GET":
         form.categories.data = [c.id for c in recipe.categories]
 
     if form.validate_on_submit():
@@ -181,28 +199,26 @@ def edit_recipe(recipe_id):
         recipe.difficulty = form.difficulty.data
 
         # Update categories
-        recipe.categories = Category.query.filter(Category.id.in_(form.categories.data)).all()
+        recipe.categories = Category.query.filter(
+            Category.id.in_(form.categories.data)
+        ).all()
 
         # Save new image if uploaded
         if form.image.data:
-             # Upload to Cloudinary
+            # Upload to Cloudinary
             upload_result = cloudinary.uploader.upload(form.image.data)
-            recipe.image_url = upload_result['secure_url']
+            recipe.image_url = upload_result["secure_url"]
 
         db.session.commit()
-        flash('Recipe updated successfully!', 'success')
-        return redirect(url_for('main.view_recipe', recipe_id=recipe.id))
+        flash("Recipe updated successfully!", "success")
+        return redirect(url_for("main.view_recipe", recipe_id=recipe.id))
 
-    return render_template('edit_recipe.html', form=form, recipe=recipe)
-
-
-
-
+    return render_template("edit_recipe.html", form=form, recipe=recipe)
 
     form = RecipeForm(obj=recipe)
 
     # ✅ Pre-fill selected categories
-    if request.method == 'GET':
+    if request.method == "GET":
         form.categories.data = [c.id for c in recipe.categories]
 
     if form.validate_on_submit():
@@ -215,61 +231,69 @@ def edit_recipe(recipe_id):
         recipe.difficulty = form.difficulty.data
 
         # ✅ Replace categories
-        recipe.categories = Category.query.filter(Category.id.in_(form.categories.data)).all()
+        recipe.categories = Category.query.filter(
+            Category.id.in_(form.categories.data)
+        ).all()
 
         if form.image.data:
             recipe.image_url = save_uploaded_image(form.image.data)
 
         db.session.commit()
-        flash('Recipe updated successfully!', 'success')
-        return redirect(url_for('main.view_recipe', recipe_id=recipe.id))
+        flash("Recipe updated successfully!", "success")
+        return redirect(url_for("main.view_recipe", recipe_id=recipe.id))
 
-    return render_template('edit_recipe.html', form=form, recipe=recipe)
+    return render_template("edit_recipe.html", form=form, recipe=recipe)
 
-@main.route('/recipe/<int:recipe_id>/delete', methods=['POST'])
+
+@main.route("/recipe/<int:recipe_id>/delete", methods=["POST"])
 @login_required
 def delete_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
 
     if current_user.id != recipe.user_id and not current_user.is_admin:
         flash("You don't have permission to delete this recipe.", "danger")
-        return redirect(url_for('main.home'))
+        return redirect(url_for("main.home"))
 
     db.session.delete(recipe)
     db.session.commit()
     flash("Recipe deleted successfully.", "success")
 
     # Handle redirect safely
-    next_url = request.form.get('next') or request.referrer
+    next_url = request.form.get("next") or request.referrer
     if next_url:
         # If coming from the same page (view_recipe), avoid redirecting to deleted content
         parsed_url = urlparse(next_url)
-        if f'/recipe/{recipe_id}' in parsed_url.path:
-            return redirect(url_for('main.home'))
+        if f"/recipe/{recipe_id}" in parsed_url.path:
+            return redirect(url_for("main.home"))
         return redirect(next_url)
 
-    return redirect(url_for('main.home'))
+    return redirect(url_for("main.home"))
 
-@main.route('/recipe/<int:recipe_id>/like', methods=['POST'])
+
+@main.route("/recipe/<int:recipe_id>/like", methods=["POST"])
 @login_required
 def like_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
 
-    existing_like = next((like for like in recipe.likes if like.user_id == current_user.id), None)
+    existing_like = next(
+        (like for like in recipe.likes if like.user_id == current_user.id), None
+    )
 
     if existing_like:
         db.session.delete(existing_like)
         flash("Removed from your favorites.", "info")
     else:
         from app.models import Like  # Import here to avoid circular imports
+
         new_like = Like(user_id=current_user.id, recipe_id=recipe.id)
         db.session.add(new_like)
         flash("Added to your favorites!", "success")
 
     db.session.commit()
-    return redirect(url_for('main.view_recipe', recipe_id=recipe.id))
+    return redirect(url_for("main.view_recipe", recipe_id=recipe.id))
 
-@main.route('/profile')
+
+@main.route("/profile")
 @login_required
 def profile():
     # Recipes created by the user
@@ -277,37 +301,42 @@ def profile():
 
     # Recipes the user has liked
     from app.models import Like  # ensure Like is imported
+
     liked_recipe_ids = [like.recipe_id for like in current_user.likes]
     liked_recipes = Recipe.query.filter(Recipe.id.in_(liked_recipe_ids)).all()
 
-    return render_template('profile.html', my_recipes=my_recipes, liked_recipes=liked_recipes)
+    return render_template(
+        "profile.html", my_recipes=my_recipes, liked_recipes=liked_recipes
+    )
 
-@main.route('/comment/<int:comment_id>/delete', methods=['POST'])
+
+@main.route("/comment/<int:comment_id>/delete", methods=["POST"])
 @login_required
 def delete_comment(comment_id):
     comment = Comment.query.get_or_404(comment_id)
 
     if comment.user_id != current_user.id and not current_user.is_admin:
         flash("You are not authorized to delete this comment.", "error")
-        return redirect(url_for('main.view_recipe', recipe_id=comment.recipe_id))
+        return redirect(url_for("main.view_recipe", recipe_id=comment.recipe_id))
 
     db.session.delete(comment)
     db.session.commit()
     flash("Comment deleted.", "info")
     # Redirect depending on where delete came from
-    if request.referrer and '/admin' in request.referrer:
-        return redirect(url_for('main.admin_dashboard'))
-    
-    return redirect(url_for('main.view_recipe', recipe_id=comment.recipe_id))
+    if request.referrer and "/admin" in request.referrer:
+        return redirect(url_for("main.admin_dashboard"))
+
+    return redirect(url_for("main.view_recipe", recipe_id=comment.recipe_id))
+
 
 # 🔍 View all categories
-@main.route('/browse')
+@main.route("/browse")
 def browse_recipes():
-    query = request.args.get('q', '')
-    category = request.args.get('category', '')
-    difficulty = request.args.get('difficulty', '')
-    sort_by = request.args.get('sort', 'newest')
-    page = request.args.get('page', 1, type=int)
+    query = request.args.get("q", "")
+    category = request.args.get("category", "")
+    difficulty = request.args.get("difficulty", "")
+    sort_by = request.args.get("sort", "newest")
+    page = request.args.get("page", 1, type=int)
 
     recipes_query = Recipe.query
 
@@ -316,24 +345,26 @@ def browse_recipes():
             or_(
                 Recipe.title.ilike(f"%{query}%"),
                 Recipe.cuisine.ilike(f"%{query}%"),
-                Recipe.description.ilike(f"%{query}%")
+                Recipe.description.ilike(f"%{query}%"),
             )
         )
 
     if category:
-        recipes_query = recipes_query.join(Recipe.categories).filter(Category.name == category)
+        recipes_query = recipes_query.join(Recipe.categories).filter(
+            Category.name == category
+        )
 
     if difficulty:
         recipes_query = recipes_query.filter(Recipe.difficulty == difficulty)
 
     # ✅ Sorting logic
-    if sort_by == 'oldest':
+    if sort_by == "oldest":
         recipes_query = recipes_query.order_by(Recipe.created_at.asc())
-    elif sort_by == 'title':
+    elif sort_by == "title":
         recipes_query = recipes_query.order_by(Recipe.title.asc())
-    elif sort_by == 'prep_time_asc':
+    elif sort_by == "prep_time_asc":
         recipes_query = recipes_query.order_by(Recipe.prep_time.asc())
-    elif sort_by == 'prep_time_desc':
+    elif sort_by == "prep_time_desc":
         recipes_query = recipes_query.order_by(Recipe.prep_time.desc())
     else:
         recipes_query = recipes_query.order_by(Recipe.created_at.desc())
@@ -341,23 +372,22 @@ def browse_recipes():
     recipes_paginated = recipes_query.paginate(page=page, per_page=6)
 
     categories = Category.query.order_by(Category.name).all()
-    difficulties = ['Easy', 'Medium', 'Hard']
+    difficulties = ["Easy", "Medium", "Hard"]
 
     return render_template(
-        'browse_recipes.html',
+        "browse_recipes.html",
         recipes=recipes_paginated,
         categories=categories,
         selected_category=category,
         selected_difficulty=difficulty,
         query=query,
         sort=sort_by,
-        difficulties=difficulties
+        difficulties=difficulties,
     )
 
 
-
 # 📂 View all recipes in a specific category
-@main.route('/category/<string:category_name>')
+@main.route("/category/<string:category_name>")
 def recipes_by_category(category_name):
     category = Category.query.filter_by(name=category_name).first_or_404()
     recipes = category.recipes.order_by(Recipe.created_at.desc()).all()
@@ -365,10 +395,9 @@ def recipes_by_category(category_name):
     categories = Category.query.order_by(Category.name).all()
 
     return render_template(
-    'browse_recipes.html',
-    recipes=recipes,
-    selected_category=category.name
-)
+        "browse_recipes.html", recipes=recipes, selected_category=category.name
+    )
+
 
 # ✅ Admin-only access decorator
 def admin_required(f):
@@ -378,10 +407,12 @@ def admin_required(f):
         if not current_user.is_admin:
             abort(403)
         return f(*args, **kwargs)
+
     return decorated_function
 
+
 # ✅ Admin Dashboard route
-@main.route('/admin')
+@main.route("/admin")
 @admin_required
 def admin_dashboard():
     # ✅ Fetch full lists (for count display)
@@ -401,7 +432,9 @@ def admin_dashboard():
     start_of_month = today.replace(day=1)
 
     recipes_this_week = Recipe.query.filter(Recipe.created_at >= start_of_week).count()
-    recipes_this_month = Recipe.query.filter(Recipe.created_at >= start_of_month).count()
+    recipes_this_month = Recipe.query.filter(
+        Recipe.created_at >= start_of_month
+    ).count()
 
     # ❤️ Most liked recipe
     most_liked_recipe = (
@@ -412,29 +445,31 @@ def admin_dashboard():
         .first()
     )
 
-    return render_template('admin/dashboard.html',
-                           users=users,
-                           recipes=recipes,
-                           recent_users=recent_users,
-                           recent_recipes=recent_recipes,
-                           comments=comments,
-                           total_likes=total_likes,
-                           recipes_this_week=recipes_this_week,
-                           recipes_this_month=recipes_this_month,
-                           most_liked_recipe=most_liked_recipe)
+    return render_template(
+        "admin/dashboard.html",
+        users=users,
+        recipes=recipes,
+        recent_users=recent_users,
+        recent_recipes=recent_recipes,
+        comments=comments,
+        total_likes=total_likes,
+        recipes_this_week=recipes_this_week,
+        recipes_this_month=recipes_this_month,
+        most_liked_recipe=most_liked_recipe,
+    )
 
 
-
-@main.route('/admin/users')
+@main.route("/admin/users")
 @admin_required
 def manage_users():
     if not current_user.is_admin:
         abort(403)
 
     users = User.query.order_by(User.id).all()
-    return render_template('admin/manage_users.html', users=users)
+    return render_template("admin/manage_users.html", users=users)
 
-@main.route('/admin/user/<int:user_id>/promote', methods=['POST'])
+
+@main.route("/admin/user/<int:user_id>/promote", methods=["POST"])
 @login_required
 def promote_user(user_id):
     if not current_user.is_admin:
@@ -443,10 +478,11 @@ def promote_user(user_id):
     user = User.query.get_or_404(user_id)
     user.is_admin = True
     db.session.commit()
-    flash(f'{user.username} has been promoted to admin.', 'success')
-    return redirect(url_for('main.manage_users'))
+    flash(f"{user.username} has been promoted to admin.", "success")
+    return redirect(url_for("main.manage_users"))
 
-@main.route('/admin/user/<int:user_id>/demote', methods=['POST'])
+
+@main.route("/admin/user/<int:user_id>/demote", methods=["POST"])
 @login_required
 def demote_user(user_id):
     if not current_user.is_admin or current_user.id == user_id:
@@ -455,12 +491,13 @@ def demote_user(user_id):
     user = User.query.get_or_404(user_id)
     user.is_admin = False
     db.session.commit()
-    flash(f'{user.username} has been demoted from admin.', 'info')
-    if request.referrer and '/admin' in request.referrer:
-        return redirect(url_for('main.admin_dashboard'))
-    return redirect(url_for('main.manage_users'))
+    flash(f"{user.username} has been demoted from admin.", "info")
+    if request.referrer and "/admin" in request.referrer:
+        return redirect(url_for("main.admin_dashboard"))
+    return redirect(url_for("main.manage_users"))
 
-@main.route('/admin/user/<int:user_id>/delete', methods=['POST'])
+
+@main.route("/admin/user/<int:user_id>/delete", methods=["POST"])
 @login_required
 def delete_user(user_id):
     if not current_user.is_admin or current_user.id == user_id:
@@ -469,34 +506,39 @@ def delete_user(user_id):
     user = User.query.get_or_404(user_id)
     db.session.delete(user)
     db.session.commit()
-    flash(f'User {user.username} has been deleted.', 'danger')
-    return redirect(url_for('main.manage_users'))
+    flash(f"User {user.username} has been deleted.", "danger")
+    return redirect(url_for("main.manage_users"))
 
-@main.route('/admin/comment/<int:comment_id>/delete', methods=['POST'])
+
+@main.route("/admin/comment/<int:comment_id>/delete", methods=["POST"])
 @admin_required
 def admin_delete_comment(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     db.session.delete(comment)
     db.session.commit()
-    flash('Comment deleted by admin.', 'warning')
+    flash("Comment deleted by admin.", "warning")
 
-    return redirect(url_for('main.admin_dashboard'))
+    return redirect(url_for("main.admin_dashboard"))
 
 
-@main.route('/admin/recipes')
+@main.route("/admin/recipes")
 @admin_required
 def manage_recipes():
     if not current_user.is_admin:
         abort(403)
 
-    page = request.args.get('page', 1, type=int)
+    page = request.args.get("page", 1, type=int)
     per_page = 10
-    recipes = Recipe.query.order_by(Recipe.created_at.desc()).paginate(page=page, per_page=per_page)
-    return render_template('admin/manage_recipes.html', recipes=recipes)
+    recipes = Recipe.query.order_by(Recipe.created_at.desc()).paginate(
+        page=page, per_page=per_page
+    )
+    return render_template("admin/manage_recipes.html", recipes=recipes)
 
-@main.route('/recipes')
+
+@main.route("/recipes")
 def all_recipes():
-    page = request.args.get('page', 1, type=int)
-    recipes = Recipe.query.order_by(Recipe.created_at.desc()).paginate(page=page, per_page=6)
-    return render_template('all_recipes.html', recipes=recipes)
-
+    page = request.args.get("page", 1, type=int)
+    recipes = Recipe.query.order_by(Recipe.created_at.desc()).paginate(
+        page=page, per_page=6
+    )
+    return render_template("all_recipes.html", recipes=recipes)

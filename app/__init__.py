@@ -21,18 +21,22 @@ db = SQLAlchemy()
 migrate = Migrate()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
-login_manager.login_view = "auth.login"  # Redirects to login page if user is not logged in
+login_manager.login_view = (
+    "auth.login"  # Redirects to login page if user is not logged in
+)
+
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object("config.Config")
+
     @app.errorhandler(404)
     def page_not_found(e):
         return render_template("errors/404.html"), 404
+
     @app.errorhandler(403)
     def forbidden_error(e):
         return render_template("errors/403.html"), 403
-
 
     # Initialize extensions with app
     db.init_app(app)
@@ -41,7 +45,7 @@ def create_app():
     login_manager.init_app(app)
 
     # Import models BEFORE using them
-    from app.models import User  # ✅ FIX: Moved import up
+    from app.models import User  
 
     # Define Flask-Login user loader function
     @login_manager.user_loader
@@ -52,19 +56,13 @@ def create_app():
     from app.routes import main
     from app.auth import auth
 
-    
-
     cloudinary.config(
         cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
         api_key=os.getenv("CLOUDINARY_API_KEY"),
-        api_secret=os.getenv("CLOUDINARY_API_SECRET")
+        api_secret=os.getenv("CLOUDINARY_API_SECRET"),
     )
 
-
-
     app.register_blueprint(main)
-    app.register_blueprint(auth, url_prefix='/auth')
+    app.register_blueprint(auth, url_prefix="/auth")
 
     return app
-
-

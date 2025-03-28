@@ -2,6 +2,7 @@ import os
 from flask import current_app
 from werkzeug.utils import secure_filename
 
+
 def save_uploaded_image(image):
     """
     Save an uploaded image to the static/uploads directory.
@@ -13,7 +14,7 @@ def save_uploaded_image(image):
     filename = secure_filename(image.filename)
 
     # Absolute path to /static/uploads
-    upload_path = os.path.join(current_app.root_path, 'static', 'uploads', filename)
+    upload_path = os.path.join(current_app.root_path, "static", "uploads", filename)
 
     # Create folder if needed
     os.makedirs(os.path.dirname(upload_path), exist_ok=True)

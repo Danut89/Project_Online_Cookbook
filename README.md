@@ -1,4 +1,6 @@
-# 📘 – DishCraft – ![DishCraft Logo](/app/static/readme-screenshoots/Logo-Dishcraft.png)
+#   DishCraft 
+
+ ![DishCraft Logo](/app/static/readme-screenshoots/amiresponsiv.png)
 
 
 ## 📋 Table of Contents
@@ -797,11 +799,24 @@ Manual testing was performed across the site's major features to ensure expected
 - **Forms**: Flask-WTF ensures server-side validation with proper feedback  
 
 <details>
-<summary>📸 Validation Screenshots (Click to expand)</summary>
+<summary>📸  (Click to expand)</summary>
 
-- HTML: `validation-html.png`  
-- CSS: `validation-css.png`  
-- Python: `flake8-results.png`
+- HTML: ``  
+- CSS: `v`  
+- Python: `
+</details>
+
+<details>
+<summary>📱 Validation Screenshots (Click to expand)</summary>
+
+- **HTML validation**  
+  ![validation-html.png](/app/static/readme-screenshoots/html-validation.png)
+
+- **CSS validation**  
+  ![validation-css.png](/app/static/readme-screenshoots/css-validation.png)
+
+- **Python validation**  
+  ![flake8-results.png](/app/static/readme-screenshoots/python-validation.png)
 
 </details>
 
