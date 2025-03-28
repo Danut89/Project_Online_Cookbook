@@ -50,9 +50,13 @@
   - [Cloning and Running Locally](#cloning-and-running-locally)
   - [Environment Variables](#environment-variables)
 
+  - [Future Improvements](#future-improvements)
+
 - [Credits](#credits)
   - [Resources and Tutorials](#resources-and-tutorials)
   - [Inspiration and Acknowledgements](#inspiration-and-acknowledgements)
+
+
 
 
 
@@ -872,6 +876,35 @@ Steps to deploy the application on Render:
 
 ---
 
+## 🚀 Future Improvements
+
+While DishCraft already provides a solid foundation for sharing and discovering recipes, there are several enhancements planned for future development:
+
+- **Advanced Search & Filters**  
+  Implement multi-tag filters, dietary filters (e.g., gluten-free, keto), and better ingredient-based search.
+
+- **Recipe Rating System**  
+  Allow users to rate recipes with a 1–5 star system to help surface the best content.
+
+- **Recipe Collections**  
+  Let users save and organize recipes into custom collections (e.g., “Meal Prep,” “Holiday Dishes”).
+
+- **Private Recipes / Draft Mode**  
+  Enable users to save recipes privately or work on drafts before publishing them.
+
+- **Newsletter Integration**  
+  Store emails and build functionality to send periodic recipe newsletters.
+
+- **Accessibility Enhancements**  
+  Improve color contrast and keyboard navigation to meet WCAG AA+ standards.
+
+- **Dark Mode**  
+  Provide a toggle to switch between light and dark themes for better user preference.
+
+These improvements aim to elevate the user experience, expand engagement, and make DishCraft more dynamic and user-centric over time.
+
+---
+
 ## Credits
 
 ### Resources & Tutorials
@@ -901,29 +934,3 @@ Steps to deploy the application on Render:
 
 ---
 
-## 🚀 Future Improvements
-
-While DishCraft already provides a solid foundation for sharing and discovering recipes, there are several enhancements planned for future development:
-
-- **Advanced Search & Filters**  
-  Implement multi-tag filters, dietary filters (e.g., gluten-free, keto), and better ingredient-based search.
-
-- **Recipe Rating System**  
-  Allow users to rate recipes with a 1–5 star system to help surface the best content.
-
-- **Recipe Collections**  
-  Let users save and organize recipes into custom collections (e.g., “Meal Prep,” “Holiday Dishes”).
-
-- **Private Recipes / Draft Mode**  
-  Enable users to save recipes privately or work on drafts before publishing them.
-
-- **Newsletter Integration**  
-  Store emails and build functionality to send periodic recipe newsletters.
-
-- **Accessibility Enhancements**  
-  Improve color contrast and keyboard navigation to meet WCAG AA+ standards.
-
-- **Dark Mode**  
-  Provide a toggle to switch between light and dark themes for better user preference.
-
-These improvements aim to elevate the user experience, expand engagement, and make DishCraft more dynamic and user-centric over time.
