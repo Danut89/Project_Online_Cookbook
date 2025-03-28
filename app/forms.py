@@ -21,6 +21,7 @@ from wtforms.validators import (
 from app.models import User, Category
 
 
+
 # Custom widget for checkboxes
 class MultiCheckboxField(SelectMultipleField):
     widget = ListWidget(prefix_label=False)
@@ -91,3 +92,10 @@ class CommentForm(FlaskForm):
         "Add a Comment", validators=[DataRequired(), Length(min=1, max=1000)]
     )
     submit = SubmitField("Post Comment")
+
+
+class ContactForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired(), Length(max=100)])
+    email = StringField('Email', validators=[DataRequired(), Email(), Length(max=120)])
+    message = TextAreaField('Message', validators=[DataRequired(), Length(min=10, max=1000)])
+    submit = SubmitField('Send Message')

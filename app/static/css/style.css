@@ -154,6 +154,12 @@ section {
   background-color: var(--brand-soft-bg);
 }
 
+form .form-control:focus {
+  border-color: #ff7f50;
+  box-shadow: 0 0 0 0.2rem rgba(255, 127, 80, 0.25);
+}
+
+
 /* ========================
    🎯 HERO SECTION
 =========================== */

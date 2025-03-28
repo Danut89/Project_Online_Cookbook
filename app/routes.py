@@ -26,8 +26,9 @@ from flask import abort
 from datetime import datetime, timedelta
 from sqlalchemy import func
 from urllib.parse import urlparse
-
 import cloudinary.uploader
+
+from app.forms import ContactForm
 
 # Define the blueprint
 main = Blueprint("main", __name__)
@@ -398,6 +399,14 @@ def recipes_by_category(category_name):
         "browse_recipes.html", recipes=recipes, selected_category=category.name
     )
 
+@main.route('/contact', methods=['GET', 'POST'])
+def contact():
+    form = ContactForm()
+    if form.validate_on_submit():
+        # 💌 This is where you'd handle email or database logic
+        flash("Thanks for reaching out! We’ll get back to you soon.", "success")
+        return redirect(url_for('main.contact'))
+    return render_template('contact.html', form=form)
 
 # ✅ Admin-only access decorator
 def admin_required(f):
