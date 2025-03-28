@@ -13,14 +13,6 @@ load_dotenv()
 
 csrf = CSRFProtect()
 
-def create_app():
-    app = Flask(__name__)
-    app.config.from_object("config.Config")
-
-    # Init CSRF protection
-    csrf.init_app(app)
-
-    return app
 
 # Initialize Flask extensions
 db = SQLAlchemy()
