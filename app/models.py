@@ -1,4 +1,4 @@
-# Database models for the Online Cookbook app
+# Database models for the DishCraft app
 from app import db, login_manager
 from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash, check_password_hash
