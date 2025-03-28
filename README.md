@@ -800,14 +800,6 @@ Manual testing was performed across the site's major features to ensure expected
 - **Forms**: Flask-WTF ensures server-side validation with proper feedback  
 
 <details>
-<summary>📸  (Click to expand)</summary>
-
-- HTML: ``  
-- CSS: `v`  
-- Python: `
-</details>
-
-<details>
 <summary>📱 Validation Screenshots (Click to expand)</summary>
 
 - **HTML validation**  
