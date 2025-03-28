@@ -19,6 +19,8 @@ from datetime import datetime, timedelta
 from sqlalchemy import func
 from urllib.parse import urlparse
 
+import cloudinary.uploader
+
 # Define the blueprint
 main = Blueprint('main', __name__)
 
@@ -118,7 +120,12 @@ def add_recipe():
     next_url = request.args.get('next') or url_for('main.home')
 
     if form.validate_on_submit():
-        image_url = save_uploaded_image(form.image.data)
+        image_url = None
+
+        if form.image.data:
+            # Upload to Cloudinary
+            upload_result = cloudinary.uploader.upload(form.image.data)
+            image_url = upload_result['secure_url']
 
         recipe = Recipe(
             title=form.title.data,
@@ -175,8 +182,9 @@ def edit_recipe(recipe_id):
 
         # Save new image if uploaded
         if form.image.data:
-            image_url = save_uploaded_image(form.image.data)
-            recipe.image_url = image_url
+             # Upload to Cloudinary
+            upload_result = cloudinary.uploader.upload(form.image.data)
+            recipe.image_url = upload_result['secure_url']
 
         db.session.commit()
         flash('Recipe updated successfully!', 'success')

@@ -4,6 +4,12 @@ from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_wtf import CSRFProtect
+import cloudinary
+import os
+from dotenv import load_dotenv
+
+# ✅ Load environment variables from .env file
+load_dotenv()
 
 csrf = CSRFProtect()
 
@@ -45,7 +51,17 @@ def create_app():
     from app.routes import main
     from app.auth import auth
 
+    cloudinary.config(
+        cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+        api_key=os.getenv("CLOUDINARY_API_KEY"),
+        api_secret=os.getenv("CLOUDINARY_API_SECRET")
+    )
+
+
+
     app.register_blueprint(main)
     app.register_blueprint(auth, url_prefix='/auth')
 
     return app
+
+
