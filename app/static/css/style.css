@@ -518,6 +518,34 @@ a.btn:hover {
   }
 }
 
+@media (max-width: 576px) {
+  .profile-heading {
+    font-size: 1.75rem;
+    text-align: center;
+  }
+
+  .profile-subheading {
+    font-size: 1.25rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .card {
+    width: 100%;
+  }
+}
+
+.profile-section {
+  padding-bottom: 3rem;
+}
+
+.profile-tabs .btn {
+  margin-bottom: 0.75rem;
+}
+
+
+
 
 
 
@@ -1045,4 +1073,19 @@ form .btn-primary:hover {
 
 .navbar-brand img:hover {
   transform: scale(1.05);
+}
+
+
+/* ========================
+   📱 MOBILE SPACING FIXES
+=========================== */
+@media (max-width: 576px) {
+  .nav-pills .nav-item + .nav-item {
+    margin-top: 0.5rem;
+  }
+
+  .nav-pills {
+    flex-direction: column;
+    align-items: center;
+  }
 }
