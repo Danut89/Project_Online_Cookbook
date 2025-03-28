@@ -817,13 +817,13 @@ All key features (forms, navigation, modals, category cards) function and scale 
 <summary>📱 Responsive Screenshots (Click to expand)</summary>
 
 - **Homepage (Mobile)**  
-  ![Homepage Mobile](/app/static/readme-screenshoots/responsive-home-mobile.png)
+  ![Homepage Mobile](/app/static/readme-screenshoots/mobile-responsivness.png)
 
 - **Explore Page (Tablet)**  
-  ![Explore Tablet](/app/static/readme-screenshoots/responsive-explore-tablet.png)
+  ![Explore Tablet](/app/static/readme-screenshoots/tablet-responsivness.png)
 
 - **Recipe Details (Mobile)**  
-  ![Recipe Details Mobile](/app/static/readme-screenshoots/responsive-recipe-mobile.png)
+  ![Recipe Details Mobile](/app/static/readme-screenshoots/mobile-viewrecipe.png)
 
 </details>
 

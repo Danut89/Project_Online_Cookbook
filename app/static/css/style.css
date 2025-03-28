@@ -1004,7 +1004,7 @@ form .btn-primary:hover {
 /* Logo container */
 .navbar-brand {
   font-family: 'Inter', serif;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -1013,7 +1013,7 @@ form .btn-primary:hover {
 
 /* Logo image inside navbar */
 .navbar-brand img {
-  height: 48px;
+  height: 40px;
   margin-right: 8px;
   width: auto;
   border-radius: 50%;
