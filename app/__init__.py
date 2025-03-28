@@ -7,6 +7,7 @@ from flask_wtf import CSRFProtect
 import cloudinary
 import os
 from dotenv import load_dotenv
+from flask import render_template
 
 if os.getenv("RENDER") is None:  # Only load .env locally
     load_dotenv()
@@ -25,6 +26,9 @@ login_manager.login_view = "auth.login"  # Redirects to login page if user is no
 def create_app():
     app = Flask(__name__)
     app.config.from_object("config.Config")
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template("errors/404.html"), 404
 
     # Initialize extensions with app
     db.init_app(app)
@@ -43,6 +47,8 @@ def create_app():
     # Import and register blueprints AFTER app is created
     from app.routes import main
     from app.auth import auth
+
+    
 
     cloudinary.config(
         cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),

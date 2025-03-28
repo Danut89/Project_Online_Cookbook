@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Page Not Found{% endblock %}
+
+{% block content %}
+<div class="container text-center py-5">
+    <h1 class="display-4 fw-bold" style="font-family: 'Playfair Display', serif;">404 - Page Not Found</h1>
+    <p class="lead text-muted mb-4">Oops! The page you're looking for doesn't exist or was moved.</p>
+
+    <a href="{{ url_for('main.home') }}" class="btn btn-primary px-4 py-2">
+        Return to Home
+    </a>
+</div>
+{% endblock %}
