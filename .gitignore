@@ -16,3 +16,6 @@ instance/
 Thumbs.db
 
 .env
+
+.DS_Store
+*.code-workspace

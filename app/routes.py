@@ -117,6 +117,8 @@ def view_recipe(recipe_id):
 @login_required
 def add_recipe():
     form = RecipeForm()
+    form.categories.choices = [(c.id, c.name) for c in Category.query.all()] #Ensure categories are available
+
     next_url = request.args.get('next') or url_for('main.home')
 
     if form.validate_on_submit():
@@ -162,6 +164,7 @@ def edit_recipe(recipe_id):
         return redirect(url_for('main.view_recipe', recipe_id=recipe.id))
 
     form = RecipeForm(obj=recipe)
+    form.categories.choices = [(c.id, c.name) for c in Category.query.all()] # Ensure categories are available
 
     # Pre-select categories for GET
     if request.method == 'GET':
