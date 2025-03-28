@@ -52,7 +52,6 @@ class RecipeForm(FlaskForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.categories.choices = [(cat.id, cat.name) for cat in Category.query.order_by(Category.name).all()]
 
 class CommentForm(FlaskForm):
     content = TextAreaField('Add a Comment', validators=[DataRequired(), Length(min=1, max=1000)])
