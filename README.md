@@ -45,6 +45,7 @@
   - [Validation](#validation)
   - [Responsiveness Testing](#responsiveness-testing)
   - [Browser Compatibility](#browser-compatibility)
+  - [Accessibility](#accessibility)
   - [Bugs and Fixes](#bugs-and-fixes)
 
 - [Deployment](#deployment)
