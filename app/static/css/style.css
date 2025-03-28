@@ -352,6 +352,22 @@ a.btn:hover {
   transition: transform 0.3s ease;
 }
 
+/* 🔥 Hover effect for clickable recipe cards */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card img {
+  transition: transform 0.3s ease;
+}
+
+.card:hover img {
+  transform: scale(1.03);
+}
+
+
 /* Icon Styling */
 .category-icon {
   font-size: 2rem;

@@ -2,16 +2,20 @@
 {% block content %}
 
 <section class="container py-5">
-  <h2 class="mb-5 fw-bold text-center hero-title" data-aos="fade-down">👤 My Profile</h2>
+  <h1 class="fw-bold hero-title">
+    <i class="fa-solid fa-user"></i> {{ current_user.username }}'s Profile
+  </h1>
+  
 
-  <!-- 🙌 Welcome Summary -->
-  <div class="bg-white shadow-sm rounded-4 p-4 mb-5 text-center" data-aos="fade-up">
-    <h4 class="fw-bold mb-2">👋 Welcome, Food Lover!</h4>
-    <p class="mb-0">
-      You’ve added <strong>{{ my_recipes|length }}</strong> recipe{{ 's' if my_recipes|length != 1 else '' }} 
-      and liked <strong>{{ liked_recipes|length }}</strong>.
-    </p>
-  </div>
+<!-- 🙌 Welcome Summary -->
+<div class="bg-white shadow-sm rounded-4 p-4 mb-5 text-center" data-aos="fade-up">
+  <h4 class="fw-bold mb-2">👋 Welcome back, <span>{{ current_user.username }}</span>!</h4>
+  <p class="mb-0">
+    You’ve shared <strong>{{ my_recipes|length }}</strong> recipe{{ 's' if my_recipes|length != 1 else '' }} 
+    and liked <strong>{{ liked_recipes|length }}</strong> recipe{{ 's' if liked_recipes|length != 1 else '' }}.
+  </p>
+</div>
+
 
   <!-- 🧭 Tabs -->
   <ul class="nav nav-pills justify-content-center mb-4" id="profileTabs" role="tablist">
@@ -63,38 +67,40 @@
       </div>
     </div>
 
-    <!-- ❤️ Favorite Recipes -->
-    <div class="tab-pane fade" id="liked-recipes" role="tabpanel">
-      <div class="card shadow-sm border-0 rounded-4" data-aos="fade-up">
-        <div class="card-body">
-          {% if liked_recipes %}
-            <div class="row g-4">
-              {% for recipe in liked_recipes %}
-                <div class="col-md-6 col-lg-4" data-aos="fade-up">
-                  <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-                    {% if recipe.image_url %}
-                      <img src="{{ recipe.image_url }}" class="card-img-top" alt="{{ recipe.title }}">
-                    {% endif %}
-                    <div class="card-body d-flex flex-column">
-                      <h6 class="card-title mb-1">
-                        <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}"
-                          class="text-decoration-none text-dark fw-bold">
-                          🌟 {{ recipe.title }}
-                        </a>
-                      </h6>
-                      <span class="badge bg-info text-dark mb-2">{{ recipe.difficulty }}</span>
-                      <p class="small text-muted">⏱ {{ recipe.prep_time }} min | 🌍 {{ recipe.cuisine }}</p>
-                    </div>
+<!-- ❤️ Favorite Recipes -->
+<div class="tab-pane fade" id="liked-recipes" role="tabpanel">
+  <div class="card shadow-sm border-0 rounded-4" data-aos="fade-up">
+    <div class="card-body">
+      {% if liked_recipes %}
+        <div class="row g-4">
+          {% for recipe in liked_recipes %}
+            <div class="col-md-6 col-lg-4" data-aos="fade-up">
+              <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}" class="text-decoration-none text-dark">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                  {% if recipe.image_url %}
+                    <img src="{{ recipe.image_url }}" class="card-img-top" alt="{{ recipe.title }}">
+                  {% endif %}
+                  <div class="card-body d-flex flex-column">
+                    <h6 class="card-title mb-1 fw-bold">
+                      🌟 {{ recipe.title }}
+                    </h6>
+                    <span class="badge bg-info text-dark mb-2">{{ recipe.difficulty }}</span>
+                    <p class="small text-muted">
+                      ⏱ {{ recipe.prep_time }} min | 🌍 {{ recipe.cuisine }}
+                    </p>
                   </div>
                 </div>
-              {% endfor %}
+              </a>
             </div>
-          {% else %}
-            <p class="text-muted fst-italic text-center">You haven't liked any recipes yet.</p>
-          {% endif %}
+          {% endfor %}
         </div>
-      </div>
+      {% else %}
+        <p class="text-muted fst-italic text-center">You haven't liked any recipes yet.</p>
+      {% endif %}
     </div>
+  </div>
+</div>
+
 
   </div>
 
