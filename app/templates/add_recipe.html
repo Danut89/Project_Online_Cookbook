@@ -2,7 +2,22 @@
 {% block content %}
 
 <section class="container py-5">
-  <h2 class="text-center hero-title mb-5">📝 Add a New Recipe</h2>
+
+  <!--  Title Section -->
+<div class="text-center mb-5">
+  <div class="d-inline-flex align-items-center gap-3 justify-content-center mb-3">
+    <span class="bg-warning-subtle p-3 rounded-circle shadow-sm">
+      <i class="fa-solid fa-utensils fa-xl text-brand"></i>
+    </span>
+    <h1 class="display-5 fw-bold hero-title m-0" style="font-family: 'Playfair Display', serif;">
+      Add a <span class="text-brand">New Recipe</span>
+    </h1>
+  </div>
+  <p class="lead text-muted mb-0" style="font-size: 1.125rem;">
+    Fill in the details below to share your culinary magic with the world 🍳✨
+  </p>
+</div>
+
 
   <form method="POST" action="{{ url_for('main.add_recipe', next=next_url) }}"
         enctype="multipart/form-data"
@@ -13,53 +28,53 @@
 
     <!-- 🔤 Title & Cuisine -->
     <div class="col-md-6" data-aos="fade-up">
-      <label for="{{ form.title.id }}" class="form-label fw-semibold">📌 {{ form.title.label }}</label>
-      {{ form.title(class="form-control form-control-lg rounded-pill", required=True) }}
+      <label class="form-label fw-semibold">📌 Title</label>
+      {{ form.title(class="form-control form-control-lg rounded-pill", placeholder="e.g. Creamy Pasta", required=True) }}
     </div>
 
     <div class="col-md-6" data-aos="fade-up">
-      <label for="{{ form.cuisine.id }}" class="form-label fw-semibold">🌍 {{ form.cuisine.label }}</label>
-      {{ form.cuisine(class="form-control form-control-lg rounded-pill") }}
+      <label class="form-label fw-semibold">🌍 Cuisine</label>
+      {{ form.cuisine(class="form-control form-control-lg rounded-pill", placeholder="e.g. Italian") }}
     </div>
 
-    <!-- 🕒 Prep Time / Difficulty / Image -->
+    <!-- 🕒 Time, Difficulty, Image -->
     <div class="col-md-4" data-aos="fade-up">
-      <label for="{{ form.prep_time.id }}" class="form-label fw-semibold">⏱ {{ form.prep_time.label }}</label>
-      {{ form.prep_time(class="form-control form-control-lg rounded-pill") }}
+      <label class="form-label fw-semibold">⏱ Prep Time (minutes)</label>
+      {{ form.prep_time(class="form-control form-control-lg rounded-pill", placeholder="e.g. 30") }}
     </div>
 
     <div class="col-md-4" data-aos="fade-up">
-      <label for="{{ form.difficulty.id }}" class="form-label fw-semibold">⚙️ {{ form.difficulty.label }}</label>
+      <label class="form-label fw-semibold">📈 Difficulty</label>
       {{ form.difficulty(class="form-select form-select-lg rounded-pill") }}
     </div>
 
     <div class="col-md-4" data-aos="fade-up">
-      <label for="{{ form.image.id }}" class="form-label fw-semibold">📸 {{ form.image.label }}</label>
+      <label class="form-label fw-semibold">📸 Upload Image</label>
       {{ form.image(class="form-control form-control-lg rounded-pill", onchange="previewImage(event)") }}
-      <img id="image-preview" class="img-fluid mt-3 rounded-4 shadow-sm d-none border border-2 border-light-subtle" style="max-height: 150px;">
+      <img id="image-preview" class="img-fluid mt-3 rounded-4 shadow-sm d-none" style="max-height: 150px;">
     </div>
 
-    <!-- ✍️ Description -->
+    <!-- 📝 Description -->
     <div class="col-12" data-aos="fade-up">
-      <label for="{{ form.description.id }}" class="form-label fw-semibold">📝 {{ form.description.label }}</label>
-      {{ form.description(class="form-control px-4 py-3 rounded-4", rows="3", placeholder="Brief description...") }}
+      <label class="form-label fw-semibold">📝 Description</label>
+      {{ form.description(class="form-control px-4 py-3 rounded-4", rows="3", placeholder="Brief description of the recipe...") }}
     </div>
 
     <!-- 🧅 Ingredients -->
     <div class="col-12" data-aos="fade-up">
-      <label for="{{ form.ingredients.id }}" class="form-label fw-semibold">🥦 {{ form.ingredients.label }}</label>
+      <label class="form-label fw-semibold">🥦 Ingredients</label>
       {{ form.ingredients(class="form-control px-4 py-3 rounded-4", rows="4", placeholder="List each ingredient on a new line...") }}
     </div>
 
     <!-- 🍳 Steps -->
     <div class="col-12" data-aos="fade-up">
-      <label for="{{ form.steps.id }}" class="form-label fw-semibold">👨‍🍳 {{ form.steps.label }}</label>
+      <label class="form-label fw-semibold">👨‍🍳 Steps</label>
       {{ form.steps(class="form-control px-4 py-3 rounded-4", rows="5", placeholder="Write clear step-by-step instructions...") }}
     </div>
 
     <!-- 🏷 Categories -->
     <div class="col-12" data-aos="fade-up">
-      <label class="form-label fw-semibold">📂 {{ form.categories.label }}</label>
+      <label class="form-label fw-semibold">📂 Categories</label>
       <div class="d-flex flex-wrap gap-3">
         {% for subfield in form.categories %}
           <div class="form-check">
@@ -70,15 +85,16 @@
       </div>
     </div>
 
-    <!-- 🎯 Submit / Cancel -->
+    <!-- 🎯 Submit Buttons -->
     <div class="col-12 text-center mt-4" data-aos="fade-up">
       {{ form.submit(class="btn btn-primary rounded-pill px-5 py-2 fw-semibold") }}
       <a href="{{ next_url or url_for('main.home') }}" class="btn btn-outline-secondary rounded-pill px-4 py-2 ms-3">Cancel</a>
     </div>
+
   </form>
 </section>
 
-<!-- 🖼 Image Preview & Validation -->
+<!-- 🖼 Image Preview Script -->
 <script>
   function previewImage(event) {
     const input = event.target;
@@ -110,3 +126,5 @@
 </script>
 
 {% endblock %}
+
+

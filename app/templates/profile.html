@@ -1,119 +1,120 @@
 {% extends "base.html" %}
 {% block content %}
 
-<section class="container py-5">
-  <h2 class="fw-bold profile-heading text-dark">
-  <i class="fas fa-user me-2" style="font-family: Inter, sans-serif;"></i> {{ current_user.username }}'s <span class="profile-subheading">Profile</span>
-</h2>
+<!-- 🌟 Welcome Section -->
+<section class="text-center mb-5 profile-section">
+  <h1 class="display-5 fw-bold mb-2">
+    Welcome back, <span class="text-gradient">{{ current_user.username }}</span>!
+  </h1>
+  <p class="text-muted mb-4">Manage your recipes, explore favorites, and track your culinary journey.</p>
+</section>
 
-  
-
-<!-- 🙌 Welcome Summary -->
-<div class="profile-welcome-box mb-5 text-center" data-aos="fade-up">
-  <h4 class="fw-bold mb-2">👋 Welcome back, <span class="text-gradient">{{ current_user.username }}</span></h4>
-  <p class="mb-0">
-    You’ve shared <strong>{{ my_recipes|length }}</strong> recipe{{ 's' if my_recipes|length != 1 else '' }} 
-    and liked <strong>{{ liked_recipes|length }}</strong>.
-  </p>
-</div>
-
-
-
-  <!-- 🧭 Tabs -->
-  <ul class="nav nav-pills justify-content-center mb-4" id="profileTabs" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active rounded-pill px-4 py-2 me-2 btn-accent text-white" id="my-tab"
-        data-bs-toggle="pill" data-bs-target="#my-recipes" type="button" role="tab">
-        📜 My Recipes
-      </button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link rounded-pill px-4 py-2 btn-outline-brand" id="liked-tab"
-        data-bs-toggle="pill" data-bs-target="#liked-recipes" type="button" role="tab">
-        ❤️ Favorite Recipes
-      </button>
-    </li>
-  </ul>
-
-  <div class="tab-content" id="profileTabContent">
-
-    <!-- 📜 My Recipes -->
-    <div class="tab-pane fade show active" id="my-recipes" role="tabpanel">
-      <div class="card shadow-sm border-0 rounded-4 mb-5" data-aos="fade-up">
-        <div class="card-body">
-          {% if my_recipes %}
-            <ul class="list-group list-group-flush">
-              {% for recipe in my_recipes %}
-                <li class="list-group-item d-flex justify-content-between align-items-center py-3" data-aos="fade-up">
-                  <div>
-                    <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}"
-                      class="fw-semibold text-decoration-none text-dark">
-                      🍽 {{ recipe.title }}
-                    </a>
-                    <small class="text-muted ms-2">| {{ recipe.prep_time }} min</small>
-                  </div>
-                  <div class="d-flex align-items-center gap-2">
-                    <span class="badge bg-warning text-dark rounded-pill">{{ recipe.difficulty }}</span>
-                    <a href="{{ url_for('main.edit_recipe', recipe_id=recipe.id) }}"
-                      class="btn btn-sm btn-outline-primary rounded-pill">Edit</a>
-                    <button class="btn btn-sm btn-outline-danger rounded-pill"
-                      data-bs-toggle="modal" data-bs-target="#deleteRecipeModal{{ recipe.id }}">Delete</button>
-                  </div>
-                </li>
-              {% endfor %}
-            </ul>
-          {% else %}
-            <p class="text-muted fst-italic text-center">You haven't added any recipes yet.</p>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-
-<!-- ❤️ Favorite Recipes -->
-<div class="tab-pane fade" id="liked-recipes" role="tabpanel">
-  <div class="card shadow-sm border-0 rounded-4" data-aos="fade-up">
-    <div class="card-body">
-      {% if liked_recipes %}
-        <div class="row g-4">
-          {% for recipe in liked_recipes %}
-            <div class="col-md-6 col-lg-4" data-aos="fade-up">
-              <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}" class="text-decoration-none text-dark">
-                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-                  {% if recipe.image_url %}
-                    <img src="{{ recipe.image_url }}" class="card-img-top" alt="{{ recipe.title }}">
-                  {% endif %}
-                  <div class="card-body d-flex flex-column">
-                    <h6 class="card-title mb-1 fw-bold">
-                      🌟 {{ recipe.title }}
-                    </h6>
-                    <span class="badge bg-info text-dark mb-2">{{ recipe.difficulty }}</span>
-                    <p class="small text-muted">
-                      ⏱ {{ recipe.prep_time }} min | 🌍 {{ recipe.cuisine }}
-                    </p>
-                  </div>
-                </div>
-              </a>
-            </div>
-          {% endfor %}
-        </div>
-      {% else %}
-        <p class="text-muted fst-italic text-center">You haven't liked any recipes yet.</p>
-      {% endif %}
-    </div>
-  </div>
-</div>
-
-
+<!-- 📊 Cooking Stats -->
+<section>
+  <div class="d-flex align-items-center gap-3 mb-3">
+    <i class="fa-solid fa-user-circle fs-3 text-secondary"></i>
+    <h2 class="fw-bold m-0" style="font-family: 'Inter', sans-serif;">Your Cooking Stats</h2>
   </div>
 
-  <!-- 🔙 Back -->
-  <div class="text-center mt-5">
-    <a href="{{ request.referrer or url_for('main.home') }}"
-      class="btn btn-outline-secondary rounded-pill px-4 py-2">
-      ← Go Back
-    </a>
+  <div class="bg-light p-4 rounded-4 shadow-sm mb-5">
+    <p class="mb-0">
+      👋 You’ve shared <strong>{{ my_recipes|length }}</strong> recipes and liked <strong>{{ liked_recipes|length }}</strong>.
+    </p>
   </div>
 </section>
+
+<!-- 📋 Recipe Tabs -->
+<ul class="nav nav-pills justify-content-center mb-4" id="profileTabs" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active rounded-pill px-4 py-2 me-2 btn-accent text-white" id="my-tab"
+      data-bs-toggle="pill" data-bs-target="#my-recipes" type="button" role="tab">
+      📜 My Recipes
+    </button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link rounded-pill px-4 py-2 btn-outline-brand" id="liked-tab"
+      data-bs-toggle="pill" data-bs-target="#liked-recipes" type="button" role="tab">
+      ❤️ Favorite Recipes
+    </button>
+  </li>
+</ul>
+
+<!-- 💾 Tab Content -->
+<div class="tab-content" id="profileTabContent">
+
+  <!-- My Recipes -->
+  <div class="tab-pane fade show active" id="my-recipes" role="tabpanel">
+    <div class="card shadow-sm border-0 rounded-4 mb-5" data-aos="fade-up">
+      <div class="card-body">
+        {% if my_recipes %}
+        <ul class="list-group list-group-flush">
+          {% for recipe in my_recipes %}
+          <li class="list-group-item d-flex justify-content-between align-items-center py-3" data-aos="fade-up">
+            <div>
+              <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}"
+                class="fw-semibold text-decoration-none text-dark">
+                🍽 {{ recipe.title }}
+              </a>
+              <small class="text-muted ms-2">| {{ recipe.prep_time }} min</small>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge bg-warning text-dark rounded-pill">{{ recipe.difficulty }}</span>
+              <a href="{{ url_for('main.edit_recipe', recipe_id=recipe.id) }}"
+                class="btn btn-sm btn-outline-primary rounded-pill">Edit</a>
+              <button class="btn btn-sm btn-outline-danger rounded-pill"
+                data-bs-toggle="modal" data-bs-target="#deleteRecipeModal{{ recipe.id }}">Delete</button>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted fst-italic text-center">You haven't added any recipes yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Favorite Recipes -->
+  <div class="tab-pane fade" id="liked-recipes" role="tabpanel">
+    <div class="card shadow-sm border-0 rounded-4" data-aos="fade-up">
+      <div class="card-body">
+        {% if liked_recipes %}
+        <div class="row g-4">
+          {% for recipe in liked_recipes %}
+          <div class="col-md-6 col-lg-4" data-aos="fade-up">
+            <a href="{{ url_for('main.view_recipe', recipe_id=recipe.id) }}" class="text-decoration-none text-dark">
+              <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                {% if recipe.image_url %}
+                <img src="{{ recipe.image_url }}" class="card-img-top" alt="{{ recipe.title }}">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                  <h6 class="card-title mb-1 fw-bold">🌟 {{ recipe.title }}</h6>
+                  <span class="badge bg-info text-dark mb-2">{{ recipe.difficulty }}</span>
+                  <p class="small text-muted">
+                    ⏱ {{ recipe.prep_time }} min | 🌍 {{ recipe.cuisine }}
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted fst-italic text-center">You haven't liked any recipes yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 🔙 Back Button -->
+<div class="text-center mt-5">
+  <a href="{{ request.referrer or url_for('main.home') }}"
+    class="btn btn-outline-secondary rounded-pill px-4 py-2">
+    ← Go Back
+  </a>
+</div>
 
 <!-- ✅ Delete Modals -->
 {% for recipe in my_recipes %}
@@ -124,8 +125,7 @@
       <form action="{{ url_for('main.delete_recipe', recipe_id=recipe.id) }}" method="POST">
         <div class="modal-header bg-danger text-white">
           <h5 class="modal-title" id="deleteRecipeModalLabel{{ recipe.id }}">❌ Confirm Deletion</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-            aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           Are you sure you want to delete <strong>{{ recipe.title }}</strong>?
