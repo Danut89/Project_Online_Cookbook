@@ -860,6 +860,72 @@ footer .col-md-4 {
 }
 
 
+/* ========================
+   Testimonials Section
+=========================== */
+.carousel-item blockquote {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.blockquote {
+  font-style: italic;
+  font-size: 1.1rem;
+  color: #444;
+}
+
+.blockquote-footer {
+  margin-top: 1rem;
+  color: #888;
+  font-weight: 500;
+}
+
+/* Avatar Style */
+.carousel-item img.rounded-circle {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border: 3px solid #ff7043;
+  padding: 2px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Arrows Styling */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: #ff7043;
+  border-radius: 50%;
+  padding: 1.2rem;
+  background-size: 60% 60%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+  background-color: #f4511e;
+}
+
+.bg-brand-soft {
+  background-color: #ff7043 !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+}
+
+
+/* Optional: hide carousel controls on small screens */
+@media (max-width: 576px) {
+  .carousel-control-prev,
+  .carousel-control-next {
+    display: none;
+  }
+}
+
+
+
 /* === Explore Recipes Page === */
 
 /* 🔍 Filters */

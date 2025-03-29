@@ -35,7 +35,7 @@
         <!-- Image Column -->
         <div class="col-md-6 text-center">
           <figure>
-            <img src="{{ url_for('static', filename='uploads/hero-image.png') }}"
+            <img src="{{ url_for('static', filename='../static/uploads/hero-image (2).jpg') }}"
                  alt="A delicious dish served on a white plate"
                  class="img-fluid rounded-4 shadow"
                  style="max-height: 360px;">
@@ -148,32 +148,58 @@
 <hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
 
 
+
 <!-- 🗣️ Testimonials -->
-<section class="mb-5 soft-bg py-5">
+<section class="mb-5 soft-bg py-5" aria-labelledby="testimonial-heading">
   <div class="container">
-    <h2 class="text-center section-title">🗣️ What Our Users Say</h2>
-    <div class="row g-4 mt-4">
-      <div class="col-md-4">
-        <blockquote class="blockquote p-4 bg-white rounded-4 shadow-sm h-100">
-          <p>"This cookbook has completely changed the way I cook!"</p>
-          <footer class="blockquote-footer">Maria T.</footer>
-        </blockquote>
+    <h2 class="text-center section-title" id="testimonial-heading">🗣️ What Our Users Say</h2>
+
+    <div id="testimonialCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
+      <div class="carousel-inner">
+
+        <!-- Testimonial 1 -->
+        <div class="carousel-item active">
+          <blockquote class="blockquote p-4 bg-white rounded-4 shadow-sm text-center">
+            <img src="{{ url_for('static', filename='../static/uploads/profile-1.jpg') }}" class="rounded-circle mb-3" width="60" alt="User 1">
+            <p class="fst-italic">"This cookbook has completely changed the way I cook!"</p>
+            <footer class="blockquote-footer">Maria T.</footer>
+          </blockquote>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="carousel-item">
+          <blockquote class="blockquote p-4 bg-white rounded-4 shadow-sm text-center">
+            <img src="{{ url_for('static', filename='../static/uploads/profile-2.jpg') }}" class="rounded-circle mb-3" width="60" alt="User 1">
+            <p class="fst-italic">"I love sharing my family recipes and discovering new ones."</p>
+            <footer class="blockquote-footer">Luca B.</footer>
+          </blockquote>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="carousel-item">
+          <blockquote class="blockquote p-4 bg-white rounded-4 shadow-sm text-center">
+            <img src="{{ url_for('static', filename='../static/uploads/profile-3.jpg') }}" class="rounded-circle mb-3" width="60" alt="User 1">
+            <p class="fst-italic">"Simple, elegant, and full of delicious ideas."</p>
+            <footer class="blockquote-footer">Ayesha K.</footer>
+          </blockquote>
+        </div>
+
       </div>
-      <div class="col-md-4">
-        <blockquote class="blockquote p-4 bg-white rounded-4 shadow-sm h-100">
-          <p>"I love sharing my family recipes and discovering new ones."</p>
-          <footer class="blockquote-footer">Luca B.</footer>
-        </blockquote>
-      </div>
-      <div class="col-md-4">
-        <blockquote class="blockquote p-4 bg-white rounded-4 shadow-sm h-100">
-          <p>"Simple, elegant, and full of delicious ideas."</p>
-          <footer class="blockquote-footer">Ayesha K.</footer>
-        </blockquote>
-      </div>
+
+      <!-- Arrows (visually styled) -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bg-brand-soft rounded-circle p-2" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon bg-brand-soft rounded-circle p-2" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+
     </div>
   </div>
 </section>
+
 
 <hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
 
