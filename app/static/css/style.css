@@ -183,7 +183,7 @@ form .form-control:focus {
 
 .hero-section {
   border: 1px solid #fbe6df;
-  background: linear-gradient(to right, #fff, #fdfcfb);
+  background: linear-gradient(to right,#fdfcfb,#f4f6f9);
   border-radius: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
