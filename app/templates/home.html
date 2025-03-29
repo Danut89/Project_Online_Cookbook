@@ -17,7 +17,7 @@
             </h1>
           </header>
           <p class="fs-5 text-muted mb-4">
-            Discover, share, and cook delicious dishes.<br>
+            Craft, share, and cook delicious dishes.<br>
             Your online cookbook awaits!
           </p>
           <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-md-start" role="group" aria-label="Main call to actions">
@@ -58,9 +58,9 @@
     </h2>
     <div class="card border-0 recipe-month-card d-flex flex-column flex-md-row overflow-hidden shadow-sm">
        <!-- 🏷️ Top Pick Badge -->
-       <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-3 z-3 fw-semibold">
+       <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-3 z-3 fw-semibold shadow-sm">
         ⭐ Top Pick
-      </span>
+      </span>      
       <!-- Recipe Image -->
       <div class="col-md-4 p-3 p-md-0">
             <img src="{{ recipe.image_url or url_for('static', filename='uploads/default_recipe.jpg') }}"
