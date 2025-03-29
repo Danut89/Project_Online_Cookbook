@@ -551,3 +551,13 @@ def all_recipes():
         page=page, per_page=6
     )
     return render_template("all_recipes.html", recipes=recipes)
+
+@main.route('/subscribe', methods=['POST'])
+def subscribe():
+    email = request.form.get('email')
+    if email:
+        # TODO: Save email to database or send to a service
+        flash("Thanks for subscribing!", "success")
+    else:
+        flash("Please enter a valid email.", "danger")
+    return redirect(request.referrer or url_for('main.home'))

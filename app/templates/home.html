@@ -188,7 +188,7 @@
     <p class="mb-4 text-white-50 fw-medium">
       Get hand-picked recipes and cooking tips delivered to your inbox weekly!
     </p>
-    <form class="newsletter-form d-flex flex-wrap gap-3 justify-content-center justify-content-md-start" method="POST" aria-label="Subscribe to recipe newsletter">
+    <form action="{{ url_for('main.subscribe') }}" method="POST" class="newsletter-form d-flex flex-wrap gap-3 justify-content-center justify-content-md-start"aria-label="Subscribe to recipe newsletter">
       <input type="email" name="email" placeholder="Enter your email" required>
       <button type="submit">Subscribe</button>
     </form>

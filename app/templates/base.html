@@ -35,8 +35,7 @@
       <a class="navbar-brand d-flex align-items-center fw-bold" href="{{ url_for('main.home') }}">
         <img src="{{ url_for('static', filename='../static/readme-screenshoots/Logo-Dishcraft.png') }}" alt="DishCraft Logo">
         DishCraft
-    </a>
-    
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -81,37 +80,48 @@
   </main>
 
   <!-- Footer -->
-  <footer class="footer-section border-top mt-5">
-    <div class="container">
-      <div class="row text-center text-md-start">
-        <div class="col-md-4 mb-4">
-          <h5 class="fw-bold">DishCraft</h5>
-          <p class="text-muted">Share and discover your favorite recipes from around the world.</p>
+<footer class="footer-section border-top mt-5 py-4 bg-white">
+  <div class="container">
+    <div class="row align-items-start justify-content-between">
+
+      <!-- Brand Column (Logo + Name + Tagline) -->
+      <div class="col-md-4 mb-4">
+        <div class="d-flex align-items-center mb-2 gap-2">
+          <img src="{{ url_for('static', filename='../static/readme-screenshoots/Logo-Dishcraft.png') }}" alt="DishCraft logo" class="footer-logo" style="width: 40px;">
+          <h5 class="mb-0 fw-bold">DishCraft</h5>
         </div>
-        <div class="col-md-4 mb-4">
-          <h6 class="fw-semibold">Quick Links</h6>
-          <ul class="list-unstyled">
-            <li><a href="{{ url_for('main.home') }}">Home</a></li>
-            <li><a href="{{ url_for('main.browse_recipes') }}">Explore Recipes</a></li>
-            <li><a href="{{ url_for('main.add_recipe') }}">Add Recipe</a></li>
-          </ul>
-        </div>
-        <div class="col-md-4 mb-4">
-          <h6 class="fw-semibold">Connect</h6>
-          <ul class="list-unstyled">
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">Pinterest</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
-        </div>
+        <p class="text-muted small">Share and discover your favorite recipes from around the world.</p>
       </div>
-      <div class="text-center pt-3 mt-3 border-top">
-        <p class="small text-muted mb-0">
-          © 2025 DishCraft. Built with ❤️ by food lovers.
-        </p>
+
+      <!-- Quick Links -->
+      <div class="col-md-3 mb-4">
+        <h6 class="fw-semibold">Quick Links</h6>
+        <ul class="list-unstyled">
+          <li><a href="{{ url_for('main.home') }}" class="text-decoration-none">Home</a></li>
+          <li><a href="{{ url_for('main.browse_recipes') }}" class="text-decoration-none">Explore Recipes</a></li>
+          <li><a href="{{ url_for('main.add_recipe') }}" class="text-decoration-none">Add Recipe</a></li>
+        </ul>
       </div>
+
+      <!-- Connect Links -->
+      <div class="col-md-3 mb-4">
+        <h6 class="fw-semibold">Connect</h6>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-decoration-none">Instagram</a></li>
+          <li><a href="#" class="text-decoration-none">Pinterest</a></li>
+          <li><a href="#" class="text-decoration-none">Contact</a></li>
+        </ul>
+      </div>
+
     </div>
-  </footer>
+
+    <!-- Bottom Line -->
+    <div class="text-center pt-3 mt-3 border-top">
+      <p class="small text-muted mb-0">© 2025 DishCraft. Built with ❤️ by Danut G.</p>
+    </div>
+  </div>
+</footer>
+
   
 
   <!-- Flash auto-dismiss -->
