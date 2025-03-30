@@ -556,105 +556,123 @@ a.btn:hover {
   font-weight: 500;
 }
 
-/* ========================
-   💌 Newsletter Section
-=========================== */
+
+/* 💌 Newsletter Section */
 .newsletter-section {
   background-image: url("../uploads/recipe-month-bg.jpg");
   background-size: cover;
   background-position: center;
   border-radius: 1.5rem;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.08);
   margin: 3rem auto;
-  overflow: hidden;
   position: relative;
+  padding: 3.5rem 2rem;
+  color: white;
+  text-align: center;
 }
 
-.newsletter-section .overlay {
+/* Overlay for readability */
+.newsletter-section::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5); /* darker overlay for readability */
-  z-index: 1;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 0;
+  border-radius: 1.5rem;
 }
 
+/* Content wrapper */
+.newsletter-section .container {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Centering and spacing */
 .newsletter-section h2 {
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  color: var(--brand-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.newsletter-section h2 i {
+  font-size: 1.5rem;
   color: #fff;
 }
 
 .newsletter-section p {
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2rem;
+  max-width: 620px;
 }
 
+/* Form styling */
 .newsletter-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
   max-width: 600px;
 }
 
 .newsletter-form input[type="email"] {
-  padding: 0.75rem 1.25rem;
+  padding: 0.8rem 1.25rem;
   border-radius: 50rem;
-  min-width: 240px;
   border: none;
   font-size: 1rem;
+  flex: 1;
+  min-width: 200px;
+  max-width: 360px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 .newsletter-form button {
   background: linear-gradient(to right, #ff6f3c, var(--brand-primary));
   color: white;
   border: none;
-  padding: 0.75rem 1.75rem;
+  padding: 0.8rem 1.75rem;
   border-radius: 50rem;
   font-weight: 600;
-  transition: all 0.3s ease;
   white-space: nowrap;
+  transition: all 0.3s ease;
 }
 
 .newsletter-form button:hover {
   background: linear-gradient(to right, #e65b2b, #d84315);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(255, 87, 34, 0.15);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 6px 18px rgba(255, 87, 34, 0.15);
 }
 
-.text-shadow {
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
-}
-
-/* Responsive */
+/* 📱 Responsive Fixes */
 @media (max-width: 576px) {
   .newsletter-form {
     flex-direction: column;
+    align-items: stretch;
   }
 
-  .newsletter-form input[type="email"],
-  .newsletter-form button {
-    width: 100%;
+  .newsletter-section h2 {
+    font-size: 1.75rem;
+    flex-direction: column;
   }
 
-  .newsletter-section {
-    padding: 3rem 2rem;
+  .newsletter-section p {
+    font-size: 0.95rem;
   }
-  
 }
 
-.newsletter-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, rgba(0,0,0,0.5), rgba(0,0,0,0.2));
-  z-index: 0;
-  border-radius: 1.5rem;
-}
-.newsletter-section > .container {
-  position: relative;
-  z-index: 2;
-}
 
-.newsletter-bg::before {
-  backdrop-filter: blur(6px);
-}
 
 
 
@@ -1190,7 +1208,7 @@ form .btn-primary:hover {
 
 /* Logo image inside navbar */
 .navbar-brand img {
-  height: 40px;
+  height: 48px;
   margin-right: 8px;
   width: auto;
   border-radius: 50%;
@@ -1273,19 +1291,16 @@ form .btn-primary:hover {
   transition: background 0.3s ease;
 }
 
-/* Clean spacing between major blocks */
 .profile-section {
   margin-top: 2.5rem;
 }
 
-/* Avoid duplicate buttons by hiding one set on desktop */
 @media (min-width: 768px) {
   .button-group-secondary {
     display: none;
   }
 }
 
-/* Align text and reduce heading size slightly */
 .welcome-summary h1 {
   font-size: 2.5rem;
 }
@@ -1295,6 +1310,50 @@ form .btn-primary:hover {
   margin-bottom: 0.5rem;
 }
 
-/*Divider*/
+/* 🔍 Embedded search icon inside navbar form */
+
+.search-form {
+  max-width: 100%;
+}
+
+.search-form i.fa-search {
+  font-size: 0.95rem;
+  color: #aaa;
+}
+
+.search-form input[type="search"] {
+  padding-left: 2.2rem !important; 
+}
+
+@media (max-width: 576px) {
+  .search-form {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+
+  .search-form input,
+  .search-form button {
+    width: 100%;
+  }
+
+  .search-form .ms-auto {
+    margin-left: 0 !important;
+  }
+}
+
+/* Desktop Sticky Navbar */
+@media (min-width: 992px) {
+  .desktop-sticky-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1050;
+    background-color: #fff;
+  }
+}
+
+
+
+
 
 

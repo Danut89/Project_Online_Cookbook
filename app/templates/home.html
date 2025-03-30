@@ -119,7 +119,7 @@
 
   <!-- 🍽️ Explore by Category Section -->
   <section class="container py-5 category-section" aria-labelledby="category-heading">
-    <h2 class="text-center mb-4 fs-3 fw-bold" id="category-heading">
+    <h2 class="text-center mb-4  fw-bold" id="category-heading">
       <i class="fa-solid fa-utensils me-2" aria-hidden="true"></i>
       Explore by Category
     </h2>
@@ -213,24 +213,37 @@
 <hr class="my-5" style="border-top: 1px dashed #ccc; opacity: 0.3;">
 
 <!-- 📬 Newsletter Signup -->
-<section class="newsletter-section my-5 position-relative text-white">
+<section class="newsletter-section my-5 position-relative text-white rounded-4 shadow-lg">
   <div class="overlay"></div>
-  <div class="container position-relative z-2 py-5">
-    <h2 class="mb-3 d-flex align-items-center gap-2 text-white text-shadow">
-      <i class="fa-solid fa-envelope-open-text fs-4"></i>
-      <span>Join Our Recipe Newsletter</span>
+  <div class="container position-relative z-2 py-5 text-center text-md-start">
+    <h2 class="mb-3 d-inline-flex align-items-center gap-2 text-shadow">
+      <i class="fa-solid fa-envelope-open-text"></i>
+      <span class="fw-bold display-6 text-white">Join Our <br class="d-md-none"> Recipe Newsletter</span>
     </h2>
-    <p class="mb-4 text-white-50 fw-medium">
+    <p class="mb-4 text-white fw-medium">
       Get hand-picked recipes and cooking tips delivered to your inbox weekly!
     </p>
-    <form action="{{ url_for('main.subscribe') }}" method="POST" class="newsletter-form d-flex flex-wrap gap-3 justify-content-center justify-content-md-start"aria-label="Subscribe to recipe newsletter">
+
+    <!-- ✅ Flash message -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="alert alert-success alert-dismissible fade show py-2 px-3 mb-4 rounded-pill small" role="alert">
+          {% for category, message in messages %}
+            {{ message }}
+          {% endfor %}
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- 📩 Newsletter Form -->
+    <form action="{{ url_for('main.subscribe') }}" method="POST"
+      class="newsletter-form d-flex flex-wrap gap-3 justify-content-center justify-content-md-start"
+      aria-label="Subscribe to recipe newsletter">
       <input type="email" name="email" placeholder="Enter your email" required>
       <button type="submit">Subscribe</button>
     </form>
   </div>
 </section>
-
-
-
 
 {% endblock %}

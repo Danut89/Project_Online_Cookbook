@@ -28,23 +28,25 @@
 
 
 <body class="text-dark" style="font-family: 'Inter', sans-serif;">
-
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light  border-bottom shadow-sm">
+  <nav class="navbar navbar-expand-lg navbar-light border-bottom shadow-sm desktop-sticky-navbar">
     <div class="container">
+      <!-- Brand -->
       <a class="navbar-brand d-flex align-items-center fw-bold" href="{{ url_for('main.home') }}">
-        <img src="{{ url_for('static', filename='../static/readme-screenshoots/Logo-Dishcraft.png') }}" alt="DishCraft Logo">
+        <img src="{{ url_for('static', filename='../static/readme-screenshoots/Logo-Dishcraft.png') }}" alt="DishCraft Logo" class="me-2" style="height: 40px;">
         DishCraft
       </a>
+  
+      <!-- Toggle -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
-
+  
+      <!-- Nav Links + Search -->
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
           <li class="nav-item"><a class="nav-link" href="{{ url_for('main.home') }}">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="{{ url_for('main.browse_recipes') }}">Explore Recipes</a></li>
-
           {% if current_user.is_authenticated %}
             <li class="nav-item"><a class="nav-link" href="{{ url_for('main.add_recipe', next=request.full_path) }}">Add Recipe</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ url_for('main.profile') }}">Profile</a></li>
@@ -54,11 +56,34 @@
             <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
           {% endif %}
+          <!-- Search Field -->
+          <li class="nav-item ms-3">
+            <form class="d-flex position-relative search-form" method="GET" action="{{ url_for('main.browse_recipes') }}">
+              <input
+              class="form-control rounded-pill ps-4 pe-5 shadow-sm"
+              type="search"
+              name="q"
+              placeholder="Search recipes..."
+              aria-label="Search"
+              value="{{ request.args.get('q', '') }}"
+              style="min-width: 200px; max-width: 260px;"
+              >
+              <style>
+              input[type="search"]::-webkit-search-cancel-button {
+                -webkit-appearance: none;
+                display: none;
+              }
+              </style>
+              <button class="btn position-absolute end-0 top-50 translate-middle-y me-2 text-muted" type="submit">
+              <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
-
+  
   <!-- Flash Messages -->
   <div class="container mt-3">
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -83,8 +108,6 @@
 <footer class="footer-section border-top mt-5 py-4 bg-white">
   <div class="container">
     <div class="row align-items-start justify-content-between">
-
-      <!-- Brand Column (Logo + Name + Tagline) -->
       <div class="col-md-4 mb-4">
         <div class="d-flex align-items-center mb-2 gap-2">
           <img src="{{ url_for('static', filename='../static/readme-screenshoots/Logo-Dishcraft.png') }}" alt="DishCraft logo" class="footer-logo" style="width: 40px;">
@@ -121,8 +144,6 @@
     </div>
   </div>
 </footer>
-
-  
 
   <!-- Flash auto-dismiss -->
   <script>

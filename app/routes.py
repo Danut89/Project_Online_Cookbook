@@ -30,6 +30,7 @@ import cloudinary.uploader
 
 from app.forms import ContactForm
 
+
 # Define the blueprint
 main = Blueprint("main", __name__)
 
@@ -341,24 +342,28 @@ def browse_recipes():
 
     recipes_query = Recipe.query
 
+    # 🔍 Global search field
     if query:
-        recipes_query = recipes_query.filter(
+        recipes_query = recipes_query.join(Recipe.categories).filter(
             or_(
                 Recipe.title.ilike(f"%{query}%"),
                 Recipe.cuisine.ilike(f"%{query}%"),
                 Recipe.description.ilike(f"%{query}%"),
+                Category.name.ilike(f"%{query}%")  # ✅ Now searches by category name too!
             )
         )
 
+    # 📂 Filter by category dropdown
     if category:
         recipes_query = recipes_query.join(Recipe.categories).filter(
             Category.name == category
         )
 
+    # ⚙️ Filter by difficulty
     if difficulty:
         recipes_query = recipes_query.filter(Recipe.difficulty == difficulty)
 
-    # ✅ Sorting logic
+    # 🔃 Sorting
     if sort_by == "oldest":
         recipes_query = recipes_query.order_by(Recipe.created_at.asc())
     elif sort_by == "title":
@@ -370,8 +375,10 @@ def browse_recipes():
     else:
         recipes_query = recipes_query.order_by(Recipe.created_at.desc())
 
+    # 📄 Pagination
     recipes_paginated = recipes_query.paginate(page=page, per_page=6)
 
+    # 📋 Category + difficulty list for filters
     categories = Category.query.order_by(Category.name).all()
     difficulties = ["Easy", "Medium", "Hard"]
 
