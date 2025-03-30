@@ -308,10 +308,6 @@ Wireframes were iterated based on usability testing and layout refinements durin
 
 ## Features
 
-### Homepage and Navigation
-
-The DishCraft homepage serves as the entry point to the application and is designed to immediately engage users with vibrant visuals, calls to action, and recipe highlights.
-
 #### Homepage Highlights:
 - **Hero Section** with engaging message and clear CTAs:
   - “Browse Recipes” for immediate exploration
@@ -319,20 +315,18 @@ The DishCraft homepage serves as the entry point to the application and is desig
 - **Recipe of the Month**: A featured card with a highlighted dish
 - **Featured Recipes**: Preview cards of the most recent or top-rated dishes
 - **Category Explorer**: Grid layout allowing users to filter by category (e.g., Breakfast, Vegan, Dessert)
-- **User Testimonials** section (optional) for community feedback
+- **Testimonials Section**: Includes a **responsive carousel** that cycles through real user feedback dynamically.
 - **Newsletter Signup** with email input and subscribe button
 
 #### Navigation Bar:
-The responsive navigation bar adjusts based on user authentication and screen size.
+The responsive **sticky navigation bar** stays visible at the top of the screen as the user scrolls, ensuring constant access to key navigation links.
 
-- **Unauthenticated Users**:
-  - `Home`, `Explore Recipes`, `Login`, `Register`
+- Includes a **search bar** to allow users to search recipes from anywhere on the site
+- Navbar adjusts based on user authentication and screen size:
+  - **Unauthenticated Users**: `Home`, `Explore Recipes`, `Login`, `Register`
+  - **Authenticated Users**: `Home`, `Explore Recipes`, `Add Recipe`, `Profile`, `Contact`, `Logout`
+  - **Admin Users**: All of the above, plus access to `Admin Dashboard`
 
-- **Authenticated Users**:
-  - `Home`, `Explore Recipes`, `Add Recipe`, `Profile`, `Logout`
-
-- **Admin Users**:
-  - All of the above, plus access to `Admin Dashboard`
 
 The navbar is sticky, lightweight, and mobile-friendly. It collapses into a toggle menu on smaller screens and uses subtle hover effects and iconography for clarity.
 
