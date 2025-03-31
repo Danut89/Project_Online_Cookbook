@@ -2,7 +2,7 @@
 {% block content %}
 
 <section class="container py-5">
-  <h2 class="text-center fw-bold mb-4 text-primary">✏️ Edit Recipe</h2>
+  <h2 class="text-center fw-bold mb-4">✏️ Edit Recipe</h2>
 
   <form method="POST" action="{{ url_for('main.edit_recipe', recipe_id=recipe.id, next=next_url) }}"
         enctype="multipart/form-data"
