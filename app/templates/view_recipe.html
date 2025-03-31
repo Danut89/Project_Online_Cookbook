@@ -179,7 +179,10 @@
 
 <!-- Back Button -->
 <div class="text-center mb-5">
-  <a href="{{ request.referrer or url_for('main.home') }}" class="btn btn-outline-secondary rounded-pill px-4">← Go Back</a>
+  <a href="{{ session.get('back_url', url_for('main.home')) }}" class="btn btn-outline-secondary rounded-pill px-4">
+    ← Go Back
+  </a>
+  
 </div>
 
 <!-- Delete Recipe Modal -->

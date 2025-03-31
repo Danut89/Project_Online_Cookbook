@@ -216,6 +216,35 @@ Accessibility audits were performed using Chrome’s Lighthouse tool to validate
 | Environment variables not loading on Render      | Used `os.getenv` properly and removed `dotenv` in production|
 | Comment form not showing errors properly         | Updated WTForms and Jinja2 error logic                      |
   |
+  | "Go Back" button stuck in loop between View and Edit pages        | Refactored `view_recipe` to store clean `session["back_url"]` and ignore internal route bounces (e.g. from `/edit` or `/recipe/<id>`). Go Back now redirects user to last meaningful page like Home, Browse, or Profile. |
+
+
+---
+
+### 💡 Example Bug Fix: Preventing “Go Back” Loop
+
+A bug was discovered where the "Go Back" button on the recipe detail page (`/recipe/<id>`) could create a loop between the **View** and **Edit** pages if the user cancelled editing and returned back.
+
+To solve this, we implemented a smart session-based `back_url` mechanism in the `view_recipe` route that stores only **meaningful referrers** (like Home, Browse, or Profile), and ignores internal bounces like Edit → View → Edit.
+
+#### ✅ Route Fix (Python)
+```python
+# view_recipe route
+from flask import session
+
+@main.route("/recipe/<int:recipe_id>", methods=["GET", "POST"])
+def view_recipe(recipe_id):
+    previous = request.referrer
+    if previous and all(x not in previous for x in ["/edit", f"/recipe/{recipe_id}"]):
+        session["back_url"] = previous
+
+# Go back button
+<a href="{{ session.get('back_url', url_for('main.home')) }}" class="btn btn-outline-primary">
+  ← Go Back
+</a>
+
+
+```
 
 
 ###  Known Bugs

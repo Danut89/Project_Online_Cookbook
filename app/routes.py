@@ -29,7 +29,7 @@ from urllib.parse import urlparse
 import cloudinary.uploader
 
 from app.forms import ContactForm
-
+from flask import session
 
 # Define the blueprint
 main = Blueprint("main", __name__)
@@ -97,16 +97,23 @@ def home():
 def view_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
 
+    # ✅ Capture clean referrer for 'Go Back' logic
+    previous = request.referrer
+    if previous and all(x not in previous for x in ["/edit", f"/recipe/{recipe_id}"]):
+        session["back_url"] = previous
+
     # Check if the user has liked this recipe
     is_liked = False
     if current_user.is_authenticated:
         is_liked = recipe.is_liked_by(current_user)
 
-    #  Handle comments
+    # Handle comments
     form = CommentForm()
     if form.validate_on_submit():
         comment = Comment(
-            content=form.content.data, user_id=current_user.id, recipe_id=recipe.id
+            content=form.content.data,
+            user_id=current_user.id,
+            recipe_id=recipe.id
         )
         db.session.add(comment)
         db.session.commit()
@@ -124,8 +131,9 @@ def view_recipe(recipe_id):
         recipe=recipe,
         is_liked=is_liked,
         form=form,
-        comments=comments,
+        comments=comments
     )
+
 
 
 @main.route("/add_recipe", methods=["GET", "POST"])
