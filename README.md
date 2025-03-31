@@ -37,24 +37,20 @@
   - [Libraries and Packages](#libraries-and-packages)
   - [Development Tools](#development-tools)
 
+- [Code Structure and Quality](#code-structure-and-quality)
+
 - [Database](#database)
   - [Schema Diagram](#schema-diagram)
   - [Relationships](#relationships)
 
 - [Testing](#testing)
-  - [Manual Testing](#manual-testing)
-  - [Validation](#validation)
-  - [Responsiveness Testing](#responsiveness-testing)
-  - [Browser Compatibility](#browser-compatibility)
-  - [Accessibility](#accessibility)
-  - [Bugs and Fixes](#bugs-and-fixes)
+- [Security](#security-considerations)
 
 - [Deployment](#deployment)
-  - [Deployment to Render](#deployment-to-render)
+  - [Deployment to Render](#deployment-steps-to-render)
   - [Cloning and Running Locally](#cloning-and-running-locally)
-  - [Environment Variables](#environment-variables)
 
-  - [Future Improvements](#future-improvements)
+- [Future Improvements](#future-improvements)
 
 - [Credits](#credits)
   - [Resources and Tutorials](#resources-and-tutorials)
@@ -67,37 +63,50 @@
 ##  About
 
 **Project Name**: 🍽️ DishCraft  
-**Developer**: [Danut Grigore]  
-**Type**: Milestone 3 - Full Stack Web Development (Code Institute)
- 
+**Developer**: Danut Grigore  
+**Type**: Milestone 3 – Full Stack Web Development (Code Institute)
+
+---
 
 ###  Project Overview
 
-**DishCraft** is a full-stack, data-centric web application built using Flask and PostgreSQL that empowers users to discover, share, and manage recipes from around the world. The application features a clean, responsive interface designed with Bootstrap, and provides an intuitive user experience across all devices.
+**DishCraft** is a full-stack, data-centric web application that allows users to create, discover, and manage recipes in a socially engaging environment. Built using **Flask**, **PostgreSQL**, and **Bootstrap**, the platform delivers a responsive and intuitive experience for users on any device.
 
-Users can register, log in, and interact with a community of food lovers by posting, liking, and commenting on recipes. Admins have additional privileges to manage users, content, and comments through a dedicated dashboard. Whether you're a passionate home cook or just looking for new culinary inspiration, **DishCraft** makes it easy to explore and contribute to a growing collection of diverse, delicious dishes.
+Unlike traditional recipe websites that are often static or ad-heavy, DishCraft is designed to be **interactive, personal, and community-driven** — allowing users to contribute their own content, interact with others, and curate their favorite meals in one place.
 
+Users can register, create and manage their own recipes, like and comment on other posts, and explore recipes filtered by category, cuisine, or difficulty level. Admins have elevated privileges to manage user content and keep the platform safe and respectful.
+
+DishCraft aims to be more than a recipe site — it's a space where cooking becomes collaborative, fun, and accessible.
+
+---
 
 ###  Site Purpose
 
-The core purpose of DishCraft is to create an open and welcoming space for food lovers to share their creations, discover new ideas, and connect with others through cooking. Unlike generic recipe sites, DishCraft emphasizes user interaction — turning recipe-sharing into a dynamic, community-driven experience.
+DishCraft was created to solve a common gap in recipe-sharing platforms: the lack of meaningful **user engagement and ownership**. While many recipe apps offer thousands of professionally written recipes, few allow everyday home cooks to share, save, and interact with each other in a clean, distraction-free space.
 
-Users can:
-- 👨‍🍳 Create, edit, and manage their personal recipes
-- ❤️ Like and comment on other users’ dishes
-- 🌍 Browse recipes by category, difficulty, or cuisine
-- 🛠️ Access moderation tools (admin only) to keep content curated and respectful
+This platform empowers users by giving them control over their culinary content and encourages interaction with a wider cooking community.
 
+#### The app provides:
+
+- 🧾 **Personal recipe management** – Add, edit, and organize your own creations  
+- ❤️ **Social interaction** – Like and comment on recipes from other users  
+- 🔍 **Smart discovery tools** – Search and filter recipes by category, difficulty, or cuisine  
+- 🛠️ **Content moderation tools** – Admins maintain a safe, curated environment  
+
+By focusing on simplicity, clarity, and community, DishCraft makes recipe sharing a rewarding, user-led experience — for everyone from beginners to passionate food lovers.
+
+---
 
 ###  Target Audience
 
-DishCraft is built for:
--  **Home cooks** looking to organize and share their favorite recipes
--  **Food enthusiasts and hobby chefs** interested in feedback and inspiration
--  **Beginners** who want a clean and simple way to browse easy-to-follow recipes
--  **Community-focused users** who enjoy social engagement through food
+DishCraft is designed for:
 
-Whether you're a seasoned chef or a kitchen novice, DishCraft provides the tools and platform to share your passion for food with others.
+- 🍳 **Home cooks** who want to organize and share their personal recipes
+- 🧑‍🍳 **Hobby chefs** seeking feedback and inspiration from others
+- 🆕 **Beginners** who need an easy-to-use platform with accessible content
+- 🤝 **Social users** who enjoy liking, commenting, and discovering new dishes from peers
+
+Whether you're saving your grandmother’s stew, sharing a TikTok-inspired dish, or browsing for quick weekday ideas, **DishCraft is your personal, social cooking companion.**
 
 ##  User Experience (UX)
 
@@ -123,6 +132,9 @@ As an **admin**, I want to:
 As a **mobile user**, I want to:
 -  Access the full app functionality on my phone
 -  Navigate easily with a responsive design and mobile-friendly layout
+
+
+➡️ *All user stories were manually tested. See [User Story Testing](#user-story-testing) for full test results.*
 
 ---
 
@@ -308,7 +320,7 @@ Wireframes were iterated based on usability testing and layout refinements durin
 
 ## Features
 
-#### Homepage Highlights:
+#### Homepage and Navigation:
 - **Hero Section** with engaging message and clear CTAs:
   - “Browse Recipes” for immediate exploration
   - “Add Recipe” for returning users
@@ -413,7 +425,7 @@ DishCraft allows authenticated users to fully manage their own recipes using CRU
 <details>
 <summary>📸 Recipe CRUD Interface (Click to expand)</summary>
 
-![CRUD Example](/app/static/readme-screenshoots/add_recipe.png)
+![CRUD Example](/app/static/readme-screenshoots/add-recipe-screensoot.png)
 
 </details>
 <details>
@@ -709,7 +721,21 @@ The Contact page allows users to get in touch with the DishCraft team for feedba
 - **PostgreSQL** – Production database (via Render).
 - **SQLite** – Local development database.
 - **TinyPNG** – Used to compress and optimize image assets before uploading to Cloudinary
-<
+
+##  Code Structure and Quality
+
+- All code follows the **PEP8** style guide and has been validated using `flake8`.
+- Files and folders are named using lowercase and underscore conventions for cross-platform compatibility.
+- Project is modular, with clearly separated folders for:
+  - `routes/` – Flask routes grouped by functionality
+  - `templates/` – Jinja2 HTML templates
+  - `static/` – CSS, JS, and assets (organized into folders)
+  - `models.py` – Database models
+- Custom code is documented with **in-line comments** explaining logic where appropriate.
+- Codebase uses consistent naming, indentation, and function organization to support maintainability.
+
+
+
 ## Database
 
 ### Schema Diagram
@@ -722,6 +748,57 @@ The database schema is designed to support users, their recipes, categories, com
 ![Database Schema](/app/static/readme-screenshoots/database-schema-diagram.png)
 
 </details>
+
+### 🔍 Data Schema Explanation
+
+The DishCraft database schema is designed around a **relational model** using **PostgreSQL** and SQLAlchemy ORM. It supports core functionality such as user management, recipe CRUD operations, user interactions (likes, comments), and administrative oversight.
+
+#### 🔗 Key Entities and Relationships:
+
+- **User**  
+  - Central to the schema. Each user can own recipes, write comments, and like recipes.  
+  - The `is_admin` boolean field allows role-based access control to moderate site content.
+
+- **Recipe**  
+  - Represents a single cooking recipe with fields such as title, image, category, cuisine, ingredients, difficulty, prep time, and instructions.  
+  - Each recipe is owned by a user (via `user_id` foreign key) and can be liked or commented on by other users.
+
+- **Category**  
+  - Recipes can belong to one or multiple categories (e.g., “Vegan”, “Dessert”).  
+  - A many-to-many relationship is implemented using the `RecipeCategory` association table, providing scalability for recipe filtering and search.
+
+- **RecipeCategory (Join Table)**  
+  - Links recipes and categories in a normalized, efficient structure.  
+  - Prevents data duplication and supports multiple category filters per recipe.
+
+- **Comment**  
+  - Linked to both the recipe and the authoring user.  
+  - This relationship ensures that only logged-in users can comment and supports admin moderation.  
+  - Includes timestamp and content for discussion and feedback.
+
+- **Like**  
+  - Many-to-many relationship between users and recipes.  
+  - Implemented as a standalone table with composite keys (`user_id`, `recipe_id`) to prevent duplicate likes.
+
+#### 📐 Normalization and Integrity:
+
+- The schema is **fully normalized**, reducing data redundancy and improving scalability.  
+- All foreign key relationships enforce **referential integrity** and support **cascade delete** where appropriate.  
+- Indexed fields (like `created_at`, `title`, and `user_id`) help optimize queries for filtering, sorting, and searching.
+
+#### 🧩 Schema Support for Key Features:
+
+| Feature                       | Schema Elements Involved                  |
+|------------------------------|--------------------------------------------|
+| User authentication          | `User` model + `is_admin` flag            |
+| Recipe CRUD                  | `Recipe`, `User`, `Category`              |
+| Likes/favorites              | `Like` (join table)                        |
+| Comments                     | `Comment`, `User`, `Recipe`               |
+| Admin moderation             | `User.is_admin`, relationships to all     |
+| Recipe filtering/search      | `Category`, `RecipeCategory`, indexed fields |
+| Profile views                | Linked `User → Recipe`, `User → Like`     |
+
+This schema reflects **real-world content relationships** in a recipe-sharing application and has been thoroughly tested for data integrity, scalability, and performance.
 
 ---
 
@@ -761,7 +838,7 @@ The database schema is designed to support users, their recipes, categories, com
   - `recipe_id` (FK → Recipe)
 
 
-### Relationships Summary
+### Relationships
 
 - A **User** can have many **Recipes**, **Comments**, and **Likes**
 - A **Recipe** belongs to one **User**; has many **Categories**, **Comments**, and **Likes**
@@ -771,178 +848,159 @@ The database schema is designed to support users, their recipes, categories, com
 
 ---
 
-## Testing
+##  Testing
 
-### Manual Testing
+To keep this README concise, all testing documentation including manual testing, validation, edge cases, accessibility, and bug fixes has been moved to a separate file:
 
-Manual testing was performed across the site's major features to ensure expected behavior:
+👉 [View Full Testing Documentation](./TESTING.md)
 
-| Feature                             | Tested On               | Expected Result                        | Outcome     |
-|-------------------------------------|--------------------------|-----------------------------------------|-------------|
-| User Registration                   | Desktop / Mobile         | New user created, redirected to home    | ✅ Pass      |
-| Login / Logout                      | Desktop / Mobile         | Successful login and logout flow        | ✅ Pass      |
-| Create Recipe                       | Desktop / Mobile         | Recipe added and appears in listing     | ✅ Pass      |
-| Edit / Delete Recipe                | Desktop / Mobile         | Updates saved / recipe deleted          | ✅ Pass      |
-| Comment on Recipe                   | Desktop / Mobile         | Comment added and visible               | ✅ Pass      |
-| Like / Unlike Recipe                | Desktop / Mobile         | Like toggles and updates count          | ✅ Pass      |
-| Admin Dashboard (delete user/comment) | Desktop                | Admin action successful, database updated | ✅ Pass   |
-
-#### UI & Navigation Manual Testing
-
-| Feature Tested                          | Interaction Tested                         | Expected Behavior                                | Outcome   |
-|----------------------------------------|--------------------------------------------|--------------------------------------------------|-----------|
-| Navigation Links                       | Click "Home", "Explore", "Add Recipe"      | Page loads correctly with scroll to top          | ✅ Pass    |
-| Logo Click                              | Click logo from any page                   | Redirects to homepage                            | ✅ Pass    |
-| Add Recipe (Empty Form)                | Submit form without fields filled          | WTForms shows error messages                     | ✅ Pass    |
-| Edit Recipe (Own)                      | Click “Edit” on own recipe                 | Edit form loads prefilled and saves changes      | ✅ Pass    |
-| Delete Recipe                          | Click “Delete” on own recipe → Confirm     | Modal appears, recipe is deleted                 | ✅ Pass    |
-| Delete Confirmation Modal              | Click outside modal or "Cancel"            | Modal closes without action                      | ✅ Pass    |
-| Responsive Navbar                      | Open on mobile → click burger menu         | Navbar expands and links are accessible          | ✅ Pass    |
-| Scroll to Section via TOC              | Click README Table of Contents link        | Page scrolls smoothly to correct section         | ✅ Pass    |
-| Like Button                            | Toggle heart icon                          | Like/unlike visually updates, count changes      | ✅ Pass    |
-| View Recipe Details                    | Click recipe card                          | Full recipe page loads with title + ingredients  | ✅ Pass    |
-| Comment Section Scroll                 | Post new comment                           | Page scrolls to comment section                  | ✅ Pass    |
-
-
-> Additional edge case testing was conducted (e.g., empty form fields, invalid image URL) and handled via WTForms validation and Flask flash messages.
-
-### Validation
-
-- **HTML**: Validated using [W3C HTML Validator](https://validator.w3.org/)  
-- **CSS**: Validated with [W3C CSS Validator](https://jigsaw.w3.org/css-validator/)  
-- **Python / Flask**: Code checked with `flake8` for linting and PEP8 compliance  
-- **Forms**: Flask-WTF ensures server-side validation with proper feedback  
-
-<details>
-<summary>📱 Validation Screenshots (Click to expand)</summary>
-
-- **HTML validation**  
-  ![validation-html.png](/app/static/readme-screenshoots/html-validation.png)
-
-- **CSS validation**  
-  ![validation-css.png](/app/static/readme-screenshoots/css-validation.png)
-
-- **Python validation**  
-  ![flake8-results.png](/app/static/readme-screenshoots/python-validation.png)
-
-</details>
-
-### Responsiveness Testing
-
-Tested across different screen sizes using:
-- ✅ Chrome DevTools (mobile + tablet views)
-- ✅ Real devices: iPhone 13, iPad Air, Samsung Galaxy S10
-
-All key features (forms, navigation, modals, category cards) function and scale correctly across breakpoints.
-
-<details>
-<summary>📱 Responsive Screenshots (Click to expand)</summary>
-
-- **Homepage (Mobile)**  
-  ![Homepage Mobile](/app/static/readme-screenshoots/mobile-responsivness.png)
-
-- **Explore Page (Tablet)**  
-  ![Explore Tablet](/app/static/readme-screenshoots/tablet-responsivness.png)
-
-- **Recipe Details (Mobile)**  
-  ![Recipe Details Mobile](/app/static/readme-screenshoots/mobile-viewrecipe.png)
-
-</details>
-
-
-### Browser Compatibility
-
-Tested the application in the following browsers:
-
-| Browser         | Version Tested | Result   |
-|----------------|----------------|----------|
-| Chrome         | 120+           | ✅ Pass   |
-| Firefox        | 118+           | ✅ Pass   |
-| Edge           | 116+           | ✅ Pass   |
-| Safari (iOS)   | 15+            | ✅ Pass   |
-| Brave          | Latest         | ✅ Pass   |
-
-### Accessibility
-
-DishCraft was built with accessibility as a core consideration, ensuring the platform is inclusive and user-friendly for all visitors, including those using assistive technologies.
-
-Key accessibility measures implemented:
-
-- **Semantic HTML Structure**  
-  All pages utilize semantic HTML5 elements such as `<main>`, `<nav>`, `<header>`, and `<section>` to enhance document structure and assistive tool readability.
-
-- **Keyboard Navigability**  
-  All interactive elements (e.g., navigation links, buttons, forms) are accessible via keyboard (Tab/Shift+Tab and Enter) with visible focus states for clarity.
-
-- **Color Contrast Compliance**  
-  The color scheme was selected with accessibility in mind, maintaining strong foreground/background contrast ratios to meet [WCAG 2.1 AA](https://www.w3.org/TR/WCAG21/) standards.
-
-- **Descriptive Alt Text**  
-  All images include relevant `alt` attributes to provide visual context for screen reader users.
-
-- **Accessible Forms**  
-  All form fields include associated `<label>` tags, and use `aria-` attributes where needed for improved screen reader support.
-
-- **Modal Accessibility**  
-  Confirmation modals (e.g., delete recipe) are built using Bootstrap and enhanced with ARIA roles to ensure focus trapping and proper keyboard control.
-
-- **Responsive Typography**  
-  Font sizes and spacing are responsive and legible across all screen sizes without the need for zoom.
-
-<details>
-<summary>🌐 Lighthouse Accessibility Audit (Click to expand)</summary>
-
-Accessibility audits were performed using Chrome’s Lighthouse tool to validate best practices across different views of the application.
-
-**Add_recipe page Accessibility Score**  
-![Lighthouse Audit](/app/static/readme-screenshoots/accesibility-addrecipe.png)
-
-**Explore_Recipe Page Accessibility Score**  
-![Lighthouse Audit](/app/static/readme-screenshoots/accesibility-browse_recipe.png)
-
-**Profile Page Accessibility Score**  
-![Lighthouse Audit](/app/static/readme-screenshoots/accesibility=profile.png)
-
-</details>
-
-
-### Bugs and Fixes
-
-| Bug Description                           | Resolution                                  |
-|-------------------------------------------|----------------------------------------------|
-| Cloudinary images not displaying after deploy    | Corrected Cloudinary ENV variables and updated config usage |
-| Category seeding caused SyntaxError in Render shell | Used line-by-line safe seeding via Flask shell             |
-| Recipe cards overflow on mobile view             | Fixed with `flex-wrap` and custom media query               |
-| User session did not persist after login         | Correct Flask-Login configuration and secret key setup      |
-| Deployment failed due to missing packages        | Added missing modules (e.g., `cloudinary`) in requirements  |
-| Environment variables not loading on Render      | Used `os.getenv` properly and removed `dotenv` in production|
-| Comment form not showing errors properly         | Updated WTForms and Jinja2 error logic                      |
-
-
-## Deployment
-
-The DishCraft application is deployed on [Render](https://render.com/) and is accessible publicly via the following link:  
-👉 [Live Site](https://project-online-cookbook.onrender.com)
-
-### Deployment to Render
-
-Steps to deploy the application on Render:
-
-1. **Push your project to GitHub** with all required files and folders.
-2. **Create a new Web Service** in Render:
-   - Connect your GitHub repo
-   - Select Python environment
-3. **Add environment variables**:
-   - `SECRET_KEY`
-   - `DATABASE_URL` (PostgreSQL)
-   - `CLOUDINARY_URL`
-4. Set the **Build Command**:  
-   ```bash
-   pip install -r requirements.txt
 
 ---
 
-## 🚀 Future Improvements
+##  Security Considerations
+
+DishCraft was developed following best practices for secure web application development to protect user data, maintain platform integrity, and comply with Code Institute’s assessment standards.
+
+### 🔑 Secrets & Environment Variables
+
+- All sensitive information, such as:
+  - `SECRET_KEY` (used for session security)
+  - `DATABASE_URL` (PostgreSQL connection string)
+  - `CLOUDINARY_URL` (for image uploads)
+- …are stored in an `.env` file and **never committed to GitHub**.  
+- The `.env` file is included in `.gitignore` and variables are accessed via `os.getenv()` within the Flask app.
+
+### 🔐 Password Security
+
+- Passwords are **hashed using Flask-Bcrypt** before being stored in the database.
+- Plain-text passwords are never stored or logged.
+- During login, user input is securely compared against the hashed version using `check_password_hash`.
+
+### 🧱 Authentication & Access Control
+
+- **Flask-Login** handles session management and user authentication.
+- Access to restricted routes is controlled using decorators like `@login_required`.
+- Admin-only views and dashboard routes are protected using `current_user.is_admin` checks.
+
+### 🛡️ CSRF Protection
+
+- All forms are protected against Cross-Site Request Forgery using **Flask-WTF**.
+- Each form includes a CSRF token to prevent malicious form submissions.
+
+### 🧪 Session & Data Safety
+
+- Flask sessions are securely signed using the `SECRET_KEY`.
+- Sessions expire when the browser is closed or the user logs out.
+- Validation is implemented for all forms using WTForms, providing both frontend and server-side protection against malformed inputs.
+
+### 🚫 Debug Mode Off in Production
+
+- Flask `DEBUG` mode is disabled in the live deployment.
+- The `FLASK_ENV=production` setting ensures production safety and suppresses error messages.
+
+---
+
+**Summary**: All key security concerns including **password safety**, **form protection**, **session integrity**, and **admin access control** have been addressed. Sensitive data is safely managed using environment variables, and deployment configurations ensure no secrets are exposed.
+
+
+
+
+##  Deployment
+
+The DishCraft web application is deployed and hosted using **[Render](https://render.com/)**, which offers seamless support for Flask and PostgreSQL in a production environment.
+
+🔗 **Live Link**: [DishCraft Live Site](https://project-online-cookbook.onrender.com)
+
+---
+
+### 🛠️ Technologies Used in Deployment
+
+- **Render Web Service** – Hosts the Flask application.
+- **Render PostgreSQL Instance** – Manages the live relational database.
+- **GitHub** – Connected as the deployment source for automatic updates.
+
+---
+
+###  Deployment Steps to Render
+
+To deploy the application from GitHub to Render, follow these steps:
+
+1. **Push your project to GitHub**
+   - Ensure that your latest code, requirements, and environment setup are committed and pushed to your GitHub repo.
+
+2. **Create a new Web Service on Render**
+   - Visit [https://dashboard.render.com](https://dashboard.render.com)
+   - Click **"New Web Service"**
+   - Connect your **GitHub** account and select the repository containing your Flask project.
+
+3. **Configure Deployment Settings**
+   - **Environment**: Python 3.11+
+   - **Build Command**:  
+     ```bash
+     pip install -r requirements.txt
+     ```
+   - **Start Command**:  
+     ```bash
+     gunicorn app:app
+     ```
+     > Replace `app:app` if your entry file is named differently (e.g., `run.py:app`).
+
+4. **Add Environment Variables**
+   Go to the **Environment tab** in Render and add the following variables securely:
+
+   | Variable Name      | Description                              |
+   |--------------------|------------------------------------------|
+   | `SECRET_KEY`       | Flask session encryption key             |
+   | `DATABASE_URL`     | Render PostgreSQL connection string      |
+   | `CLOUDINARY_URL`   | Your Cloudinary API string               |
+   | `FLASK_ENV`        | Set to `production`                      |
+
+5. **Database Setup**
+   - If not already created, deploy a **PostgreSQL** service via Render
+   - Use the provided `DATABASE_URL` as an env variable in your Web Service
+
+6. **Automatic Deployment**
+   - Once connected to GitHub, Render will auto-deploy every time you push to the main branch.
+
+---
+
+###  Post-Deployment Checklist
+
+After deployment, ensure:
+
+- ✅ All environment variables are properly configured
+- ✅ No secrets (e.g., `.env`, credentials) are pushed to GitHub
+- ✅ Application loads without 500 errors
+- ✅ Admin and user routes behave securely
+- ✅ Static files and images (e.g., via Cloudinary) load correctly
+- ✅ Flask `DEBUG` mode is turned off
+
+---
+
+###  Cloning and Running Locally
+
+To clone the repository and run the project locally:
+
+```bash
+git clone https://github.com/your-username/dishcraft.git
+cd dishcraft
+pip install -r requirements.txt
+```
+Then create a .env file in the root directory with the following keys:
+```bash
+SECRET_KEY=your-secret-key
+DATABASE_URL=your-local-db-url
+CLOUDINARY_URL=your-cloudinary-url
+FLASK_ENV=development
+```
+Finally, run the app:
+```bash
+python run.py
+```
+
+---
+
+##  Future Improvements
 
 While DishCraft already provides a solid foundation for sharing and discovering recipes, there are several enhancements planned for future development:
 
@@ -968,6 +1026,26 @@ While DishCraft already provides a solid foundation for sharing and discovering 
   Provide a toggle to switch between light and dark themes for better user preference.
 
 These improvements aim to elevate the user experience, expand engagement, and make DishCraft more dynamic and user-centric over time.
+
+---
+
+##  Development Process
+
+DishCraft was developed using an **iterative, feature-driven workflow**:
+
+1. Planned wireframes, user stories, and database schema
+2. Built core app structure and connected PostgreSQL database
+3. Implemented authentication and admin roles
+4. Developed CRUD features for recipes, comments, likes
+5. Integrated Cloudinary and search/filter functionality
+6. Focused on accessibility, responsiveness, and UX
+7. Conducted thorough testing, documentation, and deployment
+
+Version control was handled using **Git** and **GitHub**, with frequent, descriptive commits to track progress and isolate features.
+
+📄 Example commit messages:
+- `Add comment delete functionality`
+- `Fix like toggle logic for logged-in users`
 
 ---
 
