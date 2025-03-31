@@ -223,3 +223,59 @@ Accessibility audits were performed using Chrome’s Lighthouse tool to validate
 - No unresolved bugs remain at the time of submission.
 - All known issues identified during development and testing were resolved.
 - Any minor usability concerns were addressed with appropriate validation, tooltips, or flash messages.
+
+---
+
+## 🧪 Automated Testing
+
+Automated testing was implemented using a standalone Python script with Flask's built-in `test_client()` to simulate GET requests to key routes in the application.
+
+This method allows for quick verification that public and protected pages return the correct status codes and behave as expected, even without a complex testing framework.
+
+---
+
+### 📁 Test Script
+
+A script named `automated_test.py` was created in the project root to perform route checks.
+
+It can be executed manually with the following command:
+
+```bash
+python automated_test.py
+```
+
+The test script currently covers:
+
+- **Basic route accessibility**
+
+- **Redirect behavior for login-protected pages**
+
+- **Admin dashboard protection**
+
+- **No POST/form or login logic is included in this simple version**
+
+
+
+### ✅ Additional Cases Tested
+
+| Route         | Expected Behavior                          | Status    |
+|---------------|---------------------------------------------|-----------|
+| `/`           | Loads home page (200)                       | ✅ Pass   |
+| `/browse`     | Loads recipe search/filter page             | ✅ Pass   |
+| `/recipe/1`   | Loads or 404 (no data)                      | ✅ Pass   |
+| `/contact`    | Loads contact form page                     | ✅ Pass   |
+| `/add_recipe` | Redirects if not logged in                  | ✅ Pass   |
+| `/admin`      | 403 Forbidden or redirects to login         | ✅ Pass   |
+| `/profile`    | Redirects to login if unauthenticated       | ✅ Pass   |
+
+> 🔒 Note: Although `/add_recipe`, `/profile`, and `/admin` routes are hidden from the navigation bar for unauthenticated users, they are still tested directly via URL to ensure access control and route protection is enforced at the server level.
+
+
+###  Terminal Output Screenshot
+
+<details>
+<summary>📄 Terminal Output Screenshot (Click to expand)</summary>
+
+![Automated Test Results](/app/static/readme-screenshoots/test-screenshoot.png)
+
+</details>

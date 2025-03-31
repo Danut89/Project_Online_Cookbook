@@ -1,5 +1,7 @@
 #   DishCraft 👉 [Live Site](https://project-online-cookbook.onrender.com)
 
+---
+
  ![DishCraft Logo](/app/static/readme-screenshoots/amiresponsiv.png)
 
 
@@ -152,6 +154,7 @@ As a **mobile user**, I want to:
 | Button Hover      | #FF5722  | Deep Orange |
 
 These colours were selected to evoke **warmth**, **freshness**, and a **clean, appetizing** look appropriate for a recipe-sharing platform. They also provide high contrast and meet accessibility standards for readability.
+Additional colours were used along while building the project for vissualy improments.
 
 <details>
 <summary>📸 Color Palette in Use (Click to expand)</summary>
@@ -339,13 +342,19 @@ The responsive **sticky navigation bar** stays visible at the top of the screen 
   - **Authenticated Users**: `Home`, `Explore Recipes`, `Add Recipe`, `Profile`, `Contact`, `Logout`
   - **Admin Users**: All of the above, plus access to `Admin Dashboard`
 
+<details>
+<summary>📸 Search Bar from Navbar (Click to expand)</summary>
+
+![Search Field UI](/app/static/readme-screenshoots/navbar-screenshoot.png)
+
+</details>
 
 The navbar is sticky, lightweight, and mobile-friendly. It collapses into a toggle menu on smaller screens and uses subtle hover effects and iconography for clarity.
 
 <details>
 <summary>📸 Homepage & Navbar Example (Click to expand)</summary>
 
-![Homepage UI](/app/static/readme-screenshoots/home-page.png)
+![Homepage UI](/app/static/readme-screenshoots/homepage-screenshoot.png)
 
 </details>
 
@@ -383,12 +392,18 @@ DishCraft features a secure and user-friendly authentication system built with F
   - Only admins can access admin dashboard
 
 <details>
-<summary>📸 Authentication UI (Click to expand)</summary>
+<summary>📸 Log In UI (Click to expand)</summary>
 
-![Login Register UI](/app/static/readme-screenshoots/register.png)
+![Login UI](/app/static/readme-screenshoots/login-screenshoot.png)
 
 </details>
 
+<details>
+<summary>📸 Register UI (Click to expand)</summary>
+
+![Register UI](/app/static/readme-screenshoots/register-screenshoot.png)
+
+</details>
 
 ### Recipe CRUD Create Read Update Delete
 
@@ -659,7 +674,7 @@ Each registered user on DishCraft has a personalized profile page that displays 
 <details>
 <summary>📸 Profile Page UI (Click to expand)</summary>
 
-![User Profile](/app/static/readme-screenshoots/profile.html.png)
+![User Profile](/app/static/readme-screenshoots/profile-screenshoot%20(1).png)
 
 </details>
 
@@ -677,7 +692,7 @@ The Contact page allows users to get in touch with the DishCraft team for feedba
 <details>
 <summary>📸 Contact Page Screenshot (Click to expand)</summary>
 
-![Contact Page](/app/static/readme-screenshoots/contact-page.png)
+![Contact Page](/app/static/readme-screenshoots/contact-screenshoot.png)
 
 </details>
 
