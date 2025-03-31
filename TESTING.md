@@ -4,11 +4,11 @@
 - [👥 User Story Testing](#user-story-testing)
 - [🧪 Edge Case & Validation Testing](#edge-case--validation-testing)
 - [🔐 Admin Access Control Testing](#admin-access-control-testing)
-- [❗ Known Bugs](#known-bugs)
 - [🛠️ Bugs and Fixes Log](#bugs-and-fixes-log)
 - [✅ Validation Results](#validation)
 - [📱 Responsiveness Testing](#responsiveness-testing)
 - [♿ Accessibility](#accessibility)
+- [🧪 Automated Testing](#automated-testing)
 
 
 
@@ -217,6 +217,8 @@ Accessibility audits were performed using Chrome’s Lighthouse tool to validate
 | Comment form not showing errors properly         | Updated WTForms and Jinja2 error logic                      |
   |
   | "Go Back" button stuck in loop between View and Edit pages        | Refactored `view_recipe` to store clean `session["back_url"]` and ignore internal route bounces (e.g. from `/edit` or `/recipe/<id>`). Go Back now redirects user to last meaningful page like Home, Browse, or Profile. |
+  | Comment delete modal displayed inside list item and broke layout on open    | Moved per-comment modals outside .list-group-item to prevent Bootstrap modal clipping due to parent container overflow. Also closed unclosed Jinja {% if %} blocks and removed duplicate section causing Jinja template errors.
+ |
 
 
 ---
@@ -255,7 +257,7 @@ def view_recipe(recipe_id):
 
 ---
 
-## 🧪 Automated Testing
+##  Automated Testing
 
 Automated testing was implemented using a standalone Python script with Flask's built-in `test_client()` to simulate GET requests to key routes in the application.
 

@@ -142,7 +142,7 @@
       {% endfor %}
     </ul>
 
-    <!-- Comment Modals placed after the list -->
+    <!--Delete Comment Modals placed after the list -->
     {% for comment in comments %}
       {% if current_user.id == comment.user_id %}
         <div class="modal fade" id="deleteCommentModal{{ comment.id }}" tabindex="-1" aria-hidden="true">
