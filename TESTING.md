@@ -1,14 +1,19 @@
 ## 📋 Table of Contents
 
-- [🔄 Manual Feature Testing](#manual-feature-testing)
-- [👥 User Story Testing](#user-story-testing)
-- [🧪 Edge Case & Validation Testing](#edge-case--validation-testing)
-- [🔐 Admin Access Control Testing](#admin-access-control-testing)
-- [🛠️ Bugs and Fixes Log](#bugs-and-fixes-log)
-- [✅ Validation Results](#validation)
-- [📱 Responsiveness Testing](#responsiveness-testing)
-- [♿ Accessibility](#accessibility)
+- [🔄 Manual Testing](#manual-testing)
+
+  - [ Manual Feature Testing](#manual-feature-testing)
+  - [ User Story Testing](#user-story-testing)
+  - [ Edge Case & Validation Testing](#edge-case--validation-testing)
+  - [🔐 Admin Access Control Testing](#admin-access-control-testing)
+  - [ Bugs and Fixes Log](#bugs-and-fixes-log)
+  - [ Validation Results](#validation)
+  - [ Responsiveness Testing](#responsiveness-testing)
+  - [♿ Accessibility](#accessibility)
 - [🧪 Automated Testing](#automated-testing)
+  - [Test Script](#test-script)
+  - [Additional Cases Tested](#additional-cases-tested)
+  - [Terminal Output](#terminal-output-screenshot)
 
 
 
@@ -19,7 +24,7 @@
 
 Manual testing was performed across the site's major features to ensure expected behavior:
 
-### Manual Feature Testing
+### Features Manual Testing
 
 | Feature                             | Tested On               | Expected Result                        | Outcome     |
 |-------------------------------------|--------------------------|-----------------------------------------|-------------|
@@ -49,6 +54,27 @@ Manual testing was performed across the site's major features to ensure expected
 
 ---
 
+###  User Story Testing
+
+Each user story listed in the [UX section](README.md/#user-stories) has been manually tested to ensure that all user needs are met by the application features.
+
+| User Role         | User Story                                                                 | Implemented Feature(s)                        | Tested? |
+|-------------------|------------------------------------------------------------------------------|-----------------------------------------------|---------|
+| Visitor           | I want to browse available recipes without registering                      | Explore page with search & filters            | ✅ Yes  |
+| Visitor           | I want to filter recipes by cuisine, difficulty, or category                | Search bar, category grid, filter dropdowns   | ✅ Yes  |
+| Visitor           | I want to view full recipe details before registering                       | Public recipe detail pages                    | ✅ Yes  |
+| Registered User   | I want to create and share my own recipes                                    | Add recipe form                               | ✅ Yes  |
+| Registered User   | I want to edit or delete my submitted recipes                               | Edit/Delete buttons on my recipes             | ✅ Yes  |
+| Registered User   | I want to like/favorite recipes I enjoy                                     | Like button (❤️) on recipe cards              | ✅ Yes  |
+| Registered User   | I want to comment on other users’ recipes                                   | Comment form below each recipe                | ✅ Yes  |
+| Registered User   | I want to view my profile with all my recipes and favorites                 | User profile page                             | ✅ Yes  |
+| Admin             | I want to moderate submitted recipes and comments                           | Admin dashboard → manage recipes/comments     | ✅ Yes  |
+| Admin             | I want to promote/demote or delete users                                    | Admin dashboard → user management             | ✅ Yes  |
+| Mobile User       | I want full functionality on my phone                                       | Responsive layout + mobile nav                | ✅ Yes  |
+| Mobile User       | I want the site to be touch-friendly and easy to navigate                   | Button spacing, touch targets, mobile-first   | ✅ Yes  |
+
+---
+
 ###  Edge Case & Validation Testing
 
 | Scenario                            | Expected Result                        | Outcome |
@@ -71,27 +97,6 @@ Manual testing was performed across the site's major features to ensure expected
 | Accessing admin dashboard            | Regular User  | Access denied or redirected   | ✅ Pass |
 | Promote/demote user from dashboard   | Admin         | Role updated in database      | ✅ Pass |
 | Delete any user/comment              | Admin         | Successfully removed          | ✅ Pass |
-
----
-
-###  User Story Testing
-
-Each user story listed in the [UX section](#user-stories) has been manually tested to ensure that all user needs are met by the application features.
-
-| User Role         | User Story                                                                 | Implemented Feature(s)                        | Tested? |
-|-------------------|------------------------------------------------------------------------------|-----------------------------------------------|---------|
-| Visitor           | I want to browse available recipes without registering                      | Explore page with search & filters            | ✅ Yes  |
-| Visitor           | I want to filter recipes by cuisine, difficulty, or category                | Search bar, category grid, filter dropdowns   | ✅ Yes  |
-| Visitor           | I want to view full recipe details before registering                       | Public recipe detail pages                    | ✅ Yes  |
-| Registered User   | I want to create and share my own recipes                                    | Add recipe form                               | ✅ Yes  |
-| Registered User   | I want to edit or delete my submitted recipes                               | Edit/Delete buttons on my recipes             | ✅ Yes  |
-| Registered User   | I want to like/favorite recipes I enjoy                                     | Like button (❤️) on recipe cards              | ✅ Yes  |
-| Registered User   | I want to comment on other users’ recipes                                   | Comment form below each recipe                | ✅ Yes  |
-| Registered User   | I want to view my profile with all my recipes and favorites                 | User profile page                             | ✅ Yes  |
-| Admin             | I want to moderate submitted recipes and comments                           | Admin dashboard → manage recipes/comments     | ✅ Yes  |
-| Admin             | I want to promote/demote or delete users                                    | Admin dashboard → user management             | ✅ Yes  |
-| Mobile User       | I want full functionality on my phone                                       | Responsive layout + mobile nav                | ✅ Yes  |
-| Mobile User       | I want the site to be touch-friendly and easy to navigate                   | Button spacing, touch targets, mobile-first   | ✅ Yes  |
 
 ---
 
@@ -265,7 +270,7 @@ This method allows for quick verification that public and protected pages return
 
 ---
 
-### 📁 Test Script
+###  Test Script
 
 A script named `automated_test.py` was created in the project root to perform route checks.
 
@@ -287,7 +292,7 @@ The test script currently covers:
 
 
 
-### ✅ Additional Cases Tested
+###  Additional Cases Tested
 
 | Route         | Expected Behavior                          | Status    |
 |---------------|---------------------------------------------|-----------|
@@ -310,3 +315,8 @@ The test script currently covers:
 ![Automated Test Results](/app/static/readme-screenshoots/test-screenshoot.png)
 
 </details>
+
+
+---
+
+[Back to README](README.md)

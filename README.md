@@ -74,8 +74,6 @@
 
 **DishCraft** is a full-stack, data-centric web application that allows users to create, discover, and manage recipes in a socially engaging environment. Built using **Flask**, **PostgreSQL**, and **Bootstrap**, the platform delivers a responsive and intuitive experience for users on any device.
 
-Unlike traditional recipe websites that are often static or ad-heavy, DishCraft is designed to be **interactive, personal, and community-driven** — allowing users to contribute their own content, interact with others, and curate their favorite meals in one place.
-
 Users can register, create and manage their own recipes, like and comment on other posts, and explore recipes filtered by category, cuisine, or difficulty level. Admins have elevated privileges to manage user content and keep the platform safe and respectful.
 
 DishCraft aims to be more than a recipe site — it's a space where cooking becomes collaborative, fun, and accessible.
@@ -84,7 +82,7 @@ DishCraft aims to be more than a recipe site — it's a space where cooking beco
 
 ###  Site Purpose
 
-DishCraft was created to solve a common gap in recipe-sharing platforms: the lack of meaningful **user engagement and ownership**. While many recipe apps offer thousands of professionally written recipes, few allow everyday home cooks to share, save, and interact with each other in a clean, distraction-free space.
+DishCraft was created to solve a common gap in recipe-sharing platforms: Unlike traditional recipe websites that are often static or ad-heavy, DishCraft is designed to be **interactive, personal, and community-driven** — allowing users to contribute their own content, interact with others, and curate their favorite meals in one place.
 
 This platform empowers users by giving them control over their culinary content and encourages interaction with a wider cooking community.
 
@@ -103,10 +101,10 @@ By focusing on simplicity, clarity, and community, DishCraft makes recipe sharin
 
 DishCraft is designed for:
 
-- 🍳 **Home cooks** who want to organize and share their personal recipes
-- 🧑‍🍳 **Hobby chefs** seeking feedback and inspiration from others
-- 🆕 **Beginners** who need an easy-to-use platform with accessible content
-- 🤝 **Social users** who enjoy liking, commenting, and discovering new dishes from peers
+-  **Home cooks** who want to organize and share their personal recipes
+-  **Hobby chefs** seeking feedback and inspiration from others
+-  **Beginners** who need an easy-to-use platform with accessible content
+-  **Social users** who enjoy liking, commenting, and discovering new dishes from peers
 
 Whether you're saving your grandmother’s stew, sharing a TikTok-inspired dish, or browsing for quick weekday ideas, **DishCraft is your personal, social cooking companion.**
 
@@ -120,11 +118,11 @@ As a **new visitor**, I want to:
 -  View recipe details including ingredients, steps, and cook time
 
 As a **registered user**, I want to:
-- 🧾 Create and share my own recipes with the community
-- ✏️ Edit or delete my submitted recipes at any time
-- ❤️ Like/favorite recipes I enjoy and want to revisit
-- 💬 Comment on others’ recipes to share feedback or ask questions
-- 👤 View my profile with a list of my own and liked recipes
+-  Create and share my own recipes with the community
+-  Edit or delete my submitted recipes at any time
+-  Like/favorite recipes I enjoy and want to revisit
+-  Comment on others’ recipes to share feedback or ask questions
+-  View my profile with a list of my own and liked recipes
 
 As an **admin**, I want to:
 -  Moderate recipe submissions and comments
@@ -136,7 +134,7 @@ As a **mobile user**, I want to:
 -  Navigate easily with a responsive design and mobile-friendly layout
 
 
-➡️ *All user stories were manually tested. See [User Story Testing](#user-story-testing) for full test results.*
+ *All user stories were manually tested. See [ User Story Testing](TESTING.md/#user-story-testing) for full test results.*
 
 ---
 
@@ -170,7 +168,7 @@ DishCraft uses a modern serif/sans-serif pairing to balance elegance with readab
 
 - **Headings (h1–h4)**: `Playfair Display`, serif  
   - Stylish and expressive, giving the site a distinctive visual tone  
-- **Body Text**: `Inter`, sans-serif  
+- **Body Text**: `Playfair`, `Inter` 
   - Clean, modern, and highly legible for paragraphs and UI elements  
 - **Fallback Fonts**: `serif` and `sans-serif` are defined for cross-browser compatibility  
 - **Font Weights**:  
@@ -266,58 +264,68 @@ These adaptations ensure a smooth and intuitive experience for both mobile and d
 
 ---
 
-## Wireframes
+##  Wireframes
 
+During the planning phase, I created initial wireframes for key pages of **DishCraft**, including:
 
+- Home Page  
+- Explore Recipes Page  
+- Contact Page  
+- Login Page  
 
-To guide the layout and design of DishCraft, a series of wireframes were created for key pages. These wireframes helped establish user flow, component hierarchy, and responsive structure before development began.
+These early sketches helped establish the layout, navigation structure, and user flow.  
+As development progressed, I refined and expanded the UI while staying true to the core design concepts.  
+The final design improves usability, visual appeal, and responsiveness beyond the original wireframes.
 
-Each screen was designed with mobile responsiveness and intuitive interaction in mind.
+---
 
+### 🏠 Home Page
 
 <details>
-<summary>📄 Homepage Wireframe (Click to expand)</summary>
+  <summary>Click to view wireframe</summary>
 
-![Homepage Wireframe](/app/static/readme-screenshoots/wireframes/homepage.png)
+  ![Homepage Wireframe](/app/static/readme-screenshoots/wireframes/homepage-wireframe.png)
 
 </details>
 
-<details>
-<summary>📄 Explore Recipes Wireframe (Click to expand)</summary>
+---
 
-![Explore Recipes Wireframe](/app/static/readme-screenshoots/wireframes/explore.png)
+### 🔍 Explore Recipes Page
+
+<details>
+  <summary>Click to view wireframe</summary>
+
+  ![Explore Recipes Wireframe](/app/static/readme-screenshoots/wireframes/Explorepage-wireframe.png)
 
 </details>
 
-<details>
-<summary>📄 Login & Register Wireframe (Click to expand)</summary>
+---
 
-![Login Register Wireframe](/app/static/readme-screenshoots/wireframes/login-register.png)
+### ✉️ Contact Page
+
+<details>
+  <summary>Click to view wireframe</summary>
+
+  ![Contact Wireframe](/app/static/readme-screenshoots/wireframes/contact-wireframe.png)
 
 </details>
 
-<details>
-<summary>📄 Profile Page Wireframe (Click to expand)</summary>
+---
 
-![Profile Wireframe](/app/static/readme-screenshoots/wireframes/profile.png)
+### 🔐 Login Page
+
+<details>
+  <summary>Click to view wireframe</summary>
+
+  ![Login Wireframe](/app/static/readme-screenshoots/wireframes/Login-wireframe.png)
 
 </details>
 
-<details>
-<summary>📄 Admin Dashboard Wireframe (Click to expand)</summary>
+---
 
-![Admin Wireframe](/app/static/readme-screenshoots/wireframes/admin.png)
+> ✅ These wireframes guided the development process, while allowing room for creativity and UX improvement as the project matured.
 
-</details>
 
-<details>
-<summary>📄 Contact Page Wireframe (Click to expand)</summary>
-
-![Contact Page Wireframe](/app/static/readme-screenshoots/wireframes/contact.png)
-
-</details>
-
-Wireframes were iterated based on usability testing and layout refinements during development.
 
 ---
 
