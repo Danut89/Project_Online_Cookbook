@@ -451,10 +451,10 @@ Explore by Category Cards
 }
 
 .big-title {
-  color: #000;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  color: #fff;
   font-weight: 700;
   position: relative;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 /* Image */
