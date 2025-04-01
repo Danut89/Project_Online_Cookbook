@@ -143,7 +143,6 @@ section {
 }
 
 .section-title {
-  font-size: 2.25rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
   color: var(--brand-dark);
@@ -452,8 +451,9 @@ Explore by Category Cards
 }
 
 .big-title {
-  color: #fff;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+  color: #000;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-weight: 700;
   position: relative;
 }
 
@@ -664,7 +664,6 @@ Explore by Category Cards
 /* Centering and spacing */
 .newsletter-section h2 {
   font-family: 'Playfair Display', serif;
-  font-size: 2.25rem;
   font-weight: 800;
   margin-bottom: 0.75rem;
   color: var(--brand-dark);
@@ -955,9 +954,8 @@ footer .col-md-4 {
 
 /* Title */
 .testimonial-section .section-title {
-  font-size: 2rem;
   font-weight: 700;
-  color: #1c1c1c;
+  color: #000;
   position: relative;
 }
 
