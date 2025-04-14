@@ -761,9 +761,22 @@ The Contact page allows users to get in touch with the DishCraft team for feedba
 
 ## Database
 
-### Schema Diagram
+### 🔍 Data Schema Explanation
 
-The database schema is designed to support users, their recipes, categories, comments, and likes.
+#### Application Data
+
+DishCraft is a data-centric web application. Its core functionality revolves around structured data representing:
+
+- **Users**: Registered accounts with roles (admin or user), linked to all other entities.
+- **Recipes**: User-generated content including titles, ingredients, instructions, and media.
+- **Categories**: Classification labels assigned to recipes (e.g., Vegan, Dessert).
+- **Comments**: Feedback and discussion on recipe detail pages.
+- **Likes**: Favorite tracking by users for quick reference and popularity indicators.
+
+All relational data is stored in a PostgreSQL database and managed using SQLAlchemy ORM. Relationships are designed to support many-to-many (recipes ↔ categories) and one-to-many (user ↔ recipes/comments) associations.
+
+
+### Schema Diagram
 
 <details>
 <summary>📸 Click to view schema diagram</summary>
@@ -771,10 +784,6 @@ The database schema is designed to support users, their recipes, categories, com
 ![Database Schema](/app/static/readme-screenshoots/database-schema-diagram.png)
 
 </details>
-
-### 🔍 Data Schema Explanation
-
-The DishCraft database schema is designed around a **relational model** using **PostgreSQL** and SQLAlchemy ORM. It supports core functionality such as user management, recipe CRUD operations, user interactions (likes, comments), and administrative oversight.
 
 #### 🔗 Key Entities and Relationships:
 

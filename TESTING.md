@@ -56,7 +56,8 @@ Manual testing was performed across the site's major features to ensure expected
 
 ###  User Story Testing
 
-Each user story listed in the [UX section](README.md/#user-stories) has been manually tested to ensure that all user needs are met by the application features.
+The manual testing below is derived directly from the [UX section](README.md/#user-stories) outlined in the UX section. Each implemented feature has been validated through hands-on testing to ensure it meets its intended function.
+  
 
 | User Role         | User Story                                                                 | Implemented Feature(s)                        | Tested? |
 |-------------------|------------------------------------------------------------------------------|-----------------------------------------------|---------|
