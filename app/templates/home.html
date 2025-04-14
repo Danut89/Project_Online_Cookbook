@@ -94,7 +94,7 @@
       <div class="row g-4">
         {% for recipe in featured_recipes[:3] %}
         <div class="col-md-4">
-          <article class="card h-100 border-0" role="article">
+          <article class="card h-100 border-0">
             <img src="{{ recipe.image_url or url_for('static', filename='uploads/default_recipe.jpg') }}"
                  alt="Image of {{ recipe.title }}"
                  class="card-img-top rounded-top-4"
