@@ -72,12 +72,12 @@
     {% if recipe.image_url %}
       <div class="col-md-6 text-center">
         <label class="form-label fw-semibold">Current Image:</label><br>
-        <img src="{{ recipe.image_url }}" id="current-image" class="img-fluid rounded-3" style="max-height: 150px;">
+        <img src="{{ recipe.image_url }}" id="current-image" class="img-fluid rounded-3" alt="Image of {{ recipe.title }}" style="max-height: 150px;">
       </div>
     {% endif %}
     <div class="col-12 d-none" id="new-image-preview-container">
       <label class="form-label fw-semibold">New Image Preview:</label><br>
-      <img id="image-preview" class="img-fluid rounded-3" style="max-height: 150px;">
+      <img id="image-preview" class="img-fluid rounded-3" src="#" alt="Image preview" style="max-height: 150px;">
     </div>
 
     <!-- 🎯 Actions -->
