@@ -124,6 +124,16 @@ The manual testing below is derived directly from the [UX section](README.md/#us
 - **Python / Flask**: Code checked with `flake8` for linting and PEP8 compliance  
 - **Forms**: Flask-WTF ensures server-side validation with proper feedback  
 
+#### 🔧 Fixes & Accessibility Updates
+
+- Fixed **duplicate `<main>` tag** issue in `home.html` by ensuring there's only one `<main>` element on the page (as required by W3 specs).
+- Removed redundant `role="article"` attributes where native semantic HTML tags like `<article>` are already used.
+- Ensured **every image** has descriptive `alt` text for accessibility.
+- Dynamic content rendered using Jinja2 (e.g., `{{ url_for(...) }}`) may cause validation warnings, but these are **expected** and rendered correctly at runtime.
+- Added `{% block title %}` in all templates to ensure:
+  - Unique and descriptive `<title>` for **SEO optimization** and **screen readers**.
+  - Proper inheritance from `base.html` so each page renders a relevant title.
+
 <details>
 <summary>📱 Validation Screenshots (Click to expand)</summary>
 
@@ -257,6 +267,7 @@ def view_recipe(recipe_id):
 
 ###  Known Bugs
 
+- Dynamic content rendered using Jinja2 (e.g., `{{ url_for(...) }}`) may cause validation warnings/errors, but these are **expected** and rendered correctly at runtime.
 - No unresolved bugs remain at the time of submission.
 - All known issues identified during development and testing were resolved.
 - Any minor usability concerns were addressed with appropriate validation, tooltips, or flash messages.
