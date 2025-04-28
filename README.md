@@ -7,6 +7,9 @@
 
 ## 📋 Table of Contents
 
+- [INFO: Update regarding database](#important-update-regarding-database)
+
+
 - [About](#about)
   - [Project Overview](#project-overview)
   - [Site Purpose](#site-purpose)
@@ -1029,6 +1032,22 @@ Finally, run the app:
 ```bash
 python run.py
 ```
+
+---
+
+##  Important Update Regarding Database
+
+As part of maintaining the DishCraft project live after Render's free database expiration policy, the following changes were made:
+
+- The original PostgreSQL database was hosted on Render's free plan.
+- Render suspended and locked the database after the 30-day free usage period, without the ability to export data on the free plan.
+- Therefore, the data including previous user accounts and recipes could not be recovered.
+- A **new PostgreSQL database was created and connected using Railway**, a free cloud database service.
+- The web application is now fully functional and operational, with a new active database backend.
+
+> ⚡ **Note**: Users and recipes shown on the website are fresh since the database had to be restarted. New users can sign up, and new recipes can be added normally without issues.
+
+This change does not affect any functionality, user experience, or project deliverables for assessment.
 
 ---
 
