@@ -12,31 +12,19 @@ from flask import render_template
 if os.getenv("RENDER") is None:  # Only load .env locally
     load_dotenv()
 
-
 csrf = CSRFProtect()
-
 
 # Initialize Flask extensions
 db = SQLAlchemy()
 migrate = Migrate()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
-login_manager.login_view = (
-    "auth.login"  # Redirects to login page if user is not logged in
-)
+login_manager.login_view = "auth.login"  # Redirects to login page if user is not logged in
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object("config.Config")
-
-    @app.errorhandler(404)
-    def page_not_found(e):
-        return render_template("errors/404.html"), 404
-
-    @app.errorhandler(403)
-    def forbidden_error(e):
-        return render_template("errors/403.html"), 403
 
     # Initialize extensions with app
     db.init_app(app)
@@ -45,12 +33,21 @@ def create_app():
     login_manager.init_app(app)
 
     # Import models BEFORE using them
-    from app.models import User  
+    from app.models import User
 
     # Define Flask-Login user loader function
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
+
+    # TEMPORARY ROUTE to create tables (after db.init_app)
+    @app.route("/create-tables")
+    def create_tables():
+        try:
+            db.create_all()
+            return "✅ All tables created successfully!"
+        except Exception as e:
+            return f"❌ Error: {str(e)}"
 
     # Import and register blueprints AFTER app is created
     from app.routes import main
@@ -65,15 +62,13 @@ def create_app():
     app.register_blueprint(main)
     app.register_blueprint(auth, url_prefix="/auth")
 
-    # TEMPORARY ROUTE to create tables
-    @app.route("/create-tables")
-    def create_tables():
-        try:
-            db.create_all()
-            return "✅ All tables created successfully!"
-        except Exception as e:
-            return f"❌ Error: {str(e)}"
+    # Error handlers
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template("errors/404.html"), 404
+
+    @app.errorhandler(403)
+    def forbidden_error(e):
+        return render_template("errors/403.html"), 403
 
     return app
-
- 
