@@ -40,15 +40,6 @@ def create_app():
     def load_user(user_id):
         return User.query.get(int(user_id))
 
-    # TEMPORARY ROUTE to create tables (after db.init_app)
-    @app.route("/create-tables")
-    def create_tables():
-        try:
-            db.create_all()
-            return "✅ All tables created successfully!"
-        except Exception as e:
-            return f"❌ Error: {str(e)}"
-
     # Import and register blueprints AFTER app is created
     from app.routes import main
     from app.auth import auth
