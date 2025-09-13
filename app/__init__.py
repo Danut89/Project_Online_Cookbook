@@ -65,4 +65,15 @@ def create_app():
     app.register_blueprint(main)
     app.register_blueprint(auth, url_prefix="/auth")
 
+    # TEMPORARY ROUTE to create tables
+    @app.route("/create-tables")
+    def create_tables():
+        try:
+            db.create_all()
+            return "✅ All tables created successfully!"
+        except Exception as e:
+            return f"❌ Error: {str(e)}"
+
     return app
+
+ 

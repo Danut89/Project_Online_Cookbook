@@ -578,12 +578,3 @@ def subscribe():
     return redirect(request.referrer or url_for('main.home'))
 
 
-from flask import current_app
-
-@app.route("/create-tables")
-def create_tables():
-    try:
-        db.create_all()
-        return "✅ All tables created successfully!"
-    except Exception as e:
-        return f"❌ Error: {str(e)}"
