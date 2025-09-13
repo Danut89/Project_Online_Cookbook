@@ -40,6 +40,27 @@ def create_app():
     def load_user(user_id):
         return User.query.get(int(user_id))
 
+    @app.route("/create-default-categories")
+    def create_default_categories():
+        try:
+            from app.models import Category  # adjust to your actual Category model name
+
+            default_categories = [
+                "Breakfast", "Lunch", "Dinner", "Snack", "Dessert", "Vegan", "Vegetarian"
+            ]
+
+            for name in default_categories:
+                # only add if it doesn’t already exist
+                if not Category.query.filter_by(name=name).first():
+                    c = Category(name=name)
+                    db.session.add(c)
+
+            db.session.commit()
+            return "✅ Default categories added successfully!"
+        except Exception as e:
+            return f"❌ Error: {str(e)}"
+
+
     # Import and register blueprints AFTER app is created
     from app.routes import main
     from app.auth import auth
